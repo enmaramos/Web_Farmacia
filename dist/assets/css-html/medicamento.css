@@ -1,0 +1,437 @@
+
+
+.modulo-productos {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    padding: 30px;
+  }
+  
+  .mp-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .mp-sidebar {
+    width: 250px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+  }
+  
+  .mp-sidebar h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    background-color: #092c71;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .mp-sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .mp-sidebar ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .mp-sidebar ul li ul {
+    margin-top: 10px;
+    padding-left: 15px;
+  }
+  
+  .mp-sidebar ul li:hover {
+    color: #092c71;
+    font-weight: bold;
+  }
+  
+  .mp-products {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .mp-product-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+  }
+  
+  .mp-product-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .mp-product-img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    padding: 10px;
+    background: #f9f9f9;
+  }
+  
+  .mp-product-body {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .mp-product-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #092c71;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    min-height: 48px;
+  }
+  
+  .mp-product-price {
+    font-size: 18px;
+    color: #092c71;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .mp-btn-add {
+    background-color: #092c71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-size: 15px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .mp-btn-add:hover {
+    background-color: #0b3a8a;
+    cursor: pointer;
+  }
+  
+  .mp-btn-add i {
+    margin-right: 8px;
+  }
+  
+  
+  
+  /* Controles */
+  .mp-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .mp-controls-left, .mp-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .mp-btn-dropdown {
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  /* Dropdown */
+  .mp-dropdown {
+    position: relative;
+  }
+  
+  .mp-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 10px;
+    z-index: 1;
+    border-radius: 8px;
+  }
+  
+  .mp-dropdown:hover .mp-dropdown-content {
+    display: block;
+  }
+
+  /*Categoria*/
+
+  .mp-sidebar {
+    width: 250px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 20px;
+    height: 600px; /* altura fija */
+    overflow-y: auto; /* para el scroll */
+  }
+  
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu-item {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .menu-title {
+    padding: 10px 0;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s;
+  }
+  
+  .menu-title:hover {
+    color: red;
+  }
+  
+  .toggle-icon {
+    font-size: 18px;
+    transition: transform 0.3s;
+  }
+  
+  .submenu {
+    list-style: none;
+    padding-left: 15px;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.3s ease;
+  }
+  
+  .submenu li {
+    padding: 8px 0;
+    font-weight: normal;
+  }
+  
+  /* Cuando el submenu está activo */
+  .menu-item.active .submenu {
+    max-height: 500px;
+    padding-top: 10px;
+  }
+  
+  .menu-item.active .toggle-icon {
+    transform: rotate(45deg); /* cambia el + a x visualmente */
+  }
+  
+  
+ /* Responsive para pantallas medianas (tabletas) */
+@media (max-width: 900px) {
+  .mp-container {
+    flex-direction: column;
+  }
+
+  .mp-sidebar {
+    width: 100%;
+    position: relative;
+    top: auto;
+    height: auto;
+    margin-bottom: 20px;
+    display: none; /* Oculta el sidebar (categorías) en tabletas por defecto */
+  }
+
+  .mp-products {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tabletas */
+  }
+}
+
+/* Responsive para pantallas pequeñas (móviles) */
+@media (max-width: 600px) {
+  .mp-products {
+    grid-template-columns: repeat(1, 1fr); /* 1 columna en móviles */
+  }
+
+  .mp-sidebar {
+    display: none; /* Oculta el sidebar (categorías) en móviles por defecto */
+  }
+
+  .mp-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .mp-btn-order, .mp-btn-page {
+    width: 100%;
+  }
+
+  /* Mostrar el sidebar cuando la clase show se agregue */
+  .mp-sidebar.show {
+    display: block; /* Mostrar el sidebar cuando se activa */
+  }
+}
+
+
+  
+  
+
+/*///////////////////////////////////*/
+
+/* Parte nueva para los botones de Ordenar */
+/* Ajustes en el contenedor de productos */
+#productos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+    gap: 20px; /* espacio entre productos */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Estilo para cada tarjeta de producto */
+.mp-product-card {
+    width: 100%;
+    height: 400px; /* Altura fija para todas las tarjetas */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+}
+
+/* Efecto al pasar el cursor sobre la tarjeta */
+.mp-product-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para la imagen del producto */
+.mp-product-img {
+    width: 100%;
+    height: 200px; /* Altura fija para la imagen */
+    object-fit: cover; /* Ajuste para que la imagen cubra el área sin distorsionarse */
+    border-radius: 8px;
+}
+
+/* Estilo para el cuerpo de la tarjeta (título y precio) */
+.mp-product-body {
+    text-align: center;
+    flex-grow: 1; /* Hace que el contenido ocupe el espacio disponible */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Estilo para el título y precio */
+.mp-product-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.mp-product-price {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Estilo para el botón de agregar */
+.mp-btn-add {
+    background-color: #092c71;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.mp-btn-add:hover {
+    background-color: #0b3a8a;
+}
+
+/* Asegura que las categorías y los productos no se desborden */
+.mp-sidebar {
+    width: 250px;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.mp-main {
+    flex-grow: 1;
+}
+
+/* Para los botones de ordenar y paginación */
+.mp-controls {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.mp-btn-order {
+    background-color: #092c71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-size: 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.mp-btn-order:hover {
+    background-color: #0b3a8a;
+}
+
+.mp-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.mp-btn-page {
+    background-color: #092c71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.mp-btn-page:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.mp-btn-page.activo {
+    background-color: #092c71;
+    color: white;
+}
+
+
+/*icon de cotizar*/
+.icono-personalizado {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+  }
+  

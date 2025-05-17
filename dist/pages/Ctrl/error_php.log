@@ -1,0 +1,55 @@
+[16-May-2025 18:25:56 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'R250516102' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:133
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(133): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 133
+[16-May-2025 18:31:59 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'R250516103' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:133
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(133): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 133
+[16-May-2025 18:36:17 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'R250516103' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:136
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(136): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 136
+[16-May-2025 18:36:52 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'R250516103' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:136
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(136): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 136
+[16-May-2025 18:37:30 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'R250516103' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:136
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(136): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 136
+[16-May-2025 19:15:08 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'R250516111' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:133
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(133): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 133
+[16-May-2025 19:24:56 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'R250516112' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:153
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(153): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 153
+[16-May-2025 20:08:18 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'R250516120' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:153
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(153): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 153
+[16-May-2025 20:14:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '20250516-0' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:153
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(153): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 153
+[16-May-2025 20:18:06 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '20250516-0' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:153
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(153): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 153
+[16-May-2025 20:18:28 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '20250516-0' for key 'Numero_Factura' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:153
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(153): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 153

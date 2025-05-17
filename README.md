@@ -1,2 +1,2 @@
-# Sistema_Farmacia
+# Web_Farmacia
 Sistema web para una farmacia 
