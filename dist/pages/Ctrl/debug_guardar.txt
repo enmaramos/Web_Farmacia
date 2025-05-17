@@ -1,1 +1,1 @@
-{"numero_factura":"N505-0036","fecha":"2025-05-16 16:44:35","metodo_pago":"efectivo","subtotal":"480.00","total":"480.00","monto_pagado":"500.00","cambio":"20.00","cliente":"Cliente Aleatorio (000-000000-0000X)","vendedor":"Nestor","ID_Cliente":"89","ID_Usuario":"5"}
+{"numero_factura":"N505-0032","fecha":"2025-05-17 9:58:15 a. m.","metodo_pago":"efectivo","subtotal":"200.00","total":"200.00","monto_pagado":"500.00","cambio":"300.00","cliente":"Cliente Aleatorio (000-000000-0000X)","vendedor":"Luis Chavez","ID_Cliente":"89","ID_Usuario":"25"}

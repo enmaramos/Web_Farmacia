@@ -4,9 +4,36 @@ let carrito = [];
 function agregarAlCarrito() {
     const nombreProducto = document.querySelector('#nombreProducto').value;
     const laboratorio = document.querySelector('#laboratorio').value;
-    const unidad = document.querySelector('#unidad').value; // Formato
+    const unidad = document.querySelector('#unidad').value;
     const presentacion = document.querySelector('#presentacion').value;
-    const dosis = document.querySelector('#dosis').value;
+
+    const dosisSelect = document.querySelector('#dosis');
+    let dosis = dosisSelect.value;
+    const opcionSeleccionadaTexto = dosisSelect.options[dosisSelect.selectedIndex].text.trim().toLowerCase();
+
+    // Filtramos todas las opciones válidas (que no sean vacías ni la opción por defecto)
+    const opcionesValidas = Array.from(dosisSelect.options).filter(opt => 
+        opt.value.trim() !== '' && !opt.text.trim().toLowerCase().startsWith('seleccione')
+    );
+
+    // Validación específica para la dosis
+    if (opcionSeleccionadaTexto.startsWith('seleccione')) {
+        if (opcionesValidas.length > 0) {
+            // Hay otras opciones, mostrar alerta
+            Swal.fire({
+                icon: 'warning',
+                title: 'Dosis no seleccionada',
+                text: 'Por favor, seleccione una dosis válida.',
+                confirmButtonColor: '#d33'
+            });
+            dosisSelect.focus();
+            return;
+        } else {
+            // No hay más opciones, se guarda un guion
+            dosis = '-';
+        }
+    }
+
     const precio = parseFloat(document.querySelector('#precio').value);
     const cantidad = parseInt(document.querySelector('#cantidad').value);
 
@@ -17,22 +44,33 @@ function agregarAlCarrito() {
     const nombreCliente = document.querySelector('#nombreCliente').value;
     const cedulaCliente = document.querySelector('#cedulaCliente').value;
 
-    // Validación mejorada
+    // Validación general de campos del producto
     if (
         !nombreProducto || !laboratorio ||
-        !unidad || !presentacion || !dosis ||
+        !unidad || !presentacion ||
         isNaN(precio) || isNaN(cantidad) || cantidad <= 0
     ) {
-        alert('Por favor, complete todos los campos del producto correctamente.');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campos incompletos',
+            text: 'Por favor, complete todos los campos del producto correctamente.',
+            confirmButtonColor: '#d33'
+        });
         return;
     }
 
+    // Validación de datos del cliente
     if (!nombreCliente || !cedulaCliente) {
-        alert('Por favor, complete los campos del cliente.');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Datos del cliente faltantes',
+            text: 'Por favor, complete los campos del cliente.',
+            confirmButtonColor: '#d33'
+        });
         return;
     }
 
-    // Verificar si ya existe un producto con misma presentación, dosis y unidad
+    // Verificar si ya existe un producto con la misma presentación, dosis y unidad
     const yaExiste = carrito.some(producto =>
         producto.presentacion.trim().toLowerCase() === presentacion.trim().toLowerCase() &&
         producto.dosis.trim().toLowerCase() === dosis.trim().toLowerCase() &&
@@ -40,7 +78,12 @@ function agregarAlCarrito() {
     );
 
     if (yaExiste) {
-        alert('Ya existe un producto con la misma presentación, dosis y formato en el carrito.');
+        Swal.fire({
+            icon: 'info',
+            title: 'Producto duplicado',
+            text: 'Ya existe un producto con la misma presentación, dosis y formato en el carrito.',
+            confirmButtonColor: '#3085d6'
+        });
         return;
     }
 
@@ -65,8 +108,12 @@ function agregarAlCarrito() {
     actualizarContador();
 
     // Mostrar mensaje de éxito
-    mostrarNotificacion(rutaImagen, nombreProducto);  // Pasamos la imagen y el nombre del producto
+    mostrarNotificacion(rutaImagen, nombreProducto);
 }
+
+
+
+
 
 
 // Función para mostrar la notificación de producto agregado
@@ -251,39 +298,43 @@ function volverAlCarrito() {
 
 
 
-let numeroFacturaActual = generarNumeroRecibo(); // Variable global para guardar el número actual
+let numeroFacturaActual = ''; // Variable global
 
 function generarNumeroRecibo() {
     const prefijo = 'N505';
     const claveStorage = 'ultimoNumeroRecibo';
-    let ultimoNumero = localStorage.getItem(claveStorage);
-    let nuevoSecuencial = 1;
 
-    if (ultimoNumero) {
-        const partes = ultimoNumero.split('-');
-        if (partes.length === 2) {
-            const prefijoGuardado = partes[0];
-            const secuencialGuardado = parseInt(partes[1], 10);
-
-            if (prefijoGuardado === prefijo) {
-                nuevoSecuencial = secuencialGuardado + 1;
-                if (nuevoSecuencial > 9999) {
-                    nuevoSecuencial = 1;
-                }
+    return fetch('../pages/Ctrl/obtener_ultimo_numero_factura.php') // Asegúrate que esta ruta sea correcta
+        .then(response => response.json())
+        .then(data => {
+            if (data.exito && data.numeroFactura) {
+                const nuevoNumero = data.numeroFactura;
+                localStorage.setItem(claveStorage, nuevoNumero); // Guarda en localStorage si quieres usarlo luego
+                numeroFacturaActual = nuevoNumero; // Actualiza tu variable global
+                return nuevoNumero;
+            } else {
+                throw new Error('No se pudo obtener el número de factura.');
             }
-        }
-    }
-
-    const nuevoNumero = `${prefijo}-${nuevoSecuencial.toString().padStart(4, '0')}`;
-    localStorage.setItem(claveStorage, nuevoNumero);
-    return nuevoNumero;
+        })
+        .catch(error => {
+            console.error('Error al generar número de recibo:', error);
+            const fallback = `${prefijo}-0001`;
+            numeroFacturaActual = fallback;
+            return fallback; // En caso de fallo, usa número por defecto
+        });
 }
 
+// Puedes invocarla donde la necesites así:
+generarNumeroRecibo().then(numero => {
+    console.log('Número generado:', numero);
+    // Aquí puedes seguir con otras tareas como cargar la factura
+});
 
 
 
 
-function alpargar() {
+
+async function alpargar() {
     const total = parseFloat(document.getElementById('totalPagar').value.replace('C$', '').trim()) || 0;
     const recibido = parseFloat(document.getElementById('montoRecibido').value.trim()) || 0;
 
@@ -299,9 +350,7 @@ function alpargar() {
     }
 
     const metodoPagoModal = bootstrap.Modal.getInstance(document.getElementById('modalMetodoPago'));
-    if (metodoPagoModal) {
-        metodoPagoModal.hide();
-    }
+    if (metodoPagoModal) metodoPagoModal.hide();
 
     const clienteNombre = carrito[0]?.clienteNombre || 'Cliente Genérico';
     const clienteCedula = carrito[0]?.clienteCedula || '000-000000-0000X';
@@ -334,7 +383,7 @@ function alpargar() {
         const fila = `
             <tr>
                 <td>${producto.nombreProducto}</td>
-                 <td class="dosis">${producto.dosis || ''}</td>
+                <td class="dosis">${producto.dosis || ''}</td>
                 <td>${producto.cantidad}</td>
                 <td>C$${producto.precio.toFixed(2)}</td>
                 <td>C$${subtotal.toFixed(2)}</td>
@@ -348,10 +397,15 @@ function alpargar() {
     document.getElementById('facturaVuelto').textContent = document.getElementById('vueltoCliente').value;
     document.getElementById('facturaMontoRecibido').textContent = recibido.toFixed(2);
 
-    // Generar número factura y asignar
-
-    document.getElementById('facturaNumeroRecibo').textContent = numeroFacturaActual;
-
+    // Generar número factura y asignar (¡esperamos la promesa!)
+    try {
+        const numeroGenerado = await generarNumeroRecibo();
+        numeroFacturaActual = numeroGenerado;
+        document.getElementById('facturaNumeroRecibo').textContent = numeroFacturaActual;
+    } catch (error) {
+        console.error('Error al obtener número de factura:', error);
+        document.getElementById('facturaNumeroRecibo').textContent = 'N505-0001'; // fallback
+    }
 
     document.getElementById('facturaVendedor').textContent = vendedorLogueado;
 
@@ -359,7 +413,8 @@ function alpargar() {
     facturaModal.show();
 }
 
-function imprimirFactura() {
+
+async function imprimirFactura() {
     // Cerrar modal de factura
     const facturaModalElem = document.getElementById('modalFactura');
     const facturaModal = bootstrap.Modal.getInstance(facturaModalElem);
@@ -395,10 +450,16 @@ function imprimirFactura() {
         return;
     }
 
-    // Generar número de factura si aún no se ha generado
+    // Generar número de factura si aún no está disponible
     if (!numeroFacturaActual) {
-        numeroFacturaActual = generarNumeroRecibo(); // <--- Aquí lo generamos
+        try {
+            numeroFacturaActual = await generarNumeroRecibo();
+        } catch (error) {
+            console.error('Error al generar número de factura:', error);
+            numeroFacturaActual = 'N505-0001'; // Fallback
+        }
     }
+
     const numeroReciboGenerado = numeroFacturaActual;
 
     const datosFactura = {
@@ -425,25 +486,25 @@ function imprimirFactura() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datosFactura)
     })
-        .then(response => response.json())
-        .then(result => {
-            if (!result.success) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error al guardar factura',
-                    text: result.message
-                });
-                return;
-            }
-
+    .then(response => response.json())
+    .then(result => {
+        if (!result.success) {
             Swal.fire({
-                icon: 'success',
-                title: 'Factura guardada exitosamente',
-                timer: 1500,
-                showConfirmButton: false
-            }).then(() => {
-                const logoURL = '../assets/images-html/farmacia_batahola_circulo_sin_fondo.jpg';
-                const facturaContenido = `
+                icon: 'error',
+                title: 'Error al guardar factura',
+                text: result.message
+            });
+            return;
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Factura guardada exitosamente',
+            timer: 1500,
+            showConfirmButton: false
+        }).then(() => {
+            const logoURL = '../assets/images-html/farmacia_batahola_circulo_sin_fondo.jpg';
+            const facturaContenido = `
                 <div style="font-family: monospace; font-size: 12px; width: 250px; position: relative;">
                     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
                         background-image: url('${logoURL}');
@@ -472,7 +533,7 @@ function imprimirFactura() {
                             <thead>
                                 <tr>
                                     <th style="text-align: left;">Prod</th>
-                                    <th style="text-align: left;">Dosis</th> <!-- Nueva columna -->
+                                    <th style="text-align: left;">Dosis</th>
                                     <th style="text-align: center;">Cant</th>
                                     <th style="text-align: right;">P.U</th>
                                     <th style="text-align: right;">SubT</th>
@@ -480,16 +541,20 @@ function imprimirFactura() {
                             </thead>
                             <tbody>
                                 ${Array.from(document.querySelectorAll('#tablaFacturaProductos tr')).map(row => {
-                    const cols = row.querySelectorAll('td');
-                    return `
+                                    const cols = row.querySelectorAll('td');
+                                    const dosisText = cols[1].textContent.trim();
+                                    const dosisMostrada = !dosisText || dosisText === 'Seleccione Dosis' || dosisText === 'Seleccione una opción' ? '-' : dosisText;
+
+
+                                    return `
                                         <tr>
                                             <td>${cols[0].textContent}</td>
-                                            <td style="text-align: center;">${cols[1].textContent}</td>
+                                            <td style="text-align: center;">${dosisMostrada}</td>
                                             <td style="text-align: right;">${cols[2].textContent}</td>
                                             <td style="text-align: right;">${cols[3].textContent}</td>
-                                             <td style="text-align: left;">${cols[4].textContent}</td>
+                                            <td style="text-align: right;">${cols[4].textContent}</td>
                                         </tr>`;
-                }).join('')}
+                                }).join('')}
                             </tbody>
                         </table>
                         -------------------------------<br>
@@ -503,47 +568,46 @@ function imprimirFactura() {
                 </div>
             `;
 
-                const ventana = window.open('', '', 'width=500,height=600');
-                ventana.document.write(`
-    <html>
-        <head>
-            <title>Factura</title>
-            <style>
-                @media print {
-                    @page { size: auto; margin: 10mm; }
-                    body { font-family: Arial, sans-serif; }
+            const ventana = window.open('', '', 'width=500,height=600');
+            ventana.document.write(`
+                <html>
+                    <head>
+                        <title>Factura</title>
+                        <style>
+                            @media print {
+                                @page { size: auto; margin: 10mm; }
+                                body { font-family: Arial, sans-serif; }
+                            }
+                        </style>
+                    </head>
+                    <body onload="window.print(); window.close();">
+                        ${facturaContenido}
+                    </body>
+                </html>
+            `);
+            ventana.document.close();
+
+            const chequearVentanaCerrada = setInterval(() => {
+                if (ventana.closed) {
+                    clearInterval(chequearVentanaCerrada);
+                    location.reload();
                 }
-            </style>
-        </head>
-        <body onload="window.print(); window.close();">
-            ${facturaContenido}
-        </body>
-    </html>
-`);
-                ventana.document.close();
+            }, 500);
 
-
-                // Esperar a que la ventana de impresión se cierre, luego recargar
-                const chequearVentanaCerrada = setInterval(() => {
-                    if (ventana.closed) {
-                        clearInterval(chequearVentanaCerrada);
-                        location.reload(); // 🔁 Recarga la página
-                    }
-                }, 500);
-
-                // Limpiar número para próxima factura
-                numeroFacturaActual = '';
-            });
-        })
-        .catch(error => {
-            console.error('Error en fetch:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error de conexión',
-                text: 'No se pudo conectar con el servidor.'
-            });
+            numeroFacturaActual = ''; // Limpiar para la siguiente factura
         });
+    })
+    .catch(error => {
+        console.error('Error en fetch:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de conexión',
+            text: 'No se pudo conectar con el servidor.'
+        });
+    });
 }
+
+
 
 
 function volverAlMetodoPago() {

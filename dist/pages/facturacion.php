@@ -716,10 +716,10 @@ $clientes = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 
 <script src="../js/modal_medicamento.js?12345"></script>
-<script src="../js/seleccionar_medicamento.js?12345"></script>
+<script src="../js/seleccionar_medicamento.js?123"></script>
 <script src="../js/mostar_clientes_chexbox.js?1234"></script>
-<script src="../js/buscar_clientes_cedula.js?1234"></script>
-<script src="../js/carrito_caja.js?12"></script>
+<script src="../js/buscar_clientes_cedula.js?12345"></script>
+<script src="../js/carrito_caja.js?1223"></script>
 
 
 

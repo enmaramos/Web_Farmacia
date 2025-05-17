@@ -71,7 +71,7 @@ $(document).ready(function () {
                 $('#unidad').off('change').on('change', function () {
                     let formaSeleccionada = $(this).val();
                     let dosisSelect = $('#dosis');
-                    dosisSelect.empty().append('<option selected>Seleccione una opción</option>');
+                    dosisSelect.empty().append('<option selected>Seleccione una Dosis.</option>');
 
                     if (dosisPorFormato[formaSeleccionada]) {
                         dosisPorFormato[formaSeleccionada].forEach(function (dosis) {

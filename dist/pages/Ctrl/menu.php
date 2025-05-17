@@ -115,7 +115,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <?php if ($_SESSION['ID_Rol'] == 2): ?>
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Ventas</span></li>
                     <li class="menu-item">
-                        <a href="icons-boxicons.html" class="menu-link">
+                        <a href="/Web_Farmacia/dist/pages/caja.php" class="menu-link">
                             <i class="fas fa-cash-register"></i>
                             <div data-i18n="Boxicons">Caja</div>
                         </a>
