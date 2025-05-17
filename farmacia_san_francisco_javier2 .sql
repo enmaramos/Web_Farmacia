@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-05-2025 a las 00:36:27
+-- Tiempo de generación: 18-05-2025 a las 00:56:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -158,10 +158,10 @@ CREATE TABLE `factura_compra` (
 CREATE TABLE `factura_venta` (
   `ID_FacturaV` int(11) NOT NULL,
   `Numero_Factura` varchar(20) NOT NULL,
-  `Fecha` datetime DEFAULT NULL,
+  `Fecha` datetime DEFAULT current_timestamp(),
   `Metodo_Pago` varchar(50) DEFAULT 'Efectivo',
-  `Subtotal` double DEFAULT NULL,
-  `Total` double DEFAULT NULL,
+  `Subtotal` decimal(10,2) DEFAULT NULL,
+  `Total` decimal(10,2) DEFAULT NULL,
   `Monto_Pagado` decimal(10,2) DEFAULT NULL,
   `Cambio` decimal(10,2) DEFAULT NULL,
   `ID_Cliente` int(11) DEFAULT NULL,
@@ -173,15 +173,19 @@ CREATE TABLE `factura_venta` (
 --
 
 INSERT INTO `factura_venta` (`ID_FacturaV`, `Numero_Factura`, `Fecha`, `Metodo_Pago`, `Subtotal`, `Total`, `Monto_Pagado`, `Cambio`, `ID_Cliente`, `ID_Usuario`) VALUES
-(104, 'N505-0001', '2025-05-16 14:51:10', 'efectivo', 1.4, 1.4, 2.00, 0.00, 89, 5),
-(105, 'N505-0002', '2025-05-16 14:52:15', 'efectivo', 40, 40, 50.00, 10.00, 89, 5),
-(106, 'N505-0003', '2025-05-16 14:54:03', 'efectivo', 50, 50, 100.00, 50.00, 89, 5),
-(107, 'N505-0004', '2025-05-16 14:57:29', 'efectivo', 100, 100, 100.00, 0.00, 89, 5),
-(108, 'N505-0021', '2025-05-16 16:03:13', 'efectivo', 50, 50, 100.00, 50.00, 89, 5),
-(109, 'N505-0024', '2025-05-16 16:21:43', 'efectivo', 50, 50, 100.00, 50.00, 89, 5),
-(110, 'N505-0025', '2025-05-16 16:22:35', 'efectivo', 100, 100, 1000.00, 900.00, 89, 5),
-(111, 'N505-0027', '2025-05-16 16:27:55', 'efectivo', 300, 300, 500.00, 200.00, 89, 5),
-(112, 'N505-0029', '2025-05-16 16:35:03', 'efectivo', 100, 100, 100.00, 0.00, 89, 25);
+(104, 'N505-0001', '2025-05-16 14:51:10', 'efectivo', 1.40, 1.40, 2.00, 0.00, 89, 5),
+(105, 'N505-0002', '2025-05-16 14:52:15', 'efectivo', 40.00, 40.00, 50.00, 10.00, 89, 5),
+(106, 'N505-0003', '2025-05-16 14:54:03', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 5),
+(107, 'N505-0004', '2025-05-16 14:57:29', 'efectivo', 100.00, 100.00, 100.00, 0.00, 89, 5),
+(108, 'N505-0021', '2025-05-16 16:03:13', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 5),
+(109, 'N505-0024', '2025-05-16 16:21:43', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 5),
+(110, 'N505-0025', '2025-05-16 16:22:35', 'efectivo', 100.00, 100.00, 1000.00, 900.00, 89, 5),
+(111, 'N505-0027', '2025-05-16 16:27:55', 'efectivo', 300.00, 300.00, 500.00, 200.00, 89, 5),
+(112, 'N505-0029', '2025-05-16 16:35:03', 'efectivo', 100.00, 100.00, 100.00, 0.00, 89, 25),
+(113, 'N505-0030', '2025-05-17 09:55:38', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 5),
+(114, 'N505-0031', '2025-05-17 09:57:04', 'efectivo', 20.00, 20.00, 30.00, 10.00, 89, 5),
+(115, 'N505-0032', '2025-05-17 09:58:15', 'efectivo', 200.00, 200.00, 500.00, 300.00, 89, 25),
+(116, 'N505-0033', '2025-05-17 03:02:05', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 25);
 
 -- --------------------------------------------------------
 
@@ -538,12 +542,12 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `ID_Vendedor`, `estado_usuario`, `Fecha_Creacion`, `Ultimo_Acceso`) VALUES
 (1, 'Derek Jameson', 'avatar.png', 'Djsomoza31', 1, 1, '2025-03-08 19:22:06', '2025-05-14 23:08:59'),
-(5, 'Nestor', NULL, '123456', 2, 1, '2025-03-08 20:08:10', '2025-05-16 20:40:02'),
+(5, 'Nestor', NULL, '123456', 2, 1, '2025-03-08 20:08:10', '2025-05-17 15:12:11'),
 (21, 'Emmanuel Serrano', 'meliodas.webp', '123456', 28, 1, '2025-03-08 22:49:51', '2025-05-13 19:50:20'),
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-05-16 22:34:38'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-05-17 20:53:52'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
@@ -655,7 +659,6 @@ ALTER TABLE `factura_compra`
 ALTER TABLE `factura_venta`
   ADD PRIMARY KEY (`ID_FacturaV`),
   ADD UNIQUE KEY `Numero_Factura` (`Numero_Factura`),
-  ADD UNIQUE KEY `Numero_Factura_2` (`Numero_Factura`),
   ADD KEY `fk_factura_venta_cliente` (`ID_Cliente`),
   ADD KEY `fk_factura_venta_usuario` (`ID_Usuario`);
 
@@ -822,7 +825,7 @@ ALTER TABLE `factura_compra`
 -- AUTO_INCREMENT de la tabla `factura_venta`
 --
 ALTER TABLE `factura_venta`
-  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT de la tabla `forma_farmaceutica_dosis`
