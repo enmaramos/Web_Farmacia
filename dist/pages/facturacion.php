@@ -164,6 +164,7 @@ include_once "Ctrl/menu.php";
 
             <label>Nombre del Producto</label>
             <input type="text" id="nombreProducto" class="form-control" readonly>
+            <input type="hidden" id="idMedicamento">
 
             <label>Laboratorio o Marca</label>
             <input type="text" id="laboratorio" class="form-control" readonly>
@@ -719,7 +720,7 @@ $clientes = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 <script src="../js/seleccionar_medicamento.js?123"></script>
 <script src="../js/mostar_clientes_chexbox.js?1234"></script>
 <script src="../js/buscar_clientes_cedula.js?12345"></script>
-<script src="../js/carrito_caja.js?1223"></script>
+<script src="../js/carrito_caja.js?1245"></script>
 
 
 
