@@ -555,8 +555,15 @@ include_once "Ctrl/menu.php";
 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Monto Recibido</label>
-                    <input type="number" class="form-control" id="montoRecibido">
+                    <div class="input-group">
+                        <select class="form-select" id="monedaSeleccionada" style="max-width: 90px;">
+                            <option value="C$">C$</option>
+                            <option value="US$">US$</option>
+                        </select>
+                        <input type="number" class="form-control" id="montoRecibido">
+                    </div>
                 </div>
+
 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Vuelto</label>
@@ -639,7 +646,7 @@ include_once "Ctrl/menu.php";
 
 
                         <p><strong>Método de Pago:</strong> <span id="facturaMetodoPago"></span></p>
-                        <p><strong>Monto Recibido:</strong> C$<span id="facturaMontoRecibido"></span></p>
+                        <p><strong>Monto Recibido:</strong> <span id="facturaMontoRecibidoSimbolo"></span><span id="facturaMontoRecibido"></span></p>
                         <p><strong>Vuelto:</strong> <span id="facturaVuelto"></span></p>
                         <p class="text-center mt-4">¡Gracias por tu compra!</p>
                     </div>
@@ -720,7 +727,7 @@ $clientes = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 <script src="../js/seleccionar_medicamento.js?123"></script>
 <script src="../js/mostar_clientes_chexbox.js?1234"></script>
 <script src="../js/buscar_clientes_cedula.js?12345"></script>
-<script src="../js/carrito_caja.js?1245"></script>
+<script src="../js/carrito_caja.js?1289"></script>
 
 
 

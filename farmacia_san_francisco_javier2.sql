@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2025 a las 00:56:56
+-- Tiempo de generación: 24-05-2025 a las 01:18:50
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -45,6 +45,47 @@ CREATE TABLE `bodega` (
   `Cantidad_Med_Exhibicion` int(11) DEFAULT NULL,
   `Cantidad_Total_Bodega` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `caja`
+--
+
+CREATE TABLE `caja` (
+  `ID_Caja` int(11) NOT NULL,
+  `Cajero` varchar(100) NOT NULL,
+  `Fecha_Hora` datetime NOT NULL,
+  `Tipo` enum('apertura','cierre') NOT NULL,
+  `Monto_Cordobas` decimal(10,2) DEFAULT NULL,
+  `Monto_Dolares` decimal(10,2) DEFAULT NULL,
+  `Observaciones` text DEFAULT NULL,
+  `ID_Usuario` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `caja`
+--
+
+INSERT INTO `caja` (`ID_Caja`, `Cajero`, `Fecha_Hora`, `Tipo`, `Monto_Cordobas`, `Monto_Dolares`, `Observaciones`, `ID_Usuario`) VALUES
+(1, 'Luis Chavez', '2025-05-19 23:22:35', 'apertura', 1000.00, 100.00, '', 25),
+(2, 'Luis Chavez', '2025-05-19 23:32:47', 'apertura', 499.99, 0.00, '', 25),
+(3, 'Luis Chavez', '2025-05-19 23:37:47', 'apertura', 200.00, 0.00, 'bolsas abiertas ', 25),
+(4, 'Luis Chavez', '2025-05-20 00:20:01', 'apertura', 500.00, 0.00, '', 25),
+(5, 'Nestor', '2025-05-20 00:21:33', 'apertura', 500.00, 0.00, 'billetes rotos ', 5),
+(6, 'Luis Chavez', '2025-05-20 17:07:26', 'apertura', 0.00, 0.00, '', 25),
+(7, 'Nestor', '2025-05-20 17:09:05', 'apertura', 0.00, 0.00, '', 5),
+(8, 'Luis Chavez', '2025-05-21 10:32:55', 'apertura', 0.00, 0.00, '', 25),
+(9, 'Luis Chavez', '2025-05-21 16:12:45', 'apertura', 1000.00, 0.00, '', 25),
+(28, 'Luis Chavez', '2025-05-21 16:30:45', 'cierre', 1000.00, 0.00, '', 25),
+(29, 'Luis Chavez', '2025-05-22 13:51:24', 'apertura', 500.00, 0.00, '', 25),
+(30, 'Luis Chavez', '2025-05-22 13:52:24', 'cierre', 500.00, 0.00, '', 25),
+(31, 'Luis Chavez', '2025-05-22 13:52:54', 'apertura', 1000.00, 0.00, '', 25),
+(32, 'Luis Chavez', '2025-05-22 13:57:54', 'cierre', 1000.00, 0.00, '', 25),
+(37, 'Luis Chavez', '2025-05-22 13:59:45', 'apertura', 2000.00, 0.00, '', 25),
+(38, 'Luis Chavez', '2025-05-22 14:00:45', 'cierre', 2000.00, 0.00, '', 25),
+(39, 'Luis Chavez', '2025-05-23 09:55:18', 'apertura', 500.00, 1.00, '', 25),
+(40, 'Luis Chavez', '2025-05-23 17:13:57', 'apertura', 1000.00, 0.00, '', 25);
 
 -- --------------------------------------------------------
 
@@ -116,6 +157,53 @@ INSERT INTO `clientes` (`ID_Cliente`, `Nombre`, `Apellido`, `Genero`, `Direccion
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `detalle_caja`
+--
+
+CREATE TABLE `detalle_caja` (
+  `ID_Detalle` int(11) NOT NULL,
+  `ID_Caja` int(11) DEFAULT NULL,
+  `Denominacion` varchar(20) DEFAULT NULL,
+  `Cantidad` int(11) DEFAULT NULL,
+  `Moneda` enum('cordoba','dolar') NOT NULL,
+  `Tipo` enum('billete','moneda') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `detalle_caja`
+--
+
+INSERT INTO `detalle_caja` (`ID_Detalle`, `ID_Caja`, `Denominacion`, `Cantidad`, `Moneda`, `Tipo`) VALUES
+(1, 1, 'C$100', 5, 'cordoba', 'billete'),
+(2, 1, 'C$500', 1, 'cordoba', 'billete'),
+(3, 1, '$20', 5, 'dolar', 'billete'),
+(4, 2, 'C$10', 10, 'cordoba', 'billete'),
+(5, 2, 'C$20', 5, 'cordoba', 'billete'),
+(6, 2, 'C$50', 2, 'cordoba', 'billete'),
+(7, 2, 'C$100', 1, 'cordoba', 'billete'),
+(8, 2, 'C$5', 20, 'cordoba', 'moneda'),
+(9, 3, 'C$10', 10, 'cordoba', 'billete'),
+(10, 3, 'C$100', 1, 'cordoba', 'billete'),
+(11, 4, 'C$10', 10, 'cordoba', 'billete'),
+(12, 4, 'C$200', 2, 'cordoba', 'billete'),
+(13, 5, 'C$10', 20, 'cordoba', 'billete'),
+(14, 5, 'C$100', 1, 'cordoba', 'billete'),
+(15, 5, 'C$200', 1, 'cordoba', 'billete'),
+(16, 9, 'C$10', 10, 'cordoba', 'billete'),
+(17, 9, 'C$200', 2, 'cordoba', 'billete'),
+(18, 9, 'C$500', 1, 'cordoba', 'billete'),
+(31, 29, 'C$10', 50, 'cordoba', 'billete'),
+(32, 31, 'C$200', 5, 'cordoba', 'billete'),
+(41, 37, 'C$200', 5, 'cordoba', 'billete'),
+(42, 37, 'C$500', 2, 'cordoba', 'billete'),
+(43, 39, 'C$100', 1, 'cordoba', 'billete'),
+(44, 39, 'C$200', 2, 'cordoba', 'billete'),
+(45, 39, '$1', 1, 'dolar', 'billete'),
+(46, 40, 'C$100', 10, 'cordoba', 'billete');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `detalle_factura_venta`
 --
 
@@ -162,30 +250,44 @@ CREATE TABLE `factura_venta` (
   `Metodo_Pago` varchar(50) DEFAULT 'Efectivo',
   `Subtotal` decimal(10,2) DEFAULT NULL,
   `Total` decimal(10,2) DEFAULT NULL,
-  `Monto_Pagado` decimal(10,2) DEFAULT NULL,
+  `Monto_Pagado` varchar(20) DEFAULT NULL,
   `Cambio` decimal(10,2) DEFAULT NULL,
   `ID_Cliente` int(11) DEFAULT NULL,
-  `ID_Usuario` int(11) DEFAULT NULL
+  `ID_Usuario` int(11) DEFAULT NULL,
+  `ID_Caja` int(11) DEFAULT NULL,
+  `Moneda_Backup` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `factura_venta`
 --
 
-INSERT INTO `factura_venta` (`ID_FacturaV`, `Numero_Factura`, `Fecha`, `Metodo_Pago`, `Subtotal`, `Total`, `Monto_Pagado`, `Cambio`, `ID_Cliente`, `ID_Usuario`) VALUES
-(104, 'N505-0001', '2025-05-16 14:51:10', 'efectivo', 1.40, 1.40, 2.00, 0.00, 89, 5),
-(105, 'N505-0002', '2025-05-16 14:52:15', 'efectivo', 40.00, 40.00, 50.00, 10.00, 89, 5),
-(106, 'N505-0003', '2025-05-16 14:54:03', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 5),
-(107, 'N505-0004', '2025-05-16 14:57:29', 'efectivo', 100.00, 100.00, 100.00, 0.00, 89, 5),
-(108, 'N505-0021', '2025-05-16 16:03:13', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 5),
-(109, 'N505-0024', '2025-05-16 16:21:43', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 5),
-(110, 'N505-0025', '2025-05-16 16:22:35', 'efectivo', 100.00, 100.00, 1000.00, 900.00, 89, 5),
-(111, 'N505-0027', '2025-05-16 16:27:55', 'efectivo', 300.00, 300.00, 500.00, 200.00, 89, 5),
-(112, 'N505-0029', '2025-05-16 16:35:03', 'efectivo', 100.00, 100.00, 100.00, 0.00, 89, 25),
-(113, 'N505-0030', '2025-05-17 09:55:38', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 5),
-(114, 'N505-0031', '2025-05-17 09:57:04', 'efectivo', 20.00, 20.00, 30.00, 10.00, 89, 5),
-(115, 'N505-0032', '2025-05-17 09:58:15', 'efectivo', 200.00, 200.00, 500.00, 300.00, 89, 25),
-(116, 'N505-0033', '2025-05-17 03:02:05', 'efectivo', 50.00, 50.00, 100.00, 50.00, 89, 25);
+INSERT INTO `factura_venta` (`ID_FacturaV`, `Numero_Factura`, `Fecha`, `Metodo_Pago`, `Subtotal`, `Total`, `Monto_Pagado`, `Cambio`, `ID_Cliente`, `ID_Usuario`, `ID_Caja`, `Moneda_Backup`) VALUES
+(132, 'N505-0046', '2025-05-21 12:44:45', 'efectivo', 100.00, 100.00, 'C$ 100.00', 0.00, 89, 25, 8, 'C$'),
+(133, 'N505-0047', '2025-05-22 12:26:08', 'efectivo', 100.00, 100.00, 'C$ 200.00', 100.00, 89, 25, NULL, 'C$'),
+(134, 'N505-0048', '2025-05-22 14:06:07', 'efectivo', 100.00, 100.00, 'C$ 100.00', 0.00, 89, 25, 37, 'C$'),
+(135, 'N505-0049', '2025-05-23 12:05:58', 'efectivo', 120.00, 120.00, 'C$ 5.00', 64.00, 89, 25, 39, 'C$'),
+(136, 'N505-0050', '2025-05-23 12:13:15', 'efectivo', 100.00, 100.00, 'C$ 3.00', 10.00, 89, 25, 39, 'C$'),
+(137, 'N505-0051', '2025-05-23 12:22:45', 'efectivo', 120.00, 120.00, 'C$ 201.00', 0.00, 89, 25, 39, 'C$'),
+(138, 'N505-0052', '2025-05-23 12:40:47', 'efectivo', 210.00, 210.00, 'C$ 10.00', 158.00, 89, 25, 39, 'C$'),
+(139, 'N505-0053', '2025-05-23 13:41:19', 'efectivo', 500.00, 500.00, '20', 236.00, 89, 25, 39, NULL),
+(140, 'N505-0054', '2025-05-23 15:12:10', 'efectivo', 100.00, 100.00, '3', 10.00, 89, 25, 39, NULL),
+(141, 'N505-0055', '2025-05-23 15:13:58', 'efectivo', 120.00, 120.00, '5', 64.00, 89, 25, 39, NULL),
+(142, 'N505-0056', '2025-05-23 15:20:26', 'efectivo', 100.00, 100.00, 'C$ 3.00', 10.40, 89, 25, 39, NULL),
+(143, 'N505-0057', '2025-05-23 15:23:38', 'efectivo', 100.00, 100.00, '3', 10.00, 89, 25, 39, NULL),
+(144, 'N505-0058', '2025-05-23 16:12:54', 'efectivo', 100.00, 100.00, '3', 10.00, 89, 25, 39, NULL),
+(145, 'N505-0059', '2025-05-23 16:14:34', 'efectivo', 100.00, 100.00, '100', 0.00, 89, 25, 39, NULL),
+(146, 'N505-0060', '2025-05-23 16:21:23', 'efectivo', 100.00, 100.00, '3', 10.00, 89, 25, 39, NULL),
+(147, 'N505-0061', '2025-05-23 16:28:10', 'efectivo', 100.00, 100.00, '3', 10.00, 89, 25, 39, NULL),
+(148, 'N505-0062', '2025-05-23 16:31:26', 'efectivo', 100.00, 100.00, '3', 10.40, 89, 25, 39, 'Córdobas'),
+(149, 'N505-0063', '2025-05-23 16:34:40', 'efectivo', 100.00, 100.00, '3', 10.40, 89, 25, 39, 'Córdobas'),
+(150, 'N505-0064', '2025-05-23 16:36:58', 'efectivo', 100.00, 100.00, '3', 10.40, 89, 25, 39, 'Córdobas'),
+(151, 'N505-0065', '2025-05-23 16:42:55', 'efectivo', 100.00, 100.00, '3', 10.40, 89, 25, 39, 'Córdobas'),
+(152, 'N505-0066', '2025-05-23 16:50:33', 'efectivo', 100.00, 100.00, '3', 10.40, 89, 25, 39, 'Córdobas'),
+(153, 'N505-0067', '2025-05-23 16:58:57', 'efectivo', 100.00, 100.00, '3', 10.40, 89, 25, 39, 'C$'),
+(154, 'N505-0068', '2025-05-23 17:11:39', 'efectivo', 100.00, 100.00, '3', 10.00, 89, 25, 39, NULL),
+(155, 'N505-0069', '2025-05-23 17:15:19', 'efectivo', 100.00, 100.00, '3', 10.00, 89, 25, 40, NULL),
+(156, 'N505-0070', '2025-05-23 17:17:10', 'efectivo', 100.00, 100.00, '100', 0.00, 89, 25, 40, NULL);
 
 -- --------------------------------------------------------
 
@@ -542,12 +644,12 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `ID_Vendedor`, `estado_usuario`, `Fecha_Creacion`, `Ultimo_Acceso`) VALUES
 (1, 'Derek Jameson', 'avatar.png', 'Djsomoza31', 1, 1, '2025-03-08 19:22:06', '2025-05-14 23:08:59'),
-(5, 'Nestor', NULL, '123456', 2, 1, '2025-03-08 20:08:10', '2025-05-17 15:12:11'),
+(5, 'Nestor', NULL, '123456', 2, 1, '2025-03-08 20:08:10', '2025-05-20 23:09:00'),
 (21, 'Emmanuel Serrano', 'meliodas.webp', '123456', 28, 1, '2025-03-08 22:49:51', '2025-05-13 19:50:20'),
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-05-17 20:53:52'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-05-23 19:43:40'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
@@ -623,6 +725,13 @@ ALTER TABLE `bodega`
   ADD PRIMARY KEY (`ID_Bodega`);
 
 --
+-- Indices de la tabla `caja`
+--
+ALTER TABLE `caja`
+  ADD PRIMARY KEY (`ID_Caja`),
+  ADD KEY `ID_Usuario` (`ID_Usuario`);
+
+--
 -- Indices de la tabla `categoria`
 --
 ALTER TABLE `categoria`
@@ -633,6 +742,13 @@ ALTER TABLE `categoria`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`ID_Cliente`);
+
+--
+-- Indices de la tabla `detalle_caja`
+--
+ALTER TABLE `detalle_caja`
+  ADD PRIMARY KEY (`ID_Detalle`),
+  ADD KEY `ID_Caja` (`ID_Caja`);
 
 --
 -- Indices de la tabla `detalle_factura_venta`
@@ -660,7 +776,8 @@ ALTER TABLE `factura_venta`
   ADD PRIMARY KEY (`ID_FacturaV`),
   ADD UNIQUE KEY `Numero_Factura` (`Numero_Factura`),
   ADD KEY `fk_factura_venta_cliente` (`ID_Cliente`),
-  ADD KEY `fk_factura_venta_usuario` (`ID_Usuario`);
+  ADD KEY `fk_factura_venta_usuario` (`ID_Usuario`),
+  ADD KEY `fk_factura_venta_caja` (`ID_Caja`);
 
 --
 -- Indices de la tabla `forma_farmaceutica_dosis`
@@ -798,6 +915,12 @@ ALTER TABLE `venta_medicamento`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `caja`
+--
+ALTER TABLE `caja`
+  MODIFY `ID_Caja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
@@ -810,10 +933,16 @@ ALTER TABLE `clientes`
   MODIFY `ID_Cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
+-- AUTO_INCREMENT de la tabla `detalle_caja`
+--
+ALTER TABLE `detalle_caja`
+  MODIFY `ID_Detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
 -- AUTO_INCREMENT de la tabla `detalle_factura_venta`
 --
 ALTER TABLE `detalle_factura_venta`
-  MODIFY `ID_Detalle_FV` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_Detalle_FV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `factura_compra`
@@ -825,7 +954,7 @@ ALTER TABLE `factura_compra`
 -- AUTO_INCREMENT de la tabla `factura_venta`
 --
 ALTER TABLE `factura_venta`
-  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- AUTO_INCREMENT de la tabla `forma_farmaceutica_dosis`
@@ -913,6 +1042,18 @@ ALTER TABLE `almacen`
   ADD CONSTRAINT `fk_almacen_medicamento` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`);
 
 --
+-- Filtros para la tabla `caja`
+--
+ALTER TABLE `caja`
+  ADD CONSTRAINT `caja_ibfk_1` FOREIGN KEY (`ID_Usuario`) REFERENCES `usuarios` (`ID_Usuario`);
+
+--
+-- Filtros para la tabla `detalle_caja`
+--
+ALTER TABLE `detalle_caja`
+  ADD CONSTRAINT `detalle_caja_ibfk_1` FOREIGN KEY (`ID_Caja`) REFERENCES `caja` (`ID_Caja`) ON DELETE CASCADE;
+
+--
 -- Filtros para la tabla `detalle_factura_venta`
 --
 ALTER TABLE `detalle_factura_venta`
@@ -933,6 +1074,7 @@ ALTER TABLE `factura_compra`
 -- Filtros para la tabla `factura_venta`
 --
 ALTER TABLE `factura_venta`
+  ADD CONSTRAINT `fk_factura_venta_caja` FOREIGN KEY (`ID_Caja`) REFERENCES `caja` (`ID_Caja`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_factura_venta_cliente` FOREIGN KEY (`ID_Cliente`) REFERENCES `clientes` (`ID_Cliente`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_factura_venta_usuario` FOREIGN KEY (`ID_Usuario`) REFERENCES `usuarios` (`ID_Usuario`) ON DELETE SET NULL ON UPDATE CASCADE;
 

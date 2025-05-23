@@ -256,18 +256,37 @@ function abrirMetodoPago() {
 
     const inputMonto = document.getElementById('montoRecibido');
     const inputCambio = document.getElementById('vueltoCliente');
+    const monedaSelect = document.getElementById('monedaSeleccionada');
+
+    const TASA_CAMBIO = 36.80;
 
     function calcularCambio() {
-        const totalNum = parseFloat(document.getElementById('totalPagar').value.replace('C$', '').trim()) || 0;
+        const totalCordobas = parseFloat(document.getElementById('totalPagar').value.replace('C$', '').trim()) || 0;
         const recibido = parseFloat(inputMonto.value.trim()) || 0;
-        const cambio = recibido - totalNum;
+        const moneda = monedaSelect.value;
+
+        let recibidoEnCordobas = recibido;
+
+        // Convertir a córdobas si la moneda es dólares
+        if (moneda === 'US$') {
+            recibidoEnCordobas = recibido * TASA_CAMBIO;
+        }
+
+        const cambio = recibidoEnCordobas - totalCordobas;
+
+        // Mostrar siempre el vuelto en córdobas
         inputCambio.value = cambio >= 0 ? `C$${cambio.toFixed(2)}` : 'C$0.00';
     }
 
-    calcularCambio();
+    // Listeners
     inputMonto.removeEventListener('input', calcularCambio);
+    monedaSelect.removeEventListener('change', calcularCambio);
     inputMonto.addEventListener('input', calcularCambio);
+    monedaSelect.addEventListener('change', calcularCambio);
+
+    calcularCambio();
 }
+
 
 // Limpiar los campos al cerrar el modal de método de pago
 document.getElementById('modalMetodoPago').addEventListener('hidden.bs.modal', function () {
@@ -336,7 +355,12 @@ generarNumeroRecibo().then(numero => {
 
 async function alpargar() {
     const total = parseFloat(document.getElementById('totalPagar').value.replace('C$', '').trim()) || 0;
-    const recibido = parseFloat(document.getElementById('montoRecibido').value.trim()) || 0;
+    const recibidoRaw = parseFloat(document.getElementById('montoRecibido').value.trim()) || 0;
+    const moneda = document.getElementById('monedaSeleccionada').value;
+    const TASA_CAMBIO = 36.80;
+
+    // Convertir a córdobas si se pagó en dólares
+    const recibido = moneda === 'US$' ? recibidoRaw * TASA_CAMBIO : recibidoRaw;
 
     if (recibido < total) {
         Swal.fire({
@@ -395,16 +419,15 @@ async function alpargar() {
     document.getElementById('facturaTotal').textContent = totalFactura.toFixed(2);
     document.getElementById('facturaMetodoPago').textContent = document.getElementById('metodoPago').value;
     document.getElementById('facturaVuelto').textContent = document.getElementById('vueltoCliente').value;
-    document.getElementById('facturaMontoRecibido').textContent = recibido.toFixed(2);
+    document.getElementById('facturaMontoRecibido').textContent = recibidoRaw.toFixed(2); // Mostrar lo que el cliente entregó (no convertido)
 
-    // Generar número factura y asignar (¡esperamos la promesa!)
     try {
         const numeroGenerado = await generarNumeroRecibo();
         numeroFacturaActual = numeroGenerado;
         document.getElementById('facturaNumeroRecibo').textContent = numeroFacturaActual;
     } catch (error) {
         console.error('Error al obtener número de factura:', error);
-        document.getElementById('facturaNumeroRecibo').textContent = 'N505-0001'; // fallback
+        document.getElementById('facturaNumeroRecibo').textContent = 'N505-0001';
     }
 
     document.getElementById('facturaVendedor').textContent = vendedorLogueado;
@@ -414,8 +437,8 @@ async function alpargar() {
 }
 
 
+
 async function imprimirFactura() {
-    // Cerrar modal de factura
     const facturaModalElem = document.getElementById('modalFactura');
     const facturaModal = bootstrap.Modal.getInstance(facturaModalElem);
     if (facturaModal) {
@@ -450,13 +473,12 @@ async function imprimirFactura() {
         return;
     }
 
-    // Generar número de factura si aún no está disponible
     if (!numeroFacturaActual) {
         try {
             numeroFacturaActual = await generarNumeroRecibo();
         } catch (error) {
             console.error('Error al generar número de factura:', error);
-            numeroFacturaActual = 'N505-0001'; // Fallback
+            numeroFacturaActual = 'N505-0001';
         }
     }
 
@@ -468,8 +490,8 @@ async function imprimirFactura() {
         metodo_pago: document.getElementById('facturaMetodoPago').textContent.trim(),
         subtotal: document.getElementById('facturaTotal').textContent.replace('C$', '').trim(),
         total: document.getElementById('facturaTotal').textContent.replace('C$', '').trim(),
-        monto_pagado: document.getElementById('facturaMontoRecibido').textContent.replace('C$', '').trim(),
-        cambio: document.getElementById('facturaVuelto').textContent.replace('C$', '').trim(),
+        monto_pagado: document.getElementById('facturaMontoRecibido').textContent.replace('C$', '').replace('US$', '').trim(),
+        cambio: document.getElementById('facturaVuelto').textContent.replace('C$', '').replace('US$', '').trim(),
         cliente: document.getElementById('facturaCliente').textContent.trim(),
         vendedor: document.getElementById('facturaVendedor').textContent.trim(),
         ID_Cliente: document.getElementById('facturaIDCliente').value,
@@ -480,6 +502,10 @@ async function imprimirFactura() {
         alert("Faltan datos importantes para generar la factura.");
         return;
     }
+
+    // Obtener símbolo de moneda actual
+    const monedaSeleccionada = document.getElementById('monedaSeleccionada')?.value || 'C$';
+    const monedaSimbolo = monedaSeleccionada === 'US$' ? 'US$' : 'C$';
 
     fetch('../pages/Ctrl/guardar_factura.php', {
         method: 'POST',
@@ -544,8 +570,6 @@ async function imprimirFactura() {
                                     const cols = row.querySelectorAll('td');
                                     const dosisText = cols[1].textContent.trim();
                                     const dosisMostrada = !dosisText || dosisText === 'Seleccione Dosis' || dosisText === 'Seleccione una opción' ? '-' : dosisText;
-
-
                                     return `
                                         <tr>
                                             <td>${cols[0].textContent}</td>
@@ -560,7 +584,7 @@ async function imprimirFactura() {
                         -------------------------------<br>
                         <strong>Total:</strong> C$${datosFactura.total}<br>
                         <strong>Pago:</strong> ${datosFactura.metodo_pago}<br>
-                        <strong>Monto Recibido:</strong> C$${datosFactura.monto_pagado}<br>
+                        <strong>Monto Recibido:</strong> ${monedaSimbolo}${datosFactura.monto_pagado}<br>
                         <strong>Vuelto:</strong> C$${datosFactura.cambio}<br>
                         -------------------------------<br>
                         <center>¡Gracias por su compra!</center>
@@ -594,7 +618,7 @@ async function imprimirFactura() {
                 }
             }, 500);
 
-            numeroFacturaActual = ''; // Limpiar para la siguiente factura
+            numeroFacturaActual = '';
         });
     })
     .catch(error => {
@@ -606,6 +630,8 @@ async function imprimirFactura() {
         });
     });
 }
+
+
 
 
 
