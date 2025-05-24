@@ -54,7 +54,7 @@ include_once "Ctrl/menu.php";
         ?>
 
         <!-- TABLA DE Clientes -->
-        <div class="container">
+        <div class="container mt-4">
             <div class="card p-3 shadow-sm">
                 <div class="d-flex justify-content-between mb-3">
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarCliente">
@@ -160,57 +160,61 @@ include_once "Ctrl/menu.php";
         <div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
+                    <div class="modal-header  text-white" style="background-color: #17d5bb; color: #2e2e2e;">
+                        <h5 class="modal-title" id="modalLabel">
+                        <i class="fas fa-user-plus"></i>Agregar Clientes</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
                     <form action="../pages/Ctrl/agregar_cliente.php" method="POST">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel">Agregar Cliente</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                        </div>
-
                         <div class="modal-body">
-                            <!-- Nombre -->
-                            <div class="mb-3">
-                                <label for="nombreCliente" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" name="nombreCliente" id="nombreCliente" placeholder="Ingrese el primer y segundo nombre" required>
-                            </div>
+                            <div class="container-fluid">
+                                <div class="row g-3">
+                                    <!-- Nombre -->
+                                    <div class="col-md-6">
+                                        <label for="nombreCliente" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" name="nombreCliente" id="nombreCliente" placeholder="Ingrese el primer y segundo nombre" required>
+                                    </div>
 
-                            <!-- Apellido -->
-                            <div class="mb-3">
-                                <label for="apellidoCliente" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" name="apellidoCliente" id="apellidoCliente" placeholder="Ingrese el primer y segundo apellido" required>
-                            </div>
+                                    <!-- Apellido -->
+                                    <div class="col-md-6">
+                                        <label for="apellidoCliente" class="form-label">Apellido</label>
+                                        <input type="text" class="form-control" name="apellidoCliente" id="apellidoCliente" placeholder="Ingrese el primer y segundo apellido" required>
+                                    </div>
 
-                            <!-- Cédula -->
-                            <div class="mb-3">
-                                <label for="cedulaCliente" class="form-label">Cédula</label>
-                                <input type="text" class="form-control" name="cedulaCliente" id="cedulaCliente" placeholder="000-000000-0000X" pattern="[0-9]{3}-[0-9]{6}-[0-9]{4}[A-Z]{1}" title="Formato: 000-000000-0000X" required>
-                            </div>
+                                    <!-- Cédula -->
+                                    <div class="col-md-6">
+                                        <label for="cedulaCliente" class="form-label">Cédula</label>
+                                        <input type="text" class="form-control" name="cedulaCliente" id="cedulaCliente" placeholder="000-000000-0000X" pattern="[0-9]{3}-[0-9]{6}-[0-9]{4}[A-Z]{1}" title="Formato: 000-000000-0000X" required>
+                                    </div>
 
-                            <!-- Género -->
-                            <div class="mb-3">
-                                <label for="generoCliente" class="form-label">Género</label>
-                                <select class="form-select" name="generoCliente" id="generoCliente" required>
-                                    <option value="">Seleccione género</option>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Femenino">Femenino</option>
-                                </select>
-                            </div>
+                                    <!-- Género -->
+                                    <div class="col-md-6">
+                                        <label for="generoCliente" class="form-label">Género</label>
+                                        <select class="form-select" name="generoCliente" id="generoCliente" required>
+                                            <option value="">Seleccione género</option>
+                                            <option value="Masculino">Masculino</option>
+                                            <option value="Femenino">Femenino</option>
+                                        </select>
+                                    </div>
 
-                            <!-- Dirección -->
-                            <div class="mb-3">
-                                <label for="direccionCliente" class="form-label">Dirección</label>
-                                <input type="text" class="form-control" name="direccionCliente" id="direccionCliente" placeholder="Ingrese dirección" required>
-                            </div>
+                                    <!-- Dirección -->
+                                    <div class="col-md-12">
+                                        <label for="direccionCliente" class="form-label">Dirección</label>
+                                        <input type="text" class="form-control" name="direccionCliente" id="direccionCliente" placeholder="Ingrese dirección" required>
+                                    </div>
 
-                            <!-- Teléfono -->
-                            <div class="mb-3">
-                                <label for="telefonoCliente" class="form-label">Teléfono</label>
-                                <input type="tel" class="form-control" name="telefonoCliente" id="telefonoCliente" placeholder="8888-8888" pattern="[0-9]{4}-[0-9]{4}" title="Formato: 8888-8888" required>
-                            </div>
+                                    <!-- Teléfono -->
+                                    <div class="col-md-6">
+                                        <label for="telefonoCliente" class="form-label">Teléfono</label>
+                                        <input type="tel" class="form-control" name="telefonoCliente" id="telefonoCliente" placeholder="8888-8888" pattern="[0-9]{4}-[0-9]{4}" title="Formato: 8888-8888" required>
+                                    </div>
 
-                            <!-- Email -->
-                            <div class="mb-3">
-                                <label for="emailCliente" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control" name="emailCliente" id="emailCliente" placeholder="ejemplo@correo.com" required>
+                                    <!-- Email -->
+                                    <div class="col-md-6">
+                                        <label for="emailCliente" class="form-label">Correo Electrónico</label>
+                                        <input type="email" class="form-control" name="emailCliente" id="emailCliente" placeholder="ejemplo@correo.com" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -352,9 +356,10 @@ include_once "Ctrl/menu.php";
                     });
                 }
 
-                // Configurar ambos modales
-                configurarModal("modalAgregarVendedor", "telefonoVendedor", "cedulaVendedor", "formAgregarVendedor", ".btn-secundario");
-                configurarModal("modalEditarVendedor", "editarTelefonoVendedor", "editarCedulaVendedor", "formEditarVendedor", ".btn-secondary");
+                // Configurar modal de clientes
+configurarModal("modalAgregarCliente", "telefonoCliente", "cedulaCliente", "generoCliente", "formAgregarCliente", ".btn-secundario");
+configurarModal("modalEditarClientes", "editarTelefonoCliente", "editarCedulaCliente", "editarSexoCliente", "formEditarCliente", ".btn-secondary");
+
 
                 // Verificar si el modal debe abrirse después de un error
                 if (sessionStorage.getItem("modalOpen") === "true") {
@@ -365,9 +370,124 @@ include_once "Ctrl/menu.php";
             });
         </script>
 
+<style>
+    /* Elevar el z-index de los popups de SweetAlert2 */
+    .swal2-container {
+        z-index: 20000 !important;
+    }
+</style>
+
+<!-- Modal para editar cliente -->
+<div class="modal fade" id="modalEditarClientes" tabindex="-1" aria-labelledby="modalLabelEditar" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #17d5bb; color: #2e2e2e;">
+                <h5 class="modal-title" id="modalLabelEditar">
+                <i class='bx bx-edit'></i>Editar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <form id="formEditarCliente">
+                <div class="modal-body">
+                    <input type="hidden" name="idCliente" id="idCliente">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="editarNombreCliente" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="editarNombreCliente" placeholder="Ingrese el primer y segundo nombre" id="editarNombreCliente" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editarApellidoCliente" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" name="editarApellidoCliente" placeholder="Ingrese el primer y segundo apellido" id="editarApellidoCliente" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editarCedulaCliente" class="form-label">N° Cédula</label>
+                            <input type="text" class="form-control" name="editarCedulaCliente" placeholder="000-000000-0000X" id="editarCedulaCliente" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editarTelefonoCliente" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" name="editarTelefonoCliente" id="editarTelefonoCliente">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editarDireccionCliente" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" name="editarDireccionCliente" placeholder="Ingrese su dirección" id="editarDireccionCliente">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editarSexoCliente" class="form-label">Sexo</label>
+                            <select class="form-select" name="editarSexoCliente" id="editarSexoCliente" required>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editarCorreoCliente" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" name="editarCorreoCliente" placeholder="ej: nombre@ejemplo.com" id="editarCorreoCliente" required>
+                        </div>
+                        <!-- Puedes agregar más campos específicos para clientes si es necesario -->
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para ver cliente -->
+<div class="modal fade" id="modalVerClientes" tabindex="-1" aria-labelledby="modalVerClienteLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #17d5bb; color: #2e2e2e;">
+                <h5 class="modal-title" id="modalVerClienteLabel">
+                    <i class='bx bx-show'></i> Ver Cliente
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreClienteVer" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellidoClienteVer" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">N° Cédula</label>
+                        <input type="text" class="form-control" id="cedulaClienteVer" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefonoClienteVer" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="direccionClienteVer" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Sexo</label>
+                        <input type="text" class="form-control" id="sexoClienteVer" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="emailClienteVer" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
+<script src="../js/ver_cliente.js?123457"></script>
+<script src="../js/editar_cliente.js?12345"></script>
+<script src="../js/baja_cliente.js?12345"></script>
+<script src="../js/reactivar_cliente.js?12345"></script>
 
 <?php
 include_once "Ctrl/footer.php";

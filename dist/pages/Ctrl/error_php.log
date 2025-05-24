@@ -53,3 +53,29 @@ Stack trace:
 #0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(153): mysqli_stmt->execute()
 #1 {main}
   thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 153
+[19-May-2025 19:26:47 Europe/Berlin] PHP Warning:  Undefined array key "ID_Medicamento" in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 179
+[19-May-2025 19:26:47 Europe/Berlin] PHP Warning:  Undefined array key "Cantidad" in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 180
+[19-May-2025 19:26:47 Europe/Berlin] PHP Warning:  Undefined array key "Precio_Unitario" in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 181
+[19-May-2025 19:26:47 Europe/Berlin] PHP Warning:  Undefined array key "Subtotal" in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 182
+[19-May-2025 19:26:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`farmacia_san_francisco_javier2`.`detalle_factura_venta`, CONSTRAINT `detalle_factura_venta_ibfk_2` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`)) in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:199
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(199): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 199
+[19-May-2025 19:31:04 Europe/Berlin] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:176) in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 181
+[19-May-2025 19:31:04 Europe/Berlin] PHP Warning:  require_once(../conexion.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 182
+[19-May-2025 19:31:04 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../conexion.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:182
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 182
+[19-May-2025 19:31:04 Europe/Berlin] PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:176) in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 16
+[19-May-2025 21:53:50 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:179
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(179): mysqli_stmt->bind_param('iiidddd', 124, 0, 1, 50.0, 50.0, NULL, 500, NULL)
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 179
+[19-May-2025 22:03:11 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:179
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(179): mysqli_stmt->bind_param('iiidddd', 125, 0, 1, 50.0, 50.0, NULL, 500, NULL)
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 179

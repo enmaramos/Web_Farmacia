@@ -74,6 +74,32 @@ $cambio      = floatval($data['cambio']      ?? 0);
 $ID_Cliente  = intval($data['ID_Cliente']    ?? 0);
 $ID_Usuario  = intval($_SESSION['ID_Usuario']);
 
+// Obtener ID_Caja, si no viene, buscar la caja abierta más reciente para el usuario
+$ID_Caja = intval($data['ID_Caja'] ?? 0);
+
+if ($ID_Caja <= 0) {
+    $query = $conn->prepare("SELECT ID_Caja FROM caja WHERE ID_Usuario = ? AND Tipo = 'apertura' ORDER BY Fecha_Hora DESC LIMIT 1");
+    if (!$query) {
+        cleanOutput();
+        echo json_encode(['success' => false, 'message' => 'Error en consulta caja: ' . $conn->error]);
+        exit;
+    }
+    $query->bind_param("i", $ID_Usuario);
+    $query->execute();
+    $query->bind_result($idCajaEncontrada);
+    if ($query->fetch()) {
+        $ID_Caja = $idCajaEncontrada;
+    } else {
+        cleanOutput();
+        echo json_encode([
+            'success' => false,
+            'message' => 'No se encontró una caja abierta para este usuario.'
+        ]);
+        exit;
+    }
+    $query->close();
+}
+
 // Validar campos requeridos
 $faltan = [];
 foreach ([
@@ -85,7 +111,8 @@ foreach ([
     'monto_pagado' => $montoPagado,
     'cambio' => $cambio,
     'ID_Cliente' => $ID_Cliente,
-    'ID_Usuario' => $ID_Usuario
+    'ID_Usuario' => $ID_Usuario,
+    'ID_Caja' => $ID_Caja
 ] as $campo => $valor) {
     if ($valor === '' || ($campo !== 'numero_factura' && $campo !== 'metodo_pago' && $valor === 0)) {
         $faltan[] = $campo;
@@ -124,8 +151,8 @@ if ($existe > 0) {
 
 // Insertar la factura
 $sql = "INSERT INTO factura_venta
-    (Numero_Factura, Fecha, Metodo_Pago, Subtotal, Total, Monto_Pagado, Cambio, ID_Cliente, ID_Usuario)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    (Numero_Factura, Fecha, Metodo_Pago, Subtotal, Total, Monto_Pagado, Cambio, ID_Cliente, ID_Usuario, ID_Caja)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
@@ -138,7 +165,7 @@ if (!$stmt) {
 }
 
 $stmt->bind_param(
-    "sssdddiii",
+    "sssdddiiii",
     $numeroFactura,
     $fecha,
     $metodoPago,
@@ -147,7 +174,8 @@ $stmt->bind_param(
     $montoPagado,
     $cambio,
     $ID_Cliente,
-    $ID_Usuario
+    $ID_Usuario,
+    $ID_Caja
 );
 
 if (!$stmt->execute()) {
@@ -173,7 +201,8 @@ echo json_encode([
         'total'          => $total,
         'metodo_pago'    => $metodoPago,
         'monto_pagado'   => $montoPagado,
-        'cambio'         => $cambio
+        'cambio'         => $cambio,
+        'ID_Caja'        => $ID_Caja
     ]
 ]);
 exit;
