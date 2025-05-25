@@ -79,3 +79,38 @@ Stack trace:
 #0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(179): mysqli_stmt->bind_param('iiidddd', 125, 0, 1, 50.0, 50.0, NULL, 500, NULL)
 #1 {main}
   thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 179
+[24-May-2025 17:09:01 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`farmacia_san_francisco_javier2`.`detalle_factura_venta`, CONSTRAINT `detalle_factura_venta_ibfk_2` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`)) in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:211
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(211): mysqli_stmt->execute()
+#1 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 211
+[24-May-2025 17:27:41 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'ID_Medicamento' in 'where clause' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:253
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(253): mysqli->prepare('SELECT ID_Dosis...')
+#1 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(201): buscarIDPorMedicamento(Object(mysqli), 'medicamento_dos...', 'Dosis', '500mg', 1)
+#2 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 253
+[24-May-2025 17:33:24 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'ID_Medicamento' in 'where clause' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:263
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(263): mysqli->prepare('SELECT ID_Dosis...')
+#1 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(201): buscarIDPorMedicamento(Object(mysqli), 'medicamento_dos...', 'Dosis', '500mg', 1)
+#2 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 263
+[24-May-2025 17:34:07 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: capsula
+[24-May-2025 17:34:07 Europe/Berlin] 🔍 Tabla: medicamento_dosis | Campo: Dosis | Valor: 500mg
+[24-May-2025 17:34:07 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'ID_Medicamento' in 'where clause' in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php:255
+Stack trace:
+#0 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(255): mysqli->prepare('SELECT ID_Dosis...')
+#1 C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php(201): buscarIDPorMedicamento(Object(mysqli), 'medicamento_dos...', 'Dosis', '500mg', 1)
+#2 {main}
+  thrown in C:\xampp\htdocs\Web_Farmacia\dist\pages\Ctrl\guardar_factura.php on line 255
+[24-May-2025 18:00:02 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: capsula
+[24-May-2025 18:00:02 Europe/Berlin] 🔍 Tabla: medicamento_dosis | Campo: Dosis | Valor: 500mg
+[24-May-2025 18:00:02 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Caja
+[24-May-2025 18:11:01 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: Seleccione una opción
+[24-May-2025 18:11:01 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Caja
+[24-May-2025 20:42:42 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: capsula
+[24-May-2025 20:42:42 Europe/Berlin] 🔍 Tabla: medicamento_dosis | Campo: Dosis | Valor: 500mg
+[24-May-2025 20:42:42 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Caja
+[24-May-2025 20:43:37 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: Talla M
+[24-May-2025 20:43:37 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Bolsa

@@ -1,0 +1,61 @@
+🧾 GUÍA COMPLETA PARA REGISTRAR UN MEDICAMENTO EN TU BASE DE DATOS
+
+
+🧪 1. Insertar el medicamento en la tabla medicamento
+-- Insertar el medicamento base
+INSERT INTO medicamento (
+    Nombre_Medicamento,
+    LAB_o_MARCA,
+    Imagen,
+    Descripcion_Medicamento,
+    Prescripcion_Medica,
+    IdCategoria,
+    Estado,
+    Requiere_Receta,
+    Id_Proveedor
+) VALUES (
+    'Paracetamol',
+    'Lab-Farma',
+    'paracetamol.jpg',
+    'Analgésico y antipirético',
+    'Requiere receta',
+    5, -- categoría (debes tenerla creada)
+    1, -- activo
+    1, -- requiere receta (1 = sí)
+    2  -- proveedor (debes tenerlo creado)
+);
+-- Anotar el ID_Medicamento generado (ejemplo: 35)
+
+
+💊 2. Insertar las formas farmacéuticas en medicamento_forma_farmaceutica
+-- Agregar "tableta" y "cápsula" al medicamento 35
+INSERT INTO medicamento_forma_farmaceutica (ID_Medicamento, Forma_Farmaceutica) VALUES
+(35, 'tableta'),
+(35, 'cápsula');
+-- Anotar los ID_Forma_Farmaceutica generados (ejemplo: 40 = tableta, 41 = cápsula)
+
+⚖️ 3. Insertar las dosis en medicamento_dosis
+-- Agregar dosis disponibles para el medicamento
+INSERT INTO medicamento_dosis (Dosis, ID_Medicamento) VALUES
+('500mg', 35),
+('750mg', 35);
+-- Anotar los ID_Dosis generados (ejemplo: 15 = 500mg, 16 = 750mg)
+
+🔗 4. Relacionar formas farmacéuticas y dosis en forma_farmaceutica_dosis
+-- Asociar formas farmacéuticas con sus dosis
+INSERT INTO forma_farmaceutica_dosis (ID_Medicamento, ID_Forma_Farmaceutica, ID_Dosis) VALUES
+(35, 40, 15),  -- tableta - 500mg
+(35, 40, 16),  -- tableta - 750mg
+(35, 41, 15),  -- cápsula - 500mg
+(35, 41, 16);  -- cápsula - 750mg (si aplica)
+
+📦 5. Agregar presentaciones en medicamento_presentacion
+-- Agregar Caja (10 unidades) y Unidad
+INSERT INTO medicamento_presentacion (ID_Medicamento, Tipo_Presentacion, Total_Presentacion, Precio) VALUES
+(35, 'Caja', 10, 40.00),
+(35, 'Unidad', 1, 5.00);
+
+📅 6. (Opcional) Insertar el lote en lote
+-- Agregar lote si usás control de fechas de vencimiento
+INSERT INTO lote (ID_Medicamento, Numero_Lote, Fecha_Entrada, Fecha_Caducidad_Lote) VALUES
+(35, 'L-123456', CURDATE(), '2026-12-31');

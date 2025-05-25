@@ -142,18 +142,24 @@ function procesarAperturaCaja(form) {
 
   const formData = new FormData(form);
 
-  fetch('../pages/Ctrl/guardar_caja.php', {
-    method: 'POST',
-    body: formData
-  })
-    .then(res => res.text())
-    .then(respuesta => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Caja Abierta',
-        text: respuesta,
-        confirmButtonText: 'Aceptar'
-      });
+ fetch('../pages/Ctrl/guardar_caja.php', {
+  method: 'POST',
+  body: formData
+})
+  .then(res => res.text())
+  .then(respuesta => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Caja Abierta',
+      text: respuesta,
+      confirmButtonText: 'Aceptar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Redirigir al usuario a otra página (por ejemplo: dashboard.php)
+        window.location.href = '../pages/facturacion.php';
+      }
+    });
+  
 
       // Deshabilitar y resaltar campos
       // Deshabilitar y resaltar campos

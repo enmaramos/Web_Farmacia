@@ -325,8 +325,8 @@ date_default_timezone_set('America/Managua');
       form.querySelector("input[name='monto_dolares_cordobas']").value = totalDolaresCordobas.toFixed(2);
     }
 
+    // 🔁 Activar cálculo en todos los inputs
     form.querySelectorAll("input[type='number']").forEach((input) => {
-      // Limitar a 4 dígitos y máximo valor 9999
       input.addEventListener("input", function () {
         let valor = input.value.replace(/\D/g, '');
         if (valor.length > 4) valor = valor.slice(0, 4);
@@ -335,26 +335,16 @@ date_default_timezone_set('America/Managua');
         actualizarTotales();
       });
 
-      // Bloquear teclas no permitidas
       input.addEventListener("keydown", function (e) {
         const isNumber = e.key >= "0" && e.key <= "9";
         const allowedKeys = ["Delete", "Backspace", "ArrowLeft", "ArrowRight"];
+        if (!isNumber && !allowedKeys.includes(e.key)) e.preventDefault();
 
-        if (!isNumber && !allowedKeys.includes(e.key)) {
-          e.preventDefault();
-        }
-
-        // Bloquear más de 4 dígitos si no hay texto seleccionado
-        if (
-          isNumber &&
-          input.value.length >= 4 &&
-          input.selectionStart === input.selectionEnd
-        ) {
+        if (isNumber && input.value.length >= 4 && input.selectionStart === input.selectionEnd) {
           e.preventDefault();
         }
       });
 
-      // Bloquear pegado de contenido inválido
       input.addEventListener("paste", function (e) {
         const pasted = e.clipboardData.getData("text").replace(/\D/g, '');
         if (!/^\d{1,4}$/.test(pasted) || parseInt(pasted) > 9999) {
@@ -362,15 +352,71 @@ date_default_timezone_set('America/Managua');
         }
       });
     });
+
+    // ✅ Enviar formulario con fetch
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      const inputs = form.querySelectorAll("input[type='number']");
+      const hayDenominaciones = Array.from(inputs).some(input => parseInt(input.value) > 0);
+
+      if (!hayDenominaciones) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Desglose vacío',
+          text: 'Debe ingresar al menos una denominación para cerrar la caja.'
+        });
+        return;
+      }
+
+      Swal.fire({
+        title: '¿Está seguro?',
+        text: 'Se procederá a cerrar la caja y guardar los datos.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, cerrar caja',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch('../pages/Ctrl/guardar_cierre_caja.php', {
+            method: 'POST',
+            body: formData
+          })
+            .then(res => res.text())
+            .then(respuesta => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Caja cerrada correctamente',
+                html: `<pre style="text-align:left;">${respuesta}</pre>`,
+                width: 600,
+                confirmButtonText: 'Aceptar'
+              });
+
+              // 🔒 Bloquear campos después de cerrar
+              form.querySelectorAll('input, textarea, button').forEach(el => {
+                if (el.type !== 'hidden') {
+                  el.setAttribute('readonly', true);
+                  el.setAttribute('disabled', true);
+                  if (el.tagName !== 'BUTTON' && el.value.trim() !== '') {
+                    el.classList.add('input-resaltado');
+                  }
+                }
+              });
+            })
+            .catch(err => {
+              console.error(err);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '❌ Ocurrió un error al cerrar la caja.'
+              });
+            });
+        }
+      });
+    });
   });
 </script>
-
-
-
-
-
-
-
 
 
 

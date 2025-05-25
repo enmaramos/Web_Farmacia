@@ -1,14 +1,12 @@
 <?php
-// --- INICIO: Limpieza y configuración del entorno ---
 ob_start();
 session_start();
 
-ini_set('display_errors', 0); // No mostrar errores directamente
+ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/error_php.log');
 error_reporting(E_ALL);
 
-// Asegurar respuesta JSON y capturar errores fatales
 function cleanOutput() {
     while (ob_get_level()) {
         ob_end_clean();
@@ -29,12 +27,11 @@ register_shutdown_function(function () {
     }
 });
 
-// --- INICIO DEL CÓDIGO ---
 include('../Cnx/conexion.php');
 
-// Leer el JSON de entrada
+// Leer JSON del frontend
 $rawInput = file_get_contents("php://input");
-file_put_contents('debug_guardar.txt', $rawInput); // para depuración
+file_put_contents('debug_guardar.txt', $rawInput); // Para depuración
 
 $data = json_decode($rawInput, true);
 if ($data === null) {
@@ -48,14 +45,13 @@ if ($data === null) {
     exit;
 }
 
-// Verificar autenticación
 if (!isset($_SESSION['ID_Usuario'])) {
     cleanOutput();
     echo json_encode(['success' => false, 'message' => 'Usuario no autenticado.']);
     exit;
 }
 
-// Extraer y validar datos
+// Extraer datos del JSON
 $numeroFactura = $data['numero_factura'] ?? '';
 $fechaRaw      = $data['fecha'] ?? '';
 try {
@@ -69,14 +65,13 @@ try {
 $metodoPago  = $data['metodo_pago']   ?? '';
 $subtotal    = floatval($data['subtotal']    ?? 0);
 $total       = floatval($data['total']       ?? 0);
-$montoPagado = floatval($data['monto_pagado'] ?? 0);
-$cambio      = floatval($data['cambio']      ?? 0);
-$ID_Cliente  = intval($data['ID_Cliente']    ?? 0);
+$montoPagado = $data['monto_pagado'] ?? '';
+$cambio      = 'C$' . ($data['cambio'] ?? '0.00');
+
+$ID_Cliente  = intval($data['ID_Cliente'] ?? 0);
 $ID_Usuario  = intval($_SESSION['ID_Usuario']);
 
-// Obtener ID_Caja, si no viene, buscar la caja abierta más reciente para el usuario
 $ID_Caja = intval($data['ID_Caja'] ?? 0);
-
 if ($ID_Caja <= 0) {
     $query = $conn->prepare("SELECT ID_Caja FROM caja WHERE ID_Usuario = ? AND Tipo = 'apertura' ORDER BY Fecha_Hora DESC LIMIT 1");
     if (!$query) {
@@ -91,16 +86,13 @@ if ($ID_Caja <= 0) {
         $ID_Caja = $idCajaEncontrada;
     } else {
         cleanOutput();
-        echo json_encode([
-            'success' => false,
-            'message' => 'No se encontró una caja abierta para este usuario.'
-        ]);
+        echo json_encode(['success' => false, 'message' => 'No se encontró una caja abierta para este usuario.']);
         exit;
     }
     $query->close();
 }
 
-// Validar campos requeridos
+// Validación básica
 $faltan = [];
 foreach ([
     'numero_factura' => $numeroFactura,
@@ -120,14 +112,11 @@ foreach ([
 }
 if ($faltan) {
     cleanOutput();
-    echo json_encode([
-        'success' => false,
-        'message' => 'Faltan datos: ' . implode(', ', $faltan)
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Faltan datos: ' . implode(', ', $faltan)]);
     exit;
 }
 
-// Verificar existencia del número de factura
+// Verificar si el número de factura ya existe
 $verifica = $conn->prepare("SELECT COUNT(*) FROM factura_venta WHERE Numero_Factura = ?");
 if (!$verifica) {
     cleanOutput();
@@ -142,30 +131,23 @@ $verifica->close();
 
 if ($existe > 0) {
     cleanOutput();
-    echo json_encode([
-        'success' => false,
-        'message' => 'El número de factura ya existe. Generá uno nuevo.'
-    ]);
+    echo json_encode(['success' => false, 'message' => 'El número de factura ya existe. Generá uno nuevo.']);
     exit;
 }
 
-// Insertar la factura
+// Insertar en factura_venta
 $sql = "INSERT INTO factura_venta
-    (Numero_Factura, Fecha, Metodo_Pago, Subtotal, Total, Monto_Pagado, Cambio, ID_Cliente, ID_Usuario, ID_Caja)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+(Numero_Factura, Fecha, Metodo_Pago, Subtotal, Total, Monto_Pagado, Cambio, ID_Cliente, ID_Usuario, ID_Caja)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     cleanOutput();
-    echo json_encode([
-        'success' => false,
-        'message' => 'Prepare falló: ' . $conn->error
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Prepare falló: ' . $conn->error]);
     exit;
 }
-
 $stmt->bind_param(
-    "sssdddiiii",
+    "ssssdssiii",
     $numeroFactura,
     $fecha,
     $metodoPago,
@@ -177,24 +159,64 @@ $stmt->bind_param(
     $ID_Usuario,
     $ID_Caja
 );
-
 if (!$stmt->execute()) {
     cleanOutput();
-    echo json_encode([
-        'success' => false,
-        'message' => 'Execute falló: ' . $stmt->error
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Execute falló: ' . $stmt->error]);
+    exit;
+}
+$ID_FacturaV = $conn->insert_id;
+$stmt->close();
+
+// Guardar detalles de productos
+$productos = $data['productos'] ?? [];
+
+if (!is_array($productos) || empty($productos)) {
+    cleanOutput();
+    echo json_encode(['success' => false, 'message' => 'No se recibieron productos para la factura.']);
     exit;
 }
 
-// Éxito
-$stmt->close();
+$detalleSQL = "INSERT INTO detalle_factura_venta 
+(ID_FacturaV, ID_Medicamento, Cantidad, Precio_Unitario, Subtotal, ID_Forma_Farmaceutica, ID_Dosis, ID_Presentacion) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+$detalleStmt = $conn->prepare($detalleSQL);
+if (!$detalleStmt) {
+    cleanOutput();
+    echo json_encode(['success' => false, 'message' => 'Error al preparar detalle: ' . $conn->error]);
+    exit;
+}
+
+foreach ($productos as $producto) {
+    $nombreProducto = $producto['nombreProducto'];
+    $cantidad = intval($producto['cantidad']);
+    $precio = floatval($producto['precio']);
+    $subtotal = $cantidad * $precio;
+
+    $unidad = trim($producto['unidad']);
+    $dosis = trim($producto['dosis']);
+    $presentacion = trim($producto['presentacion']);
+
+    $idMedicamento = buscarID($conn, "medicamento", "Nombre_Medicamento", $nombreProducto);
+    $idForma = buscarIDPorMedicamento($conn, "medicamento_forma_farmaceutica", "Forma_Farmaceutica", $unidad, $idMedicamento);
+    $idDosis = buscarIDPorMedicamento($conn, "medicamento_dosis", "Dosis", $dosis, $idMedicamento);
+    $idPresentacion = buscarIDPorMedicamento($conn, "medicamento_presentacion", "Tipo_Presentacion", $presentacion, $idMedicamento);
+
+    $detalleStmt->bind_param("iiiddiii", $ID_FacturaV, $idMedicamento, $cantidad, $precio, $subtotal, $idForma, $idDosis, $idPresentacion);
+
+    if (!$detalleStmt->execute()) {
+        cleanOutput();
+        echo json_encode(['success' => false, 'message' => 'Error al guardar detalle: ' . $detalleStmt->error]);
+        exit;
+    }
+}
+
+$detalleStmt->close();
 $conn->close();
 
 cleanOutput();
 echo json_encode([
     'success' => true,
-    'message' => 'Factura guardada correctamente.',
+    'message' => 'Factura y detalles guardados correctamente.',
     'datosFactura' => [
         'numero_factura' => $numeroFactura,
         'fecha'          => $fecha,
@@ -206,3 +228,44 @@ echo json_encode([
     ]
 ]);
 exit;
+
+// FUNCIONES AUXILIARES
+
+function buscarID($conn, $tabla, $campo, $valor) {
+    $campoID = "ID_" . ucfirst($tabla);
+    $stmt = $conn->prepare("SELECT $campoID FROM $tabla WHERE $campo = ? LIMIT 1");
+    if (!$stmt) return null;
+
+    $stmt->bind_param("s", $valor);
+    $stmt->execute();
+
+    $id = null; // ← Aquí inicializamos la variable
+    $stmt->bind_result($id);
+    $stmt->fetch();
+    $stmt->close();
+    return $id ?: null;
+}
+
+function buscarIDPorMedicamento($conn, $tabla, $campo, $valor, $idMedicamento) {
+    if ($valor === '-' || !$valor || !$idMedicamento) return null;
+
+    error_log("🔍 Tabla: $tabla | Campo: $campo | Valor: $valor");
+
+    $campoID = "ID_" . ucfirst(str_replace("medicamento_", "", $tabla));
+    $stmt = $conn->prepare("SELECT $campoID FROM $tabla WHERE $campo = ? AND ID_Medicamento = ? LIMIT 1");
+    if (!$stmt) {
+        error_log("❌ Error preparando consulta para tabla: $tabla → " . $conn->error);
+        return null;
+    }
+
+    $stmt->bind_param("si", $valor, $idMedicamento);
+    $stmt->execute();
+
+    $id = null;
+    $stmt->bind_result($id);
+    $stmt->fetch();
+    $stmt->close();
+    return $id ?: null;
+}
+
+

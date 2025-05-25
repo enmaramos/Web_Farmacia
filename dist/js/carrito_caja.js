@@ -484,28 +484,38 @@ async function imprimirFactura() {
 
     const numeroReciboGenerado = numeroFacturaActual;
 
-    const datosFactura = {
+    // Obtener símbolo de moneda actual
+    const monedaSeleccionada = document.getElementById('monedaSeleccionada')?.value || 'C$';
+    const monedaSimbolo = monedaSeleccionada === 'US$' ? 'US$' : 'C$';
+
+     const datosFactura = {
         numero_factura: numeroReciboGenerado,
         fecha: fechaFormateada,
         metodo_pago: document.getElementById('facturaMetodoPago').textContent.trim(),
         subtotal: document.getElementById('facturaTotal').textContent.replace('C$', '').trim(),
         total: document.getElementById('facturaTotal').textContent.replace('C$', '').trim(),
-        monto_pagado: document.getElementById('facturaMontoRecibido').textContent.replace('C$', '').replace('US$', '').trim(),
+        monto_pagado: monedaSimbolo + document.getElementById('facturaMontoRecibido').textContent.trim(),
         cambio: document.getElementById('facturaVuelto').textContent.replace('C$', '').replace('US$', '').trim(),
         cliente: document.getElementById('facturaCliente').textContent.trim(),
         vendedor: document.getElementById('facturaVendedor').textContent.trim(),
         ID_Cliente: document.getElementById('facturaIDCliente').value,
-        ID_Usuario: document.getElementById('facturaIDUsuario').value
+        ID_Usuario: document.getElementById('facturaIDUsuario').value,
+
+        // ✅ Agregado: carrito (productos) para detalle_factura_venta
+        productos: carrito.map(producto => ({
+            nombreProducto: producto.nombreProducto,
+            cantidad: producto.cantidad,
+            precio: producto.precio,
+            unidad: producto.unidad,
+            presentacion: producto.presentacion,
+            dosis: producto.dosis
+        }))
     };
 
     if (!datosFactura.numero_factura || !datosFactura.fecha || !datosFactura.cliente || !datosFactura.vendedor) {
         alert("Faltan datos importantes para generar la factura.");
         return;
     }
-
-    // Obtener símbolo de moneda actual
-    const monedaSeleccionada = document.getElementById('monedaSeleccionada')?.value || 'C$';
-    const monedaSimbolo = monedaSeleccionada === 'US$' ? 'US$' : 'C$';
 
     fetch('../pages/Ctrl/guardar_factura.php', {
         method: 'POST',
@@ -584,7 +594,7 @@ async function imprimirFactura() {
                         -------------------------------<br>
                         <strong>Total:</strong> C$${datosFactura.total}<br>
                         <strong>Pago:</strong> ${datosFactura.metodo_pago}<br>
-                        <strong>Monto Recibido:</strong> ${monedaSimbolo}${datosFactura.monto_pagado}<br>
+                        <strong>Monto Recibido:</strong> ${datosFactura.monto_pagado}<br>
                         <strong>Vuelto:</strong> C$${datosFactura.cambio}<br>
                         -------------------------------<br>
                         <center>¡Gracias por su compra!</center>
@@ -643,5 +653,6 @@ function volverAlMetodoPago() {
     const metodoPagoModal = new bootstrap.Modal(document.getElementById('modalMetodoPago'));
     metodoPagoModal.show();
 }
+
 
 
