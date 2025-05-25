@@ -69,7 +69,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </li>
                     <li class="menu-item">
                         <a href="/Web_Farmacia/dist/pages/cliente.php" class="menu-link">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user-tie"></i>
                             <div data-i18n="Boxicons">Clientes</div>
                         </a>
                     </li>
