@@ -114,3 +114,5 @@ Stack trace:
 [24-May-2025 20:42:42 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Caja
 [24-May-2025 20:43:37 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: Talla M
 [24-May-2025 20:43:37 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Bolsa
+[26-May-2025 20:45:58 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: Talla M
+[26-May-2025 20:45:58 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Bolsa
