@@ -183,7 +183,7 @@ date_default_timezone_set('America/Managua');
             <div class="col-md-6">
               <label class="form-label">Monto Apertura</label>
               <input type="text" name="monto_apertura_mostrado" class="form-control" readonly style="background-color: #e9ecef;" />
-              <input type="number" name="monto_apertura" hidden />
+              <input type="hidden" name="monto_apertura" value="...">
             </div>
           </div>
 
@@ -228,6 +228,9 @@ date_default_timezone_set('America/Managua');
                 </div>
               </div>
             </div>
+            <!-- Campos ocultos para totales de billetes y monedas en Córdobas -->
+            <input type="hidden" id="billetesCordobas" name="billetesCordobas" />
+            <input type="hidden" id="monedasCordobas" name="monedasCordobas" />
 
             <!-- Columna Dólares -->
             <div class="col-md-6">
@@ -267,6 +270,9 @@ date_default_timezone_set('America/Managua');
               </div>
             </div>
           </div>
+
+          <!-- Campo oculto para total de billetes en Dólares -->
+          <input type="hidden" id="billetesDolares" name="billetesDolares" />
 
           <!-- Observaciones -->
           <div class="row g-3 mt-3">
@@ -319,6 +325,6 @@ date_default_timezone_set('America/Managua');
 
 
 <script src="../js/cajas.js?56"></script>
-<script src="../js/cierre_caja.js?289"></script>
+<script src="../js/cierre_caja.js?"></script>
 
 <?php include_once "Ctrl/footer.php"; ?>
