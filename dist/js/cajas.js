@@ -186,42 +186,4 @@ function procesarAperturaCaja(form) {
 
 //////////////////////////////////////CIERRE DE CAJA//////////////////////////////////////////////////
 
-//////////// Mostrar el total de ventas y apertura ////////////
-document.addEventListener('DOMContentLoaded', function () {
-  fetch('../pages/Ctrl/obtener_total_ventas.php')
-    .then(response => response.json())
-    .then(data => {
-      const inputVentasTexto = document.querySelector('input[name="total_ventas_mostrado"]');
-      const inputVentasNumero = document.querySelector('input[name="total_ventas"]');
-      const inputAperturaTexto = document.querySelector('input[name="monto_apertura_mostrado"]');
-      const inputAperturaNumero = document.querySelector('input[name="monto_apertura"]');
-
-      const totalVentas = parseFloat(data.totalVentas ?? 0);
-      const aperturaConvertida = parseFloat(data.aperturaConvertida ?? 0);
-
-      // Formato Nicaragüense
-      const formatoCordobas = valor =>
-        'C$ ' + valor.toLocaleString('es-NI', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        });
-
-      // Mostrar total de ventas
-      if (inputVentasTexto && inputVentasNumero) {
-        inputVentasTexto.value = formatoCordobas(totalVentas);
-        inputVentasNumero.value = totalVentas.toFixed(2);
-      }
-
-      // Mostrar monto de apertura convertido
-      if (inputAperturaTexto && inputAperturaNumero) {
-        inputAperturaTexto.value = formatoCordobas(aperturaConvertida);
-        inputAperturaNumero.value = aperturaConvertida.toFixed(2);
-      }
-    })
-    .catch(error => {
-      console.error('Error al obtener datos:', error);
-    });
-});
-
-
 
