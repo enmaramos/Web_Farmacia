@@ -104,7 +104,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <!-- Forms & Tables -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Bodega</span></li>
                     <li class="menu-item">
-                        <a href="tables-basic.html" class="menu-link">
+                        <a href="/Web_Farmacia/dist/pages/productos.php" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-table"></i>
                             <div data-i18n="Tables">Productos</div>
                         </a>
