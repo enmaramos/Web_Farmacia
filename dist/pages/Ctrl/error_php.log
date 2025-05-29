@@ -122,3 +122,8 @@ Stack trace:
 [26-May-2025 23:20:49 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: tableta
 [26-May-2025 23:20:49 Europe/Berlin] 🔍 Tabla: medicamento_dosis | Campo: Dosis | Valor: 500mg
 [26-May-2025 23:20:49 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Sobre
+[27-May-2025 23:42:32 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: Talla S
+[27-May-2025 23:42:32 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Bolsa
+[28-May-2025 20:04:07 Europe/Berlin] 🔍 Tabla: medicamento_forma_farmaceutica | Campo: Forma_Farmaceutica | Valor: tableta
+[28-May-2025 20:04:07 Europe/Berlin] 🔍 Tabla: medicamento_dosis | Campo: Dosis | Valor: 250mg
+[28-May-2025 20:04:07 Europe/Berlin] 🔍 Tabla: medicamento_presentacion | Campo: Tipo_Presentacion | Valor: Caja

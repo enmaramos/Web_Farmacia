@@ -102,11 +102,17 @@ if (session_status() === PHP_SESSION_NONE) {
                     </li>
 
                     <!-- Forms & Tables -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms & Tables</span></li>
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Bodega</span></li>
                     <li class="menu-item">
                         <a href="tables-basic.html" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-table"></i>
-                            <div data-i18n="Tables">Tables</div>
+                            <div data-i18n="Tables">Productos</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="tables-basic.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-table"></i>
+                            <div data-i18n="Tables">Historial de Ventas</div>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -117,7 +123,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="menu-item">
                         <a href="/Web_Farmacia/dist/pages/caja.php" class="menu-link">
                             <i class="fas fa-cash-register"></i>
-                            <div data-i18n="Boxicons">Caja</div>
+                            <div data-i18n="Boxicons">Gestion de Caja</div>
                         </a>
                     </li>
                     <li class="menu-item">
@@ -136,11 +142,18 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <!-- Menú solo para Bodegueros -->
                 <?php if ($_SESSION['ID_Rol'] == 3): ?>
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms & Tables</span></li>
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Bodega</span></li>
                     <li class="menu-item">
                         <a href="tables-basic.html" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-table"></i>
-                            <div data-i18n="Tables">Tables</div>
+                            <div data-i18n="Tables">Productos</div>
+                        </a>
+                    </li>
+
+                      <li class="menu-item">
+                        <a href="tables-basic.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-table"></i>
+                            <div data-i18n="Tables">Historial de Ventas</div>
                         </a>
                     </li>
                 <?php endif; ?>
