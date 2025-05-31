@@ -1,61 +1,127 @@
-🧾 GUÍA COMPLETA PARA REGISTRAR UN MEDICAMENTO EN TU BASE DE DATOS
-
-
-🧪 1. Insertar el medicamento en la tabla medicamento
--- Insertar el medicamento base
+-- 1. Insertar medicamentos
 INSERT INTO medicamento (
-    Nombre_Medicamento,
-    LAB_o_MARCA,
-    Imagen,
-    Descripcion_Medicamento,
-    Prescripcion_Medica,
-    IdCategoria,
-    Estado,
-    Requiere_Receta,
-    Id_Proveedor
-) VALUES (
-    'Paracetamol',
-    'Lab-Farma',
-    'paracetamol.jpg',
-    'Analgésico y antipirético',
-    'Requiere receta',
-    5, -- categoría (debes tenerla creada)
-    1, -- activo
-    1, -- requiere receta (1 = sí)
-    2  -- proveedor (debes tenerlo creado)
-);
--- Anotar el ID_Medicamento generado (ejemplo: 35)
+  Nombre_Medicamento, LAB_o_MARCA, Imagen, Descripcion_Medicamento,
+  Prescripcion_Medica, IdCategoria, Estado, Requiere_Receta, Id_Proveedor
+)
+VALUES 
+('Tapon', 'Genérico', 'tapon.jpg', 'Para alivio nasal', 'No requiere receta', 2, 1, 0, 1),
+('Alcade', 'Laboratorio ACME', 'alcade.jpg', 'Alivia dolores estomacales', 'No requiere receta', 3, 1, 0, 1);
+
+-- 2. Insertar dosis
+INSERT INTO medicamento_dosis (Dosis, ID_Medicamento)
+VALUES 
+('10ml', 34),
+('500mg', 35);
+
+-- 3. Insertar formas farmacéuticas
+INSERT INTO medicamento_forma_farmaceutica (ID_Medicamento, Forma_Farmaceutica)
+VALUES 
+(34, 'Gotas nasales'),  -- ID 10
+(35, 'Tableta');         -- ID 11
+
+-- 4. Relacionar forma farmacéutica con dosis
+INSERT INTO forma_farmaceutica_dosis (ID_Forma_Farmaceutica, ID_Dosis)
+VALUES
+(10, 14),  -- Gotas nasales de Tapon con 10ml
+(11, 15);  -- Tableta de Alcade con 500mg
+
+-- 5. Presentaciones
+-- Tapon
+INSERT INTO medicamento_presentacion (ID_Medicamento, Tipo_Presentacion, Total_Presentacion, Precio)
+VALUES 
+(34, 'Unidad', 1, 1.00),   -- ID 38
+(34, 'Blister', 5, 4.50),  -- ID 39
+(34, 'Caja', 10, 8.00);    -- ID 40
+
+-- Alcade
+INSERT INTO medicamento_presentacion (ID_Medicamento, Tipo_Presentacion, Total_Presentacion, Precio)
+VALUES 
+(35, 'Unidad', 1, 0.80),   -- ID 41
+(35, 'Blister', 10, 7.50), -- ID 42
+(35, 'Caja', 20, 15.00);   -- ID 43
+
+-- 6. Insertar lotes
+INSERT INTO lote (
+  Descripcion_Lote, Estado_Lote, Cantidad_Lote, Fecha_Fabricacion_Lote, Fecha_Caducidad_Lote,
+  Fecha_Emision_Lote, Fecha_Recibido_Lote, Prec_Unidad_Lote, Precio_Total_Lote,
+  ID_Medicamento, Stock_Minimo_Lote, Stock_Maximo_Lote
+)
+VALUES 
+('Lote A Tapon', 'Activo', 100, '2025-05-01', '2027-05-01', '2025-05-02', '2025-05-03', 1.00, 100.00, 34, 10, 100),
+('Lote A Alcade', 'Activo', 150, '2025-05-01', '2027-05-01', '2025-05-02', '2025-05-03', 0.80, 120.00, 35, 20, 150);
+
+-- 7. Relacionar lote con presentaciones
+-- Tapon (ID_Lote = 13)
+INSERT INTO lote_presentacion (ID_Lote, ID_Presentacion, Cantidad_Presentacion)
+VALUES 
+(13, 38, 100),  -- Unidad
+(13, 39, 50),   -- Blister
+(13, 40, 20);   -- Caja
+
+-- Alcade (ID_Lote = 14)
+INSERT INTO lote_presentacion (ID_Lote, ID_Presentacion, Cantidad_Presentacion)
+VALUES 
+(14, 41, 200),  -- Unidad
+(14, 42, 100),  -- Blister
+(14, 43, 40);   -- Caja
 
 
-💊 2. Insertar las formas farmacéuticas en medicamento_forma_farmaceutica
--- Agregar "tableta" y "cápsula" al medicamento 35
-INSERT INTO medicamento_forma_farmaceutica (ID_Medicamento, Forma_Farmaceutica) VALUES
-(35, 'tableta'),
-(35, 'cápsula');
--- Anotar los ID_Forma_Farmaceutica generados (ejemplo: 40 = tableta, 41 = cápsula)
 
-⚖️ 3. Insertar las dosis en medicamento_dosis
--- Agregar dosis disponibles para el medicamento
-INSERT INTO medicamento_dosis (Dosis, ID_Medicamento) VALUES
-('500mg', 35),
-('750mg', 35);
--- Anotar los ID_Dosis generados (ejemplo: 15 = 500mg, 16 = 750mg)
 
-🔗 4. Relacionar formas farmacéuticas y dosis en forma_farmaceutica_dosis
--- Asociar formas farmacéuticas con sus dosis
-INSERT INTO forma_farmaceutica_dosis (ID_Medicamento, ID_Forma_Farmaceutica, ID_Dosis) VALUES
-(35, 40, 15),  -- tableta - 500mg
-(35, 40, 16),  -- tableta - 750mg
-(35, 41, 15),  -- cápsula - 500mg
-(35, 41, 16);  -- cápsula - 750mg (si aplica)
 
-📦 5. Agregar presentaciones en medicamento_presentacion
--- Agregar Caja (10 unidades) y Unidad
-INSERT INTO medicamento_presentacion (ID_Medicamento, Tipo_Presentacion, Total_Presentacion, Precio) VALUES
-(35, 'Caja', 10, 40.00),
-(35, 'Unidad', 1, 5.00);
 
-📅 6. (Opcional) Insertar el lote en lote
--- Agregar lote si usás control de fechas de vencimiento
-INSERT INTO lote (ID_Medicamento, Numero_Lote, Fecha_Entrada, Fecha_Caducidad_Lote) VALUES
-(35, 'L-123456', CURDATE(), '2026-12-31');
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////mostar la cantidad de precentacion segun el medicamento////////////////////////////////////////////////////////
+
+SELECT 
+    m.ID_Medicamento,
+    m.Nombre_Medicamento,
+    m.LAB_o_MARCA,
+    m.Imagen,
+
+    -- Dosis y forma farmacéutica
+    GROUP_CONCAT(DISTINCT d.Dosis ORDER BY d.Dosis SEPARATOR ', ') AS Dosis,
+    GROUP_CONCAT(DISTINCT f.Forma_Farmaceutica ORDER BY f.Forma_Farmaceutica SEPARATOR ', ') AS Forma_Farmaceutica,
+
+    -- Presentaciones con precio
+    GROUP_CONCAT(
+        DISTINCT CONCAT(p.Tipo_Presentacion, ' (C$ ', p.Precio, ')') 
+        ORDER BY p.Tipo_Presentacion ASC SEPARATOR '<br>'
+    ) AS Presentaciones,
+
+    -- Presentaciones con cantidad desde lote_presentacion
+    GROUP_CONCAT(
+        DISTINCT CONCAT(p.Tipo_Presentacion, ': ', lp.Cantidad_Presentacion)
+        ORDER BY p.Tipo_Presentacion ASC SEPARATOR '<br>'
+    ) AS Cantidad_Por_Presentacion,
+
+    -- Información de lote
+    GROUP_CONCAT(DISTINCT l.Descripcion_Lote SEPARATOR ', ') AS Lotes,
+    MAX(l.Cantidad_Lote) AS Cantidad_Lote,
+    MAX(l.Stock_Minimo_Lote) AS Stock_Minimo,
+    MAX(l.Stock_Maximo_Lote) AS Stock_Maximo,
+    MAX(l.Fecha_Caducidad_Lote) AS Fecha_Caducidad,
+    MAX(l.Fecha_Recibido_Lote) AS Fecha_Recibido
+
+FROM medicamento m
+
+-- Relaciones
+LEFT JOIN medicamento_forma_farmaceutica f ON m.ID_Medicamento = f.ID_Medicamento
+LEFT JOIN forma_farmaceutica_dosis fd ON f.ID_Forma_Farmaceutica = fd.ID_Forma_Farmaceutica
+LEFT JOIN medicamento_dosis d ON fd.ID_Dosis = d.ID_Dosis
+LEFT JOIN medicamento_presentacion p ON m.ID_Medicamento = p.ID_Medicamento
+LEFT JOIN lote l ON m.ID_Medicamento = l.ID_Medicamento
+LEFT JOIN lote_presentacion lp ON l.ID_Lote = lp.ID_Lote AND p.ID_Presentacion = lp.ID_Presentacion
+
+GROUP BY m.ID_Medicamento
+ORDER BY m.ID_Medicamento DESC;
