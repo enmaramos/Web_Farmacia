@@ -94,7 +94,7 @@ include_once "Ctrl/menu.php";
             }
         </style>
 
-        <!-- GALERÍA DE MEDICAMENTOS -->
+        <!----------------------------------------------- GALERÍA DE MEDICAMENTOS --------------------------------------------------->
         <div class="container px-3">
             <div class="card p-3 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
@@ -122,7 +122,7 @@ include_once "Ctrl/menu.php";
                     <?php while ($row = $result->fetch_assoc()) {
                         if ($row['Estado'] != $estadoFiltro) continue;
 
-                        $directorio = "../../dist/assets/images-html";
+                        $directorio = "../../dist/assets/images-html/";
                         $nombreImagen = pathinfo($row['Imagen'], PATHINFO_FILENAME);
                         $formatos = ['jpg', 'png', 'jpeg', 'gif', 'webp'];
                         $rutaImagen = $directorio . "default.jpg";
@@ -155,7 +155,7 @@ include_once "Ctrl/menu.php";
             </div>
         </div>
 
-        <!-- Script para filtro de nombre -->
+        <!-- Script para Buscar medicamento filtro de nombre -->
         <script>
             function filtrarPorNombre() {
                 const input = document.getElementById('buscadorMedicamento');
@@ -177,7 +177,7 @@ include_once "Ctrl/menu.php";
         </script>
 
 
-        <!-- Modal para ver medicamento (estilo tarjeta grande) -->
+        <!-------------------------------------------------- Modal para ver medicamento ------------------------------------------>
         <div class="modal fade" id="modalVerMedicamento" tabindex="-1" aria-labelledby="modalVerMedicamentoLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -276,13 +276,7 @@ include_once "Ctrl/menu.php";
             </div>
         </div>
 
-        <script>
-            // Función para recargar la página con el filtro aplicado
-            function filtrarEstado() {
-                var estado = document.getElementById('filtroEstado').value;
-                window.location.href = 'productos.php?estado=' + estado; // Recargar la página con el filtro en la URL
-            }
-        </script>
+        
 
         <!-- Modal para agregar medicamento -->
         <div class="modal fade" id="modalAgregarMedicamento" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -454,14 +448,6 @@ include_once "Ctrl/menu.php";
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-
-
-
-
                                 <!-- Presentación -->
                                 <div class="tab-pane fade" id="presentacion" role="tabpanel">
                                     <div class="row g-3">
@@ -502,166 +488,8 @@ include_once "Ctrl/menu.php";
             </div>
         </div>
 
-        <script>
-            // Función para mostrar la vista previa de la imagen seleccionada
-            function previewImage(event) {
-                var input = event.target;
-                var file = input.files[0];
+        
 
-                // Verificar si se seleccionó un archivo
-                if (file) {
-                    var reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        // Establecer la imagen de la vista previa
-                        var imagePreview = document.getElementById('imagePreview');
-                        imagePreview.src = e.target.result;
-                        imagePreview.style.display = 'block'; // Mostrar la imagen
-                    };
-
-                    // Leer la imagen seleccionada
-                    reader.readAsDataURL(file);
-                } else {
-                    var imagePreview = document.getElementById('imagePreview');
-                    imagePreview.style.display = 'none'; // Si no hay archivo, ocultar la vista previa
-                }
-            }
-        </script>
-
-        <!-- Validaciones de los Modales -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                function configurarModal(modalId, formularioId, cancelarClass) {
-                    let modal = document.getElementById(modalId);
-                    let formulario = document.getElementById(formularioId);
-
-                    // Resetear formulario al cerrar el modal con la "X" o el botón Cancelar
-                    modal.addEventListener("hidden.bs.modal", function() {
-                        formulario.reset();
-                    });
-
-                    let btnCancelar = modal.querySelector(cancelarClass);
-                    if (btnCancelar) {
-                        btnCancelar.addEventListener("click", function() {
-                            formulario.reset();
-                        });
-                    }
-                }
-
-                // Configurar modales para agregar y editar medicamentos
-                configurarModal("modalAgregarMedicamento", "formAgregarMedicamento", ".btn-secundario");
-                configurarModal("modalEditarMedicamento", "formEditarMedicamento", ".btn-secondary");
-
-                // Verificar si el modal debe abrirse después de un error
-                if (sessionStorage.getItem("modalOpen") === "true") {
-                    var modalBootstrap = new bootstrap.Modal(document.getElementById("modalEditarMedicamento"));
-                    modalBootstrap.show();
-                    sessionStorage.removeItem("modalOpen");
-                }
-            });
-        </script>
-
-        <!-- Validaciones de los Modales -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                function configurarModal(modalId, telefonoId, cedulaId, formularioId, cancelarClass) {
-                    let modal = document.getElementById(modalId);
-                    let formulario = document.getElementById(formularioId);
-
-                    // Resetear formulario al cerrar el modal con la "X" o el botón Cancelar
-                    modal.addEventListener("hidden.bs.modal", function() {
-                        formulario.reset();
-                    });
-
-                    let btnCancelar = modal.querySelector(cancelarClass);
-                    if (btnCancelar) {
-                        btnCancelar.addEventListener("click", function() {
-                            formulario.reset();
-                        });
-                    }
-
-                    // Evitar caracteres incorrectos al escribir
-                    cedulaInput.addEventListener("keydown", function(event) {
-                        let valor = cedulaInput.value;
-
-                        // Permitir Backspace, Delete y teclas de navegación
-                        if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(event.key)) {
-                            return;
-                        }
-
-                        // No permitir más de 16 caracteres
-                        if (valor.length >= 16) {
-                            event.preventDefault();
-                            return;
-                        }
-
-                        // Evitar letras antes de los números
-                        if (valor.length === 0 && event.key.match(/[A-Za-z]/)) {
-                            event.preventDefault();
-                        }
-
-                        // Evitar números en la última posición
-                        if (valor.length === 15 && event.key.match(/\d/)) {
-                            event.preventDefault();
-                        }
-                    });
-                }
-            });
-        </script>
-
-        <script>
-            function mostrarModal() {
-                document.getElementById("nuevaForma").value = "";
-                $('#modalForma').modal('show');
-            }
-
-            function guardarForma() {
-                const nuevaForma = document.getElementById("nuevaForma").value.trim();
-
-                if (nuevaForma === "") {
-                    alert("Por favor ingresa una forma farmacéutica.");
-                    return;
-                }
-
-                // Enviar vía AJAX a PHP
-                fetch("pages/Ctrl/agregar_forma.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        },
-                        body: "forma=" + encodeURIComponent(nuevaForma)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Crear nuevo checkbox
-                            const divLista = document.getElementById("lista-formas");
-                            const label = document.createElement("label");
-                            label.style.display = "flex";
-                            label.style.alignItems = "center";
-                            label.style.gap = "6px";
-
-                            const checkbox = document.createElement("input");
-                            checkbox.type = "checkbox";
-                            checkbox.name = "formas_farmaceuticas[]";
-                            checkbox.value = nuevaForma;
-                            checkbox.checked = true;
-
-                            label.appendChild(checkbox);
-                            label.appendChild(document.createTextNode(nuevaForma));
-                            divLista.appendChild(label);
-
-                            $('#modalForma').modal('hide');
-                        } else {
-                            alert("Error al guardar: " + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                        alert("Error al conectar con el servidor.");
-                    });
-            }
-        </script>
 
         <!-- Modal para agregar nueva forma farmacéutica -->
         <div class="modal fade" id="modalForma" tabindex="-1" role="dialog" aria-labelledby="modalFormaLabel" aria-hidden="true">
@@ -689,7 +517,7 @@ include_once "Ctrl/menu.php";
 
 
 
-<script src="../js/ver_medicamento.js?"></script>
+
 
 <?php
 include_once "Ctrl/footer.php"; 

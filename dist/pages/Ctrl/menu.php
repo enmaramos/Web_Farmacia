@@ -105,7 +105,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Bodega</span></li>
                     <li class="menu-item">
                         <a href="/Web_Farmacia/dist/pages/productos.php" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-table"></i>
+                            <i class="menu-icon tf-icons bx bxs-capsule"></i>
                             <div data-i18n="Tables">Productos</div>
                         </a>
                     </li>
@@ -144,8 +144,8 @@ if (session_status() === PHP_SESSION_NONE) {
                 <?php if ($_SESSION['ID_Rol'] == 3): ?>
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Bodega</span></li>
                     <li class="menu-item">
-                        <a href="tables-basic.html" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-table"></i>
+                        <a href="/Web_Farmacia/dist/pages/productos.php" class="menu-link">
+                            <i class="menu-icon tf-icons bx bxs-capsule"></i>
                             <div data-i18n="Tables">Productos</div>
                         </a>
                     </li>
