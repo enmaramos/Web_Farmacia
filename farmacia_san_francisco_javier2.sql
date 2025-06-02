@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-05-2025 a las 15:06:03
+-- Tiempo de generación: 03-06-2025 a las 01:12:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -83,7 +83,13 @@ INSERT INTO `caja` (`ID_Caja`, `Cajero`, `Fecha_Hora`, `Tipo`, `Monto_Cordobas`,
 (121, 'Luis Chavez', '2025-05-27 15:37:07', 'apertura', 1500.00, 0.00, '', 25, 'cuadra', 0.00),
 (122, 'Luis Chavez', '2025-05-27 15:44:32', 'cierre', 1600.00, 0.00, '', 25, 'CUADRA', 0.00),
 (123, 'Luis Chavez', '2025-05-29 14:17:10', 'apertura', 500.00, 0.00, '', 25, 'cuadra', 0.00),
-(124, 'Luis Chavez', '2025-05-29 14:33:46', 'cierre', 500.00, 0.00, '', 25, 'CUADRA', 0.00);
+(124, 'Luis Chavez', '2025-05-29 14:33:46', 'cierre', 500.00, 0.00, '', 25, 'CUADRA', 0.00),
+(125, 'Luis Chavez', '2025-05-31 17:19:27', 'apertura', 510.00, 0.00, '', 25, 'cuadra', 0.00),
+(126, 'Luis Chavez', '2025-05-31 17:21:08', 'cierre', 610.00, 0.00, '', 25, 'CUADRA', 0.00),
+(129, 'Nestor', '2025-06-02 12:31:24', 'apertura', 500.00, 0.00, '', 5, 'cuadra', 0.00),
+(130, 'Nestor', '2025-06-02 12:34:53', 'cierre', 520.00, 0.00, '', 5, 'CUADRA', 0.00),
+(131, 'Luis Chavez', '2025-06-02 16:41:49', 'apertura', 500.00, 0.00, '', 25, 'cuadra', 0.00),
+(132, 'Luis Chavez', '2025-06-02 16:46:55', 'cierre', 501.00, 0.00, '', 25, 'CUADRA', 0.00);
 
 -- --------------------------------------------------------
 
@@ -198,7 +204,18 @@ INSERT INTO `detalle_caja` (`ID_Detalle`, `ID_Caja`, `Denominacion`, `Cantidad`,
 (155, 122, 'C$500', 1, 'cordoba', 'billete'),
 (156, 122, 'C$1000', 1, 'cordoba', 'billete'),
 (157, 123, 'C$500', 1, 'cordoba', 'billete'),
-(158, 124, 'C$500', 1, 'cordoba', 'billete');
+(158, 124, 'C$500', 1, 'cordoba', 'billete'),
+(159, 125, 'C$10', 1, 'cordoba', 'billete'),
+(160, 125, 'C$500', 1, 'cordoba', 'billete'),
+(161, 126, 'C$5', 2, 'cordoba', 'billete'),
+(162, 126, 'C$10', 10, 'cordoba', 'billete'),
+(163, 126, 'C$500', 1, 'cordoba', 'billete'),
+(167, 129, 'C$500', 1, 'cordoba', 'billete'),
+(168, 130, 'C$10', 2, 'cordoba', 'billete'),
+(169, 130, 'C$500', 1, 'cordoba', 'billete'),
+(170, 131, 'C$500', 1, 'cordoba', 'billete'),
+(171, 132, 'C$500', 1, 'cordoba', 'billete'),
+(172, 132, 'C$1', 1, 'cordoba', 'moneda');
 
 -- --------------------------------------------------------
 
@@ -231,7 +248,10 @@ INSERT INTO `detalle_factura_venta` (`ID_Detalle_FV`, `ID_FacturaV`, `ID_Medicam
 (8, 171, 1, 1, 5.00, 5.00, 1, 8, 19),
 (9, 171, 1, 1, 5.00, 5.00, 1, 9, 19),
 (10, 172, 30, 5, 20.00, 100.00, 5, NULL, 33),
-(11, 173, 24, 1, 100.00, 100.00, 9, 11, 24);
+(11, 173, 24, 1, 100.00, 100.00, 9, 11, 24),
+(12, 174, 24, 1, 100.00, 100.00, 9, 11, 24),
+(13, 175, 30, 1, 20.00, 20.00, 3, NULL, 33),
+(14, 176, 1, 2, 0.50, 1.00, 2, 9, 20);
 
 -- --------------------------------------------------------
 
@@ -293,7 +313,10 @@ INSERT INTO `factura_venta` (`ID_FacturaV`, `Numero_Factura`, `Fecha`, `Metodo_P
 (170, 'N505-0084', '2025-05-26 12:45:56', 'efectivo', 100.00, 100.00, 'US$3.00', 'C$10.40', 89, 25, 113),
 (171, 'N505-0085', '2025-05-26 15:20:41', 'efectivo', 10.00, 10.00, 'US$1.00', 'C$26.80', 89, 25, 115),
 (172, 'N505-0086', '2025-05-27 15:42:09', 'efectivo', 100.00, 100.00, 'US$20.00', 'C$636.00', 89, 25, 121),
-(173, 'N505-0087', '2025-05-28 12:03:58', 'efectivo', 100.00, 100.00, 'US$10.00', 'C$268.00', 89, 25, 121);
+(173, 'N505-0087', '2025-05-28 12:03:58', 'efectivo', 100.00, 100.00, 'US$10.00', 'C$268.00', 89, 25, 121),
+(174, 'N505-0088', '2025-05-31 17:20:59', 'efectivo', 100.00, 100.00, 'C$100.00', 'C$0.00', 89, 25, 125),
+(175, 'N505-0089', '2025-06-02 12:32:36', 'efectivo', 20.00, 20.00, 'C$50.00', 'C$30.00', 89, 5, 129),
+(176, 'N505-0090', '2025-06-02 16:43:56', 'efectivo', 1.00, 1.00, 'C$5.00', 'C$4.00', 89, 25, 131);
 
 -- --------------------------------------------------------
 
@@ -318,7 +341,9 @@ INSERT INTO `forma_farmaceutica_dosis` (`ID`, `ID_Forma_Farmaceutica`, `ID_Dosis
 (4, 7, 9),
 (5, 8, 9),
 (6, 9, 8),
-(8, 1, 9);
+(8, 1, 9),
+(9, 10, 14),
+(10, 11, 15);
 
 -- --------------------------------------------------------
 
@@ -353,7 +378,9 @@ INSERT INTO `lote` (`ID_Lote`, `Descripcion_Lote`, `Estado_Lote`, `Cantidad_Lote
 (9, 'Lote A Ibuprofeno', 'Activo', 900, '2025-04-10 00:00:00', '2027-04-10 00:00:00', '2025-04-12 00:00:00', '2025-04-14 00:00:00', 7, 6300, 27, 20, 150),
 (10, 'Lote A Acetamenofen', 'Activo', 1000, '2025-05-10 00:00:00', '2027-05-10 00:00:00', '2025-05-12 00:00:00', '2025-05-14 00:00:00', 4, 4000, 28, 10, 100),
 (11, 'Lote A Pampers', 'Activo', 500, '2025-01-10 00:00:00', '2027-01-10 00:00:00', '2025-01-12 00:00:00', '2025-01-14 00:00:00', 15, 7500, 30, 10, 20),
-(12, 'Lote A Diclofenac Sodico', 'Activo', 700, '2025-06-10 00:00:00', '2027-06-10 00:00:00', '2025-06-12 00:00:00', '2025-06-14 00:00:00', 8, 5600, 33, 10, 100);
+(12, 'Lote A Diclofenac Sodico', 'Activo', 700, '2025-06-10 00:00:00', '2027-06-10 00:00:00', '2025-06-12 00:00:00', '2025-06-14 00:00:00', 8, 5600, 33, 10, 100),
+(13, 'Lote A Tapon', 'Activo', 100, '2025-05-01 00:00:00', '2027-05-01 00:00:00', '2025-05-02 00:00:00', '2025-05-03 00:00:00', 1, 100, 34, 10, 100),
+(14, 'Lote A Alcade', 'Activo', 100, '2025-05-01 00:00:00', '2027-05-01 00:00:00', '2025-05-02 00:00:00', '2025-05-03 00:00:00', 0.8, 120, 35, 20, 100);
 
 -- --------------------------------------------------------
 
@@ -386,7 +413,7 @@ CREATE TABLE `lote_presentacion` (
 INSERT INTO `lote_presentacion` (`ID_Lote_Presentacion`, `ID_Lote`, `ID_Presentacion`, `Cantidad_Presentacion`) VALUES
 (23, 6, 18, 10),
 (24, 6, 19, 50),
-(25, 6, 20, 100),
+(25, 6, 20, 98),
 (26, 7, 21, 10),
 (27, 7, 22, 50),
 (28, 7, 23, 100),
@@ -399,9 +426,12 @@ INSERT INTO `lote_presentacion` (`ID_Lote_Presentacion`, `ID_Lote`, `ID_Presenta
 (35, 10, 30, 10),
 (36, 10, 31, 50),
 (37, 10, 32, 100),
-(38, 11, 33, 10),
+(38, 11, 33, 9),
 (39, 11, 34, 50),
-(40, 11, 35, 100);
+(40, 11, 35, 100),
+(41, 14, 41, 200),
+(42, 14, 42, 100),
+(43, 14, 43, 40);
 
 -- --------------------------------------------------------
 
@@ -433,7 +463,9 @@ INSERT INTO `medicamento` (`ID_Medicamento`, `Nombre_Medicamento`, `LAB_o_MARCA`
 (27, 'Ibuprofeno', 'Bayer', 'Ibuprofeno.jpg', 'Medicamento que se usa para tratar la fiebre, la hinchazón, el dolor y el enrojecimiento', 'En general, los adultos y niños mayores de 12 años pueden tomar el ibuprofeno de venta libre cada 4 a 6 horas', 5, 1, 0, 1),
 (28, 'Acetamenofen ', 'Lab-Ramos', 'acetamenofen.jpg', 'Analgésico y antipirético, inhibidor de la síntesis de prostaglandinas periférica y central por acción sobre la ciclooxigenasa.', 'El acetaminofeno se usa para aliviar el dolor leve o moderado de las cefaleas, dolores musculares, períodos menstruales, resfriados, y los dolores de ', 5, 1, 0, 1),
 (30, 'Pampers', 'Previal', 'pampers previal.jpg', 'Pañales para abulto', NULL, 8, 1, 0, 1),
-(33, 'Diclofenac Sodico', 'COFARCA', 'Diclofenac Sodico.jpg', 'para aliviar el dolor y la inflamación en diversos procesos', 'Tratamiento del dolor agudo moderado a severo', 3, 1, 1, 1);
+(33, 'Diclofenac Sodico', 'COFARCA', 'Diclofenac Sodico.jpg', 'para aliviar el dolor y la inflamación en diversos procesos', 'Tratamiento del dolor agudo moderado a severo', 3, 1, 1, 1),
+(34, 'Tapon', 'Genérico', 'tapon.jpg', 'Para alivio nasal', 'No requiere receta', 2, 1, 0, 1),
+(35, 'Alcade', 'Laboratorio ACME', 'alcade.jpg', 'Alivia dolores estomacales', 'No requiere receta', 3, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -457,7 +489,9 @@ INSERT INTO `medicamento_dosis` (`ID_Dosis`, `Dosis`, `ID_Medicamento`) VALUES
 (10, '250mg', 21),
 (11, '250mg', 24),
 (12, '500mg', 27),
-(13, '500mg', 28);
+(13, '500mg', 28),
+(14, '10ml', 34),
+(15, '500mg', 35);
 
 -- --------------------------------------------------------
 
@@ -483,7 +517,9 @@ INSERT INTO `medicamento_forma_farmaceutica` (`ID_Forma_Farmaceutica`, `ID_Medic
 (6, 21, 'Capsula'),
 (7, 27, 'tableta'),
 (8, 28, 'tableta'),
-(9, 24, 'tableta');
+(9, 24, 'tableta'),
+(10, 34, 'Tableta'),
+(11, 35, 'Tableta');
 
 -- --------------------------------------------------------
 
@@ -523,7 +559,13 @@ INSERT INTO `medicamento_presentacion` (`ID_Presentacion`, `ID_Medicamento`, `Ti
 (34, 30, 'Unidad', 1, 4.00),
 (35, 33, 'Caja', 10, 80.00),
 (36, 33, 'Sobre', 1, 8.00),
-(37, 33, 'Unidad', 1, 0.80);
+(37, 33, 'Unidad', 1, 0.80),
+(38, 34, 'Unidad', 1, 1.00),
+(39, 34, 'Blister', 10, 4.50),
+(40, 34, 'Caja', 5, 8.00),
+(41, 35, 'Unidad', 1, 0.80),
+(42, 35, 'Blister', 10, 7.50),
+(43, 35, 'Caja', 5, 15.00);
 
 -- --------------------------------------------------------
 
@@ -657,12 +699,12 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `ID_Vendedor`, `estado_usuario`, `Fecha_Creacion`, `Ultimo_Acceso`) VALUES
 (1, 'Derek Jameson', 'avatar.png', 'Djsomoza31', 1, 1, '2025-03-08 19:22:06', '2025-05-14 23:08:59'),
-(5, 'Nestor', 'images.jpg', '123456', 2, 1, '2025-03-08 20:08:10', '2025-05-29 19:49:45'),
+(5, 'Nestor', 'images.jpg', '123456', 2, 1, '2025-03-08 20:08:10', '2025-06-02 18:44:39'),
 (21, 'Emmanuel Serrano', 'meliodas.webp', '123456', 28, 1, '2025-03-08 22:49:51', '2025-05-13 19:50:20'),
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-05-29 19:49:59'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-02 22:40:45'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
@@ -932,7 +974,7 @@ ALTER TABLE `venta_medicamento`
 -- AUTO_INCREMENT de la tabla `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `ID_Caja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `ID_Caja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
@@ -950,13 +992,13 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de la tabla `detalle_caja`
 --
 ALTER TABLE `detalle_caja`
-  MODIFY `ID_Detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+  MODIFY `ID_Detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_factura_venta`
 --
 ALTER TABLE `detalle_factura_venta`
-  MODIFY `ID_Detalle_FV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID_Detalle_FV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `factura_compra`
@@ -968,49 +1010,49 @@ ALTER TABLE `factura_compra`
 -- AUTO_INCREMENT de la tabla `factura_venta`
 --
 ALTER TABLE `factura_venta`
-  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
+  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
 
 --
 -- AUTO_INCREMENT de la tabla `forma_farmaceutica_dosis`
 --
 ALTER TABLE `forma_farmaceutica_dosis`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `lote`
 --
 ALTER TABLE `lote`
-  MODIFY `ID_Lote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID_Lote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `lote_presentacion`
 --
 ALTER TABLE `lote_presentacion`
-  MODIFY `ID_Lote_Presentacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `ID_Lote_Presentacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento`
 --
 ALTER TABLE `medicamento`
-  MODIFY `ID_Medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `ID_Medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento_dosis`
 --
 ALTER TABLE `medicamento_dosis`
-  MODIFY `ID_Dosis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ID_Dosis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento_forma_farmaceutica`
 --
 ALTER TABLE `medicamento_forma_farmaceutica`
-  MODIFY `ID_Forma_Farmaceutica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID_Forma_Farmaceutica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento_presentacion`
 --
 ALTER TABLE `medicamento_presentacion`
-  MODIFY `ID_Presentacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `ID_Presentacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido`

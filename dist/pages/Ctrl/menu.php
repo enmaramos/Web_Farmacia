@@ -132,6 +132,12 @@ if (session_status() === PHP_SESSION_NONE) {
                             <div data-i18n="Boxicons">Facturación</div>
                         </a>
                     </li>
+                     <li class="menu-item">
+                        <a href="/Web_Farmacia/dist/pages/facturacion_diaria.php" class="menu-link">
+                            <i class="fas fa-file-invoice"></i>
+                            <div data-i18n="Boxicons">Facturas Diarias</div>
+                        </a>
+                    </li>
                     <li class="menu-item">
                         <a href="/Web_Farmacia/dist/pages/cliente.php" class="menu-link">
                             <i class="fas fa-user"></i>
