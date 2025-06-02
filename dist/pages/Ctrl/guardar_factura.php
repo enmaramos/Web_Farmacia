@@ -208,6 +208,34 @@ foreach ($productos as $producto) {
         echo json_encode(['success' => false, 'message' => 'Error al guardar detalle: ' . $detalleStmt->error]);
         exit;
     }
+
+    // 🔁 NUEVO: Reducir stock en lote_presentacion
+    if ($idPresentacion) {
+        $stmtLote = $conn->prepare("SELECT ID_Lote, Cantidad_Presentacion 
+            FROM lote_presentacion 
+            WHERE ID_Presentacion = ? AND Cantidad_Presentacion >= ? 
+            ORDER BY ID_Lote ASC LIMIT 1");
+        $stmtLote->bind_param("ii", $idPresentacion, $cantidad);
+        $stmtLote->execute();
+        $stmtLote->bind_result($idLote, $stockActual);
+
+        if ($stmtLote->fetch()) {
+            $stmtLote->close();
+            $nuevoStock = $stockActual - $cantidad;
+
+            $stmtUpdate = $conn->prepare("UPDATE lote_presentacion 
+                SET Cantidad_Presentacion = ? 
+                WHERE ID_Lote = ? AND ID_Presentacion = ?");
+            $stmtUpdate->bind_param("iii", $nuevoStock, $idLote, $idPresentacion);
+            $stmtUpdate->execute();
+            $stmtUpdate->close();
+        } else {
+            $stmtLote->close();
+            cleanOutput();
+            echo json_encode(['success' => false, 'message' => "No hay stock suficiente para '{$nombreProducto}' en la presentación '{$presentacion}'."]);
+            exit;
+        }
+    }
 }
 
 $detalleStmt->close();
@@ -216,7 +244,7 @@ $conn->close();
 cleanOutput();
 echo json_encode([
     'success' => true,
-    'message' => 'Factura y detalles guardados correctamente.',
+    'message' => 'Factura, detalles y reducción de stock completados correctamente.',
     'datosFactura' => [
         'numero_factura' => $numeroFactura,
         'fecha'          => $fecha,
@@ -239,7 +267,7 @@ function buscarID($conn, $tabla, $campo, $valor) {
     $stmt->bind_param("s", $valor);
     $stmt->execute();
 
-    $id = null; // ← Aquí inicializamos la variable
+    $id = null;
     $stmt->bind_result($id);
     $stmt->fetch();
     $stmt->close();
@@ -249,14 +277,9 @@ function buscarID($conn, $tabla, $campo, $valor) {
 function buscarIDPorMedicamento($conn, $tabla, $campo, $valor, $idMedicamento) {
     if ($valor === '-' || !$valor || !$idMedicamento) return null;
 
-    error_log("🔍 Tabla: $tabla | Campo: $campo | Valor: $valor");
-
     $campoID = "ID_" . ucfirst(str_replace("medicamento_", "", $tabla));
     $stmt = $conn->prepare("SELECT $campoID FROM $tabla WHERE $campo = ? AND ID_Medicamento = ? LIMIT 1");
-    if (!$stmt) {
-        error_log("❌ Error preparando consulta para tabla: $tabla → " . $conn->error);
-        return null;
-    }
+    if (!$stmt) return null;
 
     $stmt->bind_param("si", $valor, $idMedicamento);
     $stmt->execute();
@@ -267,5 +290,4 @@ function buscarIDPorMedicamento($conn, $tabla, $campo, $valor, $idMedicamento) {
     $stmt->close();
     return $id ?: null;
 }
-
-
+?>

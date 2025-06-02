@@ -122,7 +122,7 @@ include_once "Ctrl/menu.php";
                     <?php while ($row = $result->fetch_assoc()) {
                         if ($row['Estado'] != $estadoFiltro) continue;
 
-                        $directorio = "../../dist/assets/images-html/";
+                        $directorio = "../../dist/assets/img-medicamentos/";
                         $nombreImagen = pathinfo($row['Imagen'], PATHINFO_FILENAME);
                         $formatos = ['jpg', 'png', 'jpeg', 'gif', 'webp'];
                         $rutaImagen = $directorio . "default.jpg";
