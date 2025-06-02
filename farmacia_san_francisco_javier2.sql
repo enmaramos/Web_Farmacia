@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-05-2025 a las 02:03:36
+-- Tiempo de generación: 31-05-2025 a las 15:06:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -64,6 +64,26 @@ CREATE TABLE `caja` (
   `Estado_Cierre` varchar(10) DEFAULT 'cuadra',
   `Diferencia` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `caja`
+--
+
+INSERT INTO `caja` (`ID_Caja`, `Cajero`, `Fecha_Hora`, `Tipo`, `Monto_Cordobas`, `Monto_Dolares`, `Observaciones`, `ID_Usuario`, `Estado_Cierre`, `Diferencia`) VALUES
+(111, 'Luis Chavez', '2025-05-26 12:29:31', 'apertura', 1000.00, 1.00, '', 25, 'cuadra', 0.00),
+(112, 'Luis Chavez', '2025-05-26 12:35:31', 'cierre', 1000.00, 1.00, '', 25, 'cuadra', 0.00),
+(113, 'Luis Chavez', '2025-05-26 12:44:53', 'apertura', 1000.00, 1.00, '', 25, 'cuadra', 0.00),
+(114, 'Luis Chavez', '2025-05-26 13:08:53', 'cierre', 1000.00, 1.00, '', 25, 'cuadra', 0.00),
+(115, 'Luis Chavez', '2025-05-26 14:20:24', 'apertura', 500.00, 0.00, '', 25, 'cuadra', 0.00),
+(116, 'Luis Chavez', '2025-05-26 17:00:18', 'cierre', 510.00, 0.00, '', 25, 'cuadra', 0.00),
+(117, 'Luis Chavez', '2025-05-26 17:00:35', 'apertura', 500.00, 1.00, '', 25, 'cuadra', 0.00),
+(118, 'Luis Chavez', '2025-05-26 17:26:36', 'cierre', 500.00, 2.00, '', 25, 'cuadra', 0.00),
+(119, 'Luis Chavez', '2025-05-26 17:34:25', 'apertura', 500.00, 0.00, '', 25, 'cuadra', 0.00),
+(120, 'Luis Chavez', '2025-05-26 17:34:35', 'cierre', 400.00, 0.00, '', 25, 'FALTA', 0.00),
+(121, 'Luis Chavez', '2025-05-27 15:37:07', 'apertura', 1500.00, 0.00, '', 25, 'cuadra', 0.00),
+(122, 'Luis Chavez', '2025-05-27 15:44:32', 'cierre', 1600.00, 0.00, '', 25, 'CUADRA', 0.00),
+(123, 'Luis Chavez', '2025-05-29 14:17:10', 'apertura', 500.00, 0.00, '', 25, 'cuadra', 0.00),
+(124, 'Luis Chavez', '2025-05-29 14:33:46', 'cierre', 500.00, 0.00, '', 25, 'CUADRA', 0.00);
 
 -- --------------------------------------------------------
 
@@ -147,6 +167,39 @@ CREATE TABLE `detalle_caja` (
   `Tipo` enum('billete','moneda') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `detalle_caja`
+--
+
+INSERT INTO `detalle_caja` (`ID_Detalle`, `ID_Caja`, `Denominacion`, `Cantidad`, `Moneda`, `Tipo`) VALUES
+(132, 111, 'C$100', 1, 'cordoba', 'billete'),
+(133, 111, 'C$200', 2, 'cordoba', 'billete'),
+(134, 111, 'C$500', 1, 'cordoba', 'billete'),
+(135, 111, '$1', 1, 'dolar', 'billete'),
+(136, 113, 'C$500', 2, 'cordoba', 'billete'),
+(137, 113, '$1', 1, 'dolar', 'billete'),
+(138, 115, 'C$10', 10, 'cordoba', 'billete'),
+(139, 115, 'C$200', 2, 'cordoba', 'billete'),
+(140, 116, 'C$10', 1, 'cordoba', 'billete'),
+(141, 116, 'C$500', 1, 'cordoba', 'billete'),
+(142, 117, 'C$50', 4, 'cordoba', 'billete'),
+(143, 117, 'C$100', 1, 'cordoba', 'billete'),
+(144, 117, 'C$200', 1, 'cordoba', 'billete'),
+(145, 117, '$1', 1, 'dolar', 'billete'),
+(146, 118, 'C$500', 1, 'cordoba', 'billete'),
+(147, 118, '$1', 2, 'dolar', 'billete'),
+(148, 119, 'C$500', 1, 'cordoba', 'billete'),
+(149, 120, 'C$200', 2, 'cordoba', 'billete'),
+(150, 121, 'C$10', 10, 'cordoba', 'billete'),
+(151, 121, 'C$100', 5, 'cordoba', 'billete'),
+(152, 121, 'C$200', 2, 'cordoba', 'billete'),
+(153, 121, 'C$500', 1, 'cordoba', 'billete'),
+(154, 122, 'C$100', 1, 'cordoba', 'billete'),
+(155, 122, 'C$500', 1, 'cordoba', 'billete'),
+(156, 122, 'C$1000', 1, 'cordoba', 'billete'),
+(157, 123, 'C$500', 1, 'cordoba', 'billete'),
+(158, 124, 'C$500', 1, 'cordoba', 'billete');
+
 -- --------------------------------------------------------
 
 --
@@ -173,7 +226,12 @@ INSERT INTO `detalle_factura_venta` (`ID_Detalle_FV`, `ID_FacturaV`, `ID_Medicam
 (3, 166, 1, 2, 50.00, 100.00, 2, 9, 18),
 (4, 167, 21, 2, 60.00, 120.00, NULL, NULL, 21),
 (5, 168, 1, 2, 50.00, 100.00, 2, 9, 18),
-(6, 169, 30, 5, 20.00, 100.00, 3, NULL, 33);
+(6, 169, 30, 5, 20.00, 100.00, 3, NULL, 33),
+(7, 170, 30, 5, 20.00, 100.00, 3, NULL, 33),
+(8, 171, 1, 1, 5.00, 5.00, 1, 8, 19),
+(9, 171, 1, 1, 5.00, 5.00, 1, 9, 19),
+(10, 172, 30, 5, 20.00, 100.00, 5, NULL, 33),
+(11, 173, 24, 1, 100.00, 100.00, 9, 11, 24);
 
 -- --------------------------------------------------------
 
@@ -231,7 +289,11 @@ INSERT INTO `factura_venta` (`ID_FacturaV`, `Numero_Factura`, `Fecha`, `Metodo_P
 (166, 'N505-0080', '2025-05-24 10:00:00', 'efectivo', 100.00, 100.00, 'C$200.00', 'C$100.00', 89, 25, NULL),
 (167, 'N505-0081', '2025-05-24 10:10:59', 'efectivo', 120.00, 120.00, 'US$5.00', 'C$64.00', 89, 25, NULL),
 (168, 'N505-0082', '2025-05-24 12:42:40', 'efectivo', 100.00, 100.00, 'C$100.00', 'C$0.00', 89, 25, NULL),
-(169, 'N505-0083', '2025-05-24 12:43:32', 'efectivo', 100.00, 100.00, 'US$3.00', 'C$10.40', 89, 25, NULL);
+(169, 'N505-0083', '2025-05-24 12:43:32', 'efectivo', 100.00, 100.00, 'US$3.00', 'C$10.40', 89, 25, NULL),
+(170, 'N505-0084', '2025-05-26 12:45:56', 'efectivo', 100.00, 100.00, 'US$3.00', 'C$10.40', 89, 25, 113),
+(171, 'N505-0085', '2025-05-26 15:20:41', 'efectivo', 10.00, 10.00, 'US$1.00', 'C$26.80', 89, 25, 115),
+(172, 'N505-0086', '2025-05-27 15:42:09', 'efectivo', 100.00, 100.00, 'US$20.00', 'C$636.00', 89, 25, 121),
+(173, 'N505-0087', '2025-05-28 12:03:58', 'efectivo', 100.00, 100.00, 'US$10.00', 'C$268.00', 89, 25, 121);
 
 -- --------------------------------------------------------
 
@@ -524,7 +586,9 @@ CREATE TABLE `proveedor` (
 --
 
 INSERT INTO `proveedor` (`ID_Proveedor`, `Nombre`, `Laboratorio`, `Direccion`, `Telefono`, `Email`, `RUC`, `Estado`, `Fecha_Registro`) VALUES
-(1, 'Derek', 'somoza', 'barrio milagro', '15415151', 'mcadavo@gamail', '3515645', 1, '2025-03-08 19:34:50');
+(1, 'Derek', 'somoza', 'barrio milagro', '(+505) 8868-847', 'mcadavo@gamail', '3515645', 1, '2025-03-08 19:34:50'),
+(2, 'Enmanuel', 'Ramos', 'Vi. Venezuela, Colegio Hispano Americano½ C. O', '(+505) 7768-831', 'mcdavo1309@gmail.com', '995423', 1, '2025-05-29 20:51:40'),
+(3, 'Euclides', 'BAYER', 'Vi.Venezuela Colegio Hispano Americano 1/2 C.O Casa #1993-94', '1425-3647', 'euclidesRamirez@gmail.com', '123458', 1, '2025-05-29 22:12:04');
 
 -- --------------------------------------------------------
 
@@ -593,18 +657,18 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `ID_Vendedor`, `estado_usuario`, `Fecha_Creacion`, `Ultimo_Acceso`) VALUES
 (1, 'Derek Jameson', 'avatar.png', 'Djsomoza31', 1, 1, '2025-03-08 19:22:06', '2025-05-14 23:08:59'),
-(5, 'Nestor', NULL, '123456', 2, 1, '2025-03-08 20:08:10', '2025-05-24 20:23:32'),
+(5, 'Nestor', 'images.jpg', '123456', 2, 1, '2025-03-08 20:08:10', '2025-05-29 19:49:45'),
 (21, 'Emmanuel Serrano', 'meliodas.webp', '123456', 28, 1, '2025-03-08 22:49:51', '2025-05-13 19:50:20'),
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-05-24 23:27:37'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-05-29 19:49:59'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
 (33, 'Pedro Serrano', NULL, '123456', 49, 1, '2025-04-14 02:24:46', '2025-05-13 19:58:27'),
-(34, 'Mariela Jarquin', NULL, '123456', 50, 1, '2025-04-14 02:37:51', NULL),
-(35, 'Andriws Serrano', NULL, '123456', 51, 0, '2025-04-15 03:00:47', NULL);
+(34, 'Mariela Jarquin', NULL, '123456', 50, 1, '2025-04-14 02:37:51', '2025-05-27 22:15:31'),
+(35, 'Andriws Serrano', 'goku.jpg', '123456', 51, 1, '2025-04-15 03:00:47', '2025-05-27 22:16:56');
 
 -- --------------------------------------------------------
 
@@ -642,7 +706,7 @@ INSERT INTO `vendedor` (`ID_Vendedor`, `Nombre`, `N_Cedula`, `Telefono`, `Email`
 (45, 'Franklin Randal', '001-365941-5623F', '5623-5412', 'FranklinJiron@gmail.com', 'managua', 'H', 1, 2, 'Jiron'),
 (49, 'Pedro Anibal', '001-190571-1254H', '8898-0315', 'PedroSerrano@gamil.com', 'Vi. Venezuela, Colegio Hispano Americano½ C. O', 'H', 1, 3, 'Serrano'),
 (50, 'Mariela Carolina', '001-011201-2356M', '5623-1547', 'MariJarquin@gmail.com', 'Vi. Venezuela, Colegio Hispano Americano½ C. O', 'M', 1, 1, 'Jarquin Rodriguez'),
-(51, 'Andriws Anibal', '001-235648-7123B', '(+505) 214', 'Andriwsserrano@gmail.com', 'Vi.Venezuela Colegio Hispano Americano 1/2 C.O Casa #1993-94', 'H', 0, 3, 'Serrano Ramos');
+(51, 'Andriws Anibal', '001-235648-7123B', '(+505) 214', 'Andriwsserrano@gmail.com', 'Vi.Venezuela Colegio Hispano Americano 1/2 C.O Casa #1993-94', 'H', 1, 3, 'Serrano Ramos');
 
 -- --------------------------------------------------------
 
@@ -868,7 +932,7 @@ ALTER TABLE `venta_medicamento`
 -- AUTO_INCREMENT de la tabla `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `ID_Caja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `ID_Caja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
@@ -886,13 +950,13 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de la tabla `detalle_caja`
 --
 ALTER TABLE `detalle_caja`
-  MODIFY `ID_Detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `ID_Detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_factura_venta`
 --
 ALTER TABLE `detalle_factura_venta`
-  MODIFY `ID_Detalle_FV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID_Detalle_FV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `factura_compra`
@@ -904,7 +968,7 @@ ALTER TABLE `factura_compra`
 -- AUTO_INCREMENT de la tabla `factura_venta`
 --
 ALTER TABLE `factura_venta`
-  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
 
 --
 -- AUTO_INCREMENT de la tabla `forma_farmaceutica_dosis`
@@ -958,7 +1022,7 @@ ALTER TABLE `pedido`
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `ID_Proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_Proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`

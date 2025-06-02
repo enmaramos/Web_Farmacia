@@ -722,6 +722,36 @@ $clientes = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     </div>
 </div>
 
+<!-- MENSAJE DE ALERTA SI NO ESTA INICIADA UN APERTURA DE CAJA -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('../pages/Ctrl/verificar_apertura.php')
+        .then(response => response.text())
+        .then(data => {
+            if (data.trim() === 'no_existe') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Caja no aperturada',
+                    text: 'Debe aperturar caja antes de realizar una facturación.',
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Ir a apertura de caja'
+                }).then(() => {
+                    window.location.href = '../pages/caja.php'; // ← Cambia esto por tu ruta real
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error al verificar apertura de caja:', error);
+        });
+});
+</script>
+
+
+
+
+
+
+
 
 <script src="../js/modal_medicamento.js?12345"></script>
 <script src="../js/seleccionar_medicamento.js?123"></script>
