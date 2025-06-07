@@ -283,13 +283,13 @@ include_once "Ctrl/menu.php";
 
                                         <div class="col-md-12">
                                             <label for="descripcionMedicamento" class="form-label">Descripción</label>
-                                            <textarea class="form-control" name="descripcionMedicamento" id="descripcionMedicamento" rows="3" required></textarea>
+                                            <textarea class="form-control" name="descripcionMedicamento" id="descripcionMedicamento" placeholder="Descripción detallada..." rows="3" required></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        <!-- script de agregar medicamento -->
                         <script>
                             function previewImage(event) {
                                 const file = event.target.files[0];
@@ -324,18 +324,17 @@ include_once "Ctrl/menu.php";
                         <!-- Lote -->
                         <div class="tab-pane fade" id="lote" role="tabpanel">
                             <div class="row g-3">
+                                <!-- Fila 1: Fechas de Recepción y Emisión -->
                                 <div class="col-md-6">
-                                    <label for="descripcionLote" class="form-label">Descripción del Lote</label>
-                                    <input type="text" class="form-control" name="descripcionLote" required>
+                                    <label for="fechaRecibidoLote" class="form-label">Fecha de Recepción</label>
+                                    <input type="datetime-local" class="form-control" name="fechaRecibidoLote" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="estadoLote" class="form-label">Estado</label>
-                                    <input type="text" class="form-control" name="estadoLote" required>
+                                    <label for="fechaEmisionLote" class="form-label">Fecha de Emisión</label>
+                                    <input type="datetime-local" class="form-control" name="fechaEmisionLote" required>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="cantidadLote" class="form-label">Cantidad</label>
-                                    <input type="number" class="form-control" name="cantidadLote" required>
-                                </div>
+
+                                <!-- Fila 2: Fechas de Fabricación y Caducidad -->
                                 <div class="col-md-6">
                                     <label for="fechaFabricacionLote" class="form-label">Fecha de Fabricación</label>
                                     <input type="datetime-local" class="form-control" name="fechaFabricacionLote" required>
@@ -344,22 +343,18 @@ include_once "Ctrl/menu.php";
                                     <label for="fechaCaducidadLote" class="form-label">Fecha de Caducidad</label>
                                     <input type="datetime-local" class="form-control" name="fechaCaducidadLote" required>
                                 </div>
+
+                                <!-- Fila 3: Cantidad y Precio Total -->
                                 <div class="col-md-6">
-                                    <label for="fechaEmisionLote" class="form-label">Fecha de Emisión</label>
-                                    <input type="datetime-local" class="form-control" name="fechaEmisionLote" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="fechaRecibidoLote" class="form-label">Fecha de Recepción</label>
-                                    <input type="datetime-local" class="form-control" name="fechaRecibidoLote" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="precioUnidadLote" class="form-label">Precio por Unidad</label>
-                                    <input type="number" class="form-control" step="0.01" name="precioUnidadLote" required>
+                                    <label for="cantidadLote" class="form-label">Cantidad</label>
+                                    <input type="number" class="form-control" name="cantidadLote" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="precioTotalLote" class="form-label">Precio Total</label>
                                     <input type="number" class="form-control" step="0.01" name="precioTotalLote" required>
                                 </div>
+
+                                <!-- Fila 4: Stock Mínimo y Máximo -->
                                 <div class="col-md-6">
                                     <label for="stockMinimoLote" class="form-label">Stock Mínimo</label>
                                     <input type="number" class="form-control" name="stockMinimoLote" required>
@@ -368,8 +363,15 @@ include_once "Ctrl/menu.php";
                                     <label for="stockMaximoLote" class="form-label">Stock Máximo</label>
                                     <input type="number" class="form-control" name="stockMaximoLote" required>
                                 </div>
+
+                                <!-- Fila 5: Descripción del Lote (col-12 y más grande) -->
+                                <div class="col-12">
+                                    <label for="descripcionLote" class="form-label">Descripción del Lote</label>
+                                    <textarea class="form-control" name="descripcionLote" rows="3" placeholder="Descripción detallada..." required></textarea>
+                                </div>
                             </div>
                         </div>
+
 
                         <!-- Pestaña FORMAS FARMACÉUTICAS -->
                         <div class="tab-pane fade" id="forma" role="tabpanel">
@@ -404,23 +406,95 @@ include_once "Ctrl/menu.php";
                                 </div>
                             </div>
                         </div>
+
+
                         <!-- Presentación -->
                         <div class="tab-pane fade" id="presentacion" role="tabpanel">
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <label for="tipoPresentacion" class="form-label">Tipo</label>
-                                    <input type="text" class="form-control" name="tipoPresentacion" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="totalPresentacion" class="form-label">Total</label>
-                                    <input type="number" class="form-control" name="totalPresentacion" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="precioPresentacion" class="form-label">Precio</label>
-                                    <input type="number" class="form-control" name="precioPresentacion" step="0.01" required>
+                            <div id="contenedorPresentaciones" class="row g-3 mb-2">
+                                <!-- Fila de presentación 1 -->
+                                <div class="row g-3 align-items-end presentacion-item">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Tipo Presentación</label>
+                                        <input type="text" class="form-control" name="tipoPresentacion[]" placeholder="Tipo Presentación" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Desglose de Presentación</label>
+                                        <input type="text" class="form-control" name="desglosePresentacion[]" placeholder="Desglose de Presentación" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Cantidad de Presentación (Unidad)</label>
+                                        <input type="number" class="form-control" name="cantidadPresentacion[]" placeholder="Cantidad (Unidad)" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Precio</label>
+                                        <input type="number" class="form-control" name="precioPresentacion[]" placeholder="Precio" step="0.01" required>
+                                    </div>
+                                    <div class="col-md-1 d-flex justify-content-center align-items-end">
+                                        <!-- Botón de eliminar, oculto en el primero -->
+                                    </div>
                                 </div>
                             </div>
+
+                            <!-- Botón para agregar nueva presentación -->
+                            <div style="margin-top: 12px;">
+                                <button type="button" onclick="agregarPresentacion()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                                    <i class="fas fa-plus-circle" style="font-size: 20px; color: #007bff;"></i>
+                                    <span style="color: #007bff;">Agregar otra presentación</span>
+                                </button>
+                            </div>
                         </div>
+
+
+                        <script>
+                            function agregarPresentacion() {
+                                const contenedor = document.getElementById("contenedorPresentaciones");
+
+                                const nuevaFila = document.createElement("div");
+                                nuevaFila.className = "row g-3 align-items-end presentacion-item mt-1";
+
+                                nuevaFila.innerHTML = `
+                                <div class="col-md-3">
+                                    <label class="form-label">Tipo Presentación</label>
+                                    <input type="text" class="form-control" name="tipoPresentacion[]" placeholder="Tipo Presentación" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Desglose de Presentación</label>
+                                    <input type="text" class="form-control" name="desglosePresentacion[]" placeholder="Desglose de Presentación" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Cantidad de Presentación (Unidad)</label>
+                                    <input type="number" class="form-control" name="cantidadPresentacion[]" placeholder="Cantidad (Unidad)" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Precio</label>
+                                    <input type="number" class="form-control" name="precioPresentacion[]" placeholder="Precio" step="0.01" required>
+                                </div>
+                                <div class="col-md-1 d-flex justify-content-center">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminarPresentacion(this)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            `;
+
+                                contenedor.appendChild(nuevaFila);
+                            }
+
+                            function eliminarPresentacion(boton) {
+                                const fila = boton.closest(".presentacion-item");
+                                fila.remove();
+                            }
+                        </script>
+
+
+
+
+
+
+
+
+
+
+
 
                         <!-- Dosis -->
                         <div class="tab-pane fade" id="dosis" role="tabpanel">
@@ -440,7 +514,7 @@ include_once "Ctrl/menu.php";
                     <button type="button" id="btnAnterior" class="btn btn-secondary" onclick="navegarAnteriorTab()">Anterior</button>
                     <button type="button" class="btn btn-primary" id="btnSiguiente" onclick="navegarSiguienteTab()">Siguiente</button>
                 </div>
-               
+
 
             </form>
         </div>
@@ -500,7 +574,7 @@ include_once "Ctrl/menu.php";
         // Desactivar los clics en pestañas
         const navLinks = document.querySelectorAll(".nav-link");
         navLinks.forEach(link => {
-            link.addEventListener("click", function (e) {
+            link.addEventListener("click", function(e) {
                 e.preventDefault(); // Bloquea clics directos
             });
         });
@@ -508,7 +582,7 @@ include_once "Ctrl/menu.php";
         // Asegurar actualización de botones cuando cambie la pestaña
         const tabLinks = document.querySelectorAll('.nav-link');
         tabLinks.forEach(link => {
-            link.addEventListener('shown.bs.tab', function (e) {
+            link.addEventListener('shown.bs.tab', function(e) {
                 const newId = e.target.id.replace("-tab", "");
                 const newIndex = tabs.indexOf(newId);
                 actualizarBotones(newIndex);

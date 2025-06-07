@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-06-2025 a las 03:17:26
+-- Tiempo de generación: 07-06-2025 a las 20:16:14
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -262,7 +262,6 @@ CREATE TABLE `lote` (
   `Fecha_Caducidad_Lote` datetime DEFAULT NULL,
   `Fecha_Emision_Lote` datetime DEFAULT NULL,
   `Fecha_Recibido_Lote` datetime DEFAULT NULL,
-  `Prec_Unidad_Lote` float DEFAULT NULL,
   `Precio_Total_Lote` float DEFAULT NULL,
   `ID_Medicamento` int(11) DEFAULT NULL,
   `Stock_Minimo_Lote` int(11) NOT NULL DEFAULT 0,
@@ -371,6 +370,7 @@ CREATE TABLE `medicamento_presentacion` (
   `ID_Presentacion` int(11) NOT NULL,
   `ID_Medicamento` int(11) NOT NULL,
   `Tipo_Presentacion` varchar(50) NOT NULL,
+  `Unidad_Desglose` varchar(50) DEFAULT NULL COMMENT 'Ej: si es Caja → Blíster, si es Blíster → Unidad',
   `Total_Presentacion` int(11) NOT NULL,
   `Precio` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -523,7 +523,7 @@ INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `I
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-06 23:48:01'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-07 15:00:35'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
