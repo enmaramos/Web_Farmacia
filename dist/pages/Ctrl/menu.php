@@ -223,7 +223,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             'usuarios.php' => 'Usuarios',
                             'proveedores.php' => 'Proveedores',
                             'categoria.php' => 'Categorías',
-                            'tables-basic.html' => 'Tablas',
+                            'productos.php' => 'Productos',
                             'icons-boxicons.html' => 'Historial Facturación'
                         ];
 

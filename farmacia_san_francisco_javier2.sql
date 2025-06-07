@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-06-2025 a las 02:22:35
+-- Tiempo de generación: 07-06-2025 a las 03:17:26
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -42,8 +42,11 @@ CREATE TABLE `almacen` (
 CREATE TABLE `bodega` (
   `ID_Bodega` int(11) NOT NULL,
   `Cantidad_Med_Estante` int(11) DEFAULT NULL,
-  `Cantidad_Med_Exhibicion` int(11) DEFAULT NULL,
-  `Cantidad_Total_Bodega` int(11) DEFAULT NULL
+  `Cantidad_Total_Bodega` int(11) DEFAULT NULL,
+  `Stock_Minimo` int(11) DEFAULT 0,
+  `Stock_Maximo` int(11) DEFAULT 0,
+  `ID_Posicion` int(11) DEFAULT NULL,
+  `ID_Medicamento` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -64,33 +67,6 @@ CREATE TABLE `caja` (
   `Estado_Cierre` varchar(10) DEFAULT 'cuadra',
   `Diferencia` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `caja`
---
-
-INSERT INTO `caja` (`ID_Caja`, `Cajero`, `Fecha_Hora`, `Tipo`, `Monto_Cordobas`, `Monto_Dolares`, `Observaciones`, `ID_Usuario`, `Estado_Cierre`, `Diferencia`) VALUES
-(111, 'Luis Chavez', '2025-05-26 12:29:31', 'apertura', 1000.00, 1.00, '', 25, 'cuadra', 0.00),
-(112, 'Luis Chavez', '2025-05-26 12:35:31', 'cierre', 1000.00, 1.00, '', 25, 'cuadra', 0.00),
-(113, 'Luis Chavez', '2025-05-26 12:44:53', 'apertura', 1000.00, 1.00, '', 25, 'cuadra', 0.00),
-(114, 'Luis Chavez', '2025-05-26 13:08:53', 'cierre', 1000.00, 1.00, '', 25, 'cuadra', 0.00),
-(115, 'Luis Chavez', '2025-05-26 14:20:24', 'apertura', 500.00, 0.00, '', 25, 'cuadra', 0.00),
-(116, 'Luis Chavez', '2025-05-26 17:00:18', 'cierre', 510.00, 0.00, '', 25, 'cuadra', 0.00),
-(117, 'Luis Chavez', '2025-05-26 17:00:35', 'apertura', 500.00, 1.00, '', 25, 'cuadra', 0.00),
-(118, 'Luis Chavez', '2025-05-26 17:26:36', 'cierre', 500.00, 2.00, '', 25, 'cuadra', 0.00),
-(119, 'Luis Chavez', '2025-05-26 17:34:25', 'apertura', 500.00, 0.00, '', 25, 'cuadra', 0.00),
-(120, 'Luis Chavez', '2025-05-26 17:34:35', 'cierre', 400.00, 0.00, '', 25, 'FALTA', 0.00),
-(121, 'Luis Chavez', '2025-05-27 15:37:07', 'apertura', 1500.00, 0.00, '', 25, 'cuadra', 0.00),
-(122, 'Luis Chavez', '2025-05-27 15:44:32', 'cierre', 1600.00, 0.00, '', 25, 'CUADRA', 0.00),
-(123, 'Luis Chavez', '2025-05-29 14:17:10', 'apertura', 500.00, 0.00, '', 25, 'cuadra', 0.00),
-(124, 'Luis Chavez', '2025-05-29 14:33:46', 'cierre', 500.00, 0.00, '', 25, 'CUADRA', 0.00),
-(125, 'Luis Chavez', '2025-05-31 17:19:27', 'apertura', 510.00, 0.00, '', 25, 'cuadra', 0.00),
-(126, 'Luis Chavez', '2025-05-31 17:21:08', 'cierre', 610.00, 0.00, '', 25, 'CUADRA', 0.00),
-(129, 'Nestor', '2025-06-02 12:31:24', 'apertura', 500.00, 0.00, '', 5, 'cuadra', 0.00),
-(130, 'Nestor', '2025-06-02 12:34:53', 'cierre', 520.00, 0.00, '', 5, 'CUADRA', 0.00),
-(131, 'Luis Chavez', '2025-06-02 16:41:49', 'apertura', 500.00, 0.00, '', 25, 'cuadra', 0.00),
-(132, 'Luis Chavez', '2025-06-02 16:46:55', 'cierre', 501.00, 0.00, '', 25, 'CUADRA', 0.00),
-(133, 'Luis Chavez', '2025-06-03 16:16:41', 'apertura', 1000.00, 0.00, '', 25, 'cuadra', 0.00);
 
 -- --------------------------------------------------------
 
@@ -174,51 +150,6 @@ CREATE TABLE `detalle_caja` (
   `Tipo` enum('billete','moneda') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `detalle_caja`
---
-
-INSERT INTO `detalle_caja` (`ID_Detalle`, `ID_Caja`, `Denominacion`, `Cantidad`, `Moneda`, `Tipo`) VALUES
-(132, 111, 'C$100', 1, 'cordoba', 'billete'),
-(133, 111, 'C$200', 2, 'cordoba', 'billete'),
-(134, 111, 'C$500', 1, 'cordoba', 'billete'),
-(135, 111, '$1', 1, 'dolar', 'billete'),
-(136, 113, 'C$500', 2, 'cordoba', 'billete'),
-(137, 113, '$1', 1, 'dolar', 'billete'),
-(138, 115, 'C$10', 10, 'cordoba', 'billete'),
-(139, 115, 'C$200', 2, 'cordoba', 'billete'),
-(140, 116, 'C$10', 1, 'cordoba', 'billete'),
-(141, 116, 'C$500', 1, 'cordoba', 'billete'),
-(142, 117, 'C$50', 4, 'cordoba', 'billete'),
-(143, 117, 'C$100', 1, 'cordoba', 'billete'),
-(144, 117, 'C$200', 1, 'cordoba', 'billete'),
-(145, 117, '$1', 1, 'dolar', 'billete'),
-(146, 118, 'C$500', 1, 'cordoba', 'billete'),
-(147, 118, '$1', 2, 'dolar', 'billete'),
-(148, 119, 'C$500', 1, 'cordoba', 'billete'),
-(149, 120, 'C$200', 2, 'cordoba', 'billete'),
-(150, 121, 'C$10', 10, 'cordoba', 'billete'),
-(151, 121, 'C$100', 5, 'cordoba', 'billete'),
-(152, 121, 'C$200', 2, 'cordoba', 'billete'),
-(153, 121, 'C$500', 1, 'cordoba', 'billete'),
-(154, 122, 'C$100', 1, 'cordoba', 'billete'),
-(155, 122, 'C$500', 1, 'cordoba', 'billete'),
-(156, 122, 'C$1000', 1, 'cordoba', 'billete'),
-(157, 123, 'C$500', 1, 'cordoba', 'billete'),
-(158, 124, 'C$500', 1, 'cordoba', 'billete'),
-(159, 125, 'C$10', 1, 'cordoba', 'billete'),
-(160, 125, 'C$500', 1, 'cordoba', 'billete'),
-(161, 126, 'C$5', 2, 'cordoba', 'billete'),
-(162, 126, 'C$10', 10, 'cordoba', 'billete'),
-(163, 126, 'C$500', 1, 'cordoba', 'billete'),
-(167, 129, 'C$500', 1, 'cordoba', 'billete'),
-(168, 130, 'C$10', 2, 'cordoba', 'billete'),
-(169, 130, 'C$500', 1, 'cordoba', 'billete'),
-(170, 131, 'C$500', 1, 'cordoba', 'billete'),
-(171, 132, 'C$500', 1, 'cordoba', 'billete'),
-(172, 132, 'C$1', 1, 'cordoba', 'moneda'),
-(173, 133, 'C$500', 2, 'cordoba', 'billete');
-
 -- --------------------------------------------------------
 
 --
@@ -235,6 +166,17 @@ CREATE TABLE `detalle_factura_venta` (
   `ID_Forma_Farmaceutica` int(11) DEFAULT NULL,
   `ID_Dosis` int(11) DEFAULT NULL,
   `ID_Presentacion` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estanteria`
+--
+
+CREATE TABLE `estanteria` (
+  `ID_Estanteria` int(11) NOT NULL,
+  `Nombre_Estanteria` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -287,13 +229,23 @@ CREATE TABLE `forma_farmaceutica_dosis` (
   `ID_Dosis` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `forma_farmaceutica_dosis`
+-- Estructura de tabla para la tabla `laboratorio`
 --
 
-INSERT INTO `forma_farmaceutica_dosis` (`ID`, `ID_Forma_Farmaceutica`, `ID_Dosis`) VALUES
-(1, 1, 1),
-(2, 2, 2);
+CREATE TABLE `laboratorio` (
+  `ID_Laboratorio` int(11) NOT NULL,
+  `Nombre_Laboratorio` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `laboratorio`
+--
+
+INSERT INTO `laboratorio` (`ID_Laboratorio`, `Nombre_Laboratorio`) VALUES
+(1, 'Ramos');
 
 -- --------------------------------------------------------
 
@@ -316,14 +268,6 @@ CREATE TABLE `lote` (
   `Stock_Minimo_Lote` int(11) NOT NULL DEFAULT 0,
   `Stock_Maximo_Lote` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `lote`
---
-
-INSERT INTO `lote` (`ID_Lote`, `Descripcion_Lote`, `Estado_Lote`, `Cantidad_Lote`, `Fecha_Fabricacion_Lote`, `Fecha_Caducidad_Lote`, `Fecha_Emision_Lote`, `Fecha_Recibido_Lote`, `Prec_Unidad_Lote`, `Precio_Total_Lote`, `ID_Medicamento`, `Stock_Minimo_Lote`, `Stock_Maximo_Lote`) VALUES
-(1, 'Lote A Tapon', 'Activo', 500, '2025-05-01 00:00:00', '2027-05-01 00:00:00', '2025-05-02 00:00:00', '2025-05-03 00:00:00', 1, 200, 1, 50, 500),
-(2, 'Lote A Alcade', 'Activo', 500, '2025-05-01 00:00:00', '2027-05-01 00:00:00', '2025-05-02 00:00:00', '2025-05-03 00:00:00', 0.8, 200, 2, 50, 500);
 
 -- --------------------------------------------------------
 
@@ -349,18 +293,6 @@ CREATE TABLE `lote_presentacion` (
   `Cantidad_Presentacion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `lote_presentacion`
---
-
-INSERT INTO `lote_presentacion` (`ID_Lote_Presentacion`, `ID_Lote`, `ID_Presentacion`, `Cantidad_Presentacion`) VALUES
-(1, 1, 1, 10),
-(2, 1, 2, 50),
-(3, 1, 3, 500),
-(4, 2, 4, 10),
-(5, 2, 5, 50),
-(6, 2, 6, 500);
-
 -- --------------------------------------------------------
 
 --
@@ -370,23 +302,13 @@ INSERT INTO `lote_presentacion` (`ID_Lote_Presentacion`, `ID_Lote`, `ID_Presenta
 CREATE TABLE `medicamento` (
   `ID_Medicamento` int(11) NOT NULL,
   `Nombre_Medicamento` varchar(30) DEFAULT NULL,
-  `LAB_o_MARCA` varchar(100) NOT NULL,
   `Imagen` varchar(255) DEFAULT NULL,
   `Descripcion_Medicamento` varchar(250) DEFAULT NULL,
-  `Prescripcion_Medica` varchar(150) DEFAULT NULL,
   `IdCategoria` int(11) DEFAULT NULL,
   `Estado` tinyint(1) DEFAULT 1,
   `Requiere_Receta` tinyint(1) DEFAULT 0,
   `Id_Proveedor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `medicamento`
---
-
-INSERT INTO `medicamento` (`ID_Medicamento`, `Nombre_Medicamento`, `LAB_o_MARCA`, `Imagen`, `Descripcion_Medicamento`, `Prescripcion_Medica`, `IdCategoria`, `Estado`, `Requiere_Receta`, `Id_Proveedor`) VALUES
-(1, 'Tapon', 'Genérico', 'tapon.jpg', 'Para alivio nasal', 'No requiere receta', 2, 1, 0, 1),
-(2, 'Alcade', 'Laboratorio ACME', 'alcade.jpg', 'Alivia dolores estomacales', 'No requiere receta', 3, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -400,13 +322,21 @@ CREATE TABLE `medicamento_dosis` (
   `ID_Medicamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `medicamento_dosis`
+-- Estructura de tabla para la tabla `medicamento_estanteria`
 --
 
-INSERT INTO `medicamento_dosis` (`ID_Dosis`, `Dosis`, `ID_Medicamento`) VALUES
-(1, '10ml', 1),
-(2, '500mg', 2);
+CREATE TABLE `medicamento_estanteria` (
+  `ID_Medicamento_Estanteria` int(11) NOT NULL,
+  `ID_Medicamento` int(11) NOT NULL,
+  `ID_Posicion` int(11) NOT NULL,
+  `Cantidad_Disponible` int(11) DEFAULT 0,
+  `Stock_Minimo` int(11) DEFAULT 0,
+  `Stock_Maximo` int(11) DEFAULT 0,
+  `Fecha_Actualizacion` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -420,13 +350,16 @@ CREATE TABLE `medicamento_forma_farmaceutica` (
   `Forma_Farmaceutica` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `medicamento_forma_farmaceutica`
+-- Estructura de tabla para la tabla `medicamento_laboratorio`
 --
 
-INSERT INTO `medicamento_forma_farmaceutica` (`ID_Forma_Farmaceutica`, `ID_Medicamento`, `Forma_Farmaceutica`) VALUES
-(1, 1, 'Tableta'),
-(2, 2, 'Tableta');
+CREATE TABLE `medicamento_laboratorio` (
+  `ID_Medicamento` int(11) NOT NULL,
+  `ID_Laboratorio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -441,18 +374,6 @@ CREATE TABLE `medicamento_presentacion` (
   `Total_Presentacion` int(11) NOT NULL,
   `Precio` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `medicamento_presentacion`
---
-
-INSERT INTO `medicamento_presentacion` (`ID_Presentacion`, `ID_Medicamento`, `Tipo_Presentacion`, `Total_Presentacion`, `Precio`) VALUES
-(1, 1, 'Unidad', 1, 1.00),
-(2, 1, 'Blister', 10, 4.50),
-(3, 1, 'Caja', 5, 8.00),
-(4, 2, 'Unidad', 1, 0.80),
-(5, 2, 'Blister', 10, 7.50),
-(6, 2, 'Caja', 5, 15.00);
 
 -- --------------------------------------------------------
 
@@ -495,29 +416,40 @@ CREATE TABLE `pedido_fact` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `posicion_estanteria`
+--
+
+CREATE TABLE `posicion_estanteria` (
+  `ID_Posicion` int(11) NOT NULL,
+  `ID_Estanteria` int(11) NOT NULL,
+  `Coordenada_X` int(11) NOT NULL,
+  `Coordenada_Y` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `proveedor`
 --
 
 CREATE TABLE `proveedor` (
   `ID_Proveedor` int(11) NOT NULL,
   `Nombre` varchar(100) DEFAULT NULL,
-  `Laboratorio` varchar(100) DEFAULT NULL,
   `Direccion` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `Telefono` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `Email` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `RUC` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `Estado` tinyint(1) DEFAULT 1,
-  `Fecha_Registro` timestamp NOT NULL DEFAULT current_timestamp()
+  `Fecha_Registro` timestamp NOT NULL DEFAULT current_timestamp(),
+  `ID_Laboratorio` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `proveedor`
 --
 
-INSERT INTO `proveedor` (`ID_Proveedor`, `Nombre`, `Laboratorio`, `Direccion`, `Telefono`, `Email`, `RUC`, `Estado`, `Fecha_Registro`) VALUES
-(1, 'Derek', 'somoza', 'barrio milagro', '(+505) 8868-847', 'mcadavo@gamail', '3515645', 1, '2025-03-08 19:34:50'),
-(2, 'Enmanuel', 'Ramos', 'Vi. Venezuela, Colegio Hispano Americano½ C. O', '(+505) 7768-831', 'mcdavo1309@gmail.com', '995423', 1, '2025-05-29 20:51:40'),
-(3, 'Euclides', 'BAYER', 'Vi.Venezuela Colegio Hispano Americano 1/2 C.O Casa #1993-94', '1425-3647', 'euclidesRamirez@gmail.com', '123458', 1, '2025-05-29 22:12:04');
+INSERT INTO `proveedor` (`ID_Proveedor`, `Nombre`, `Direccion`, `Telefono`, `Email`, `RUC`, `Estado`, `Fecha_Registro`, `ID_Laboratorio`) VALUES
+(1, 'Derek', 'barrio milagro', '(+505) 8868-847', 'mcadavo@gamail', '3515645', 1, '2025-03-08 19:34:50', 1);
 
 -- --------------------------------------------------------
 
@@ -591,7 +523,7 @@ INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `I
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-03 21:41:51'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-06 23:48:01'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
@@ -664,7 +596,9 @@ ALTER TABLE `almacen`
 -- Indices de la tabla `bodega`
 --
 ALTER TABLE `bodega`
-  ADD PRIMARY KEY (`ID_Bodega`);
+  ADD PRIMARY KEY (`ID_Bodega`),
+  ADD KEY `fk_bodega_posicion` (`ID_Posicion`),
+  ADD KEY `fk_bodega_medicamento` (`ID_Medicamento`);
 
 --
 -- Indices de la tabla `caja`
@@ -704,6 +638,12 @@ ALTER TABLE `detalle_factura_venta`
   ADD KEY `ID_Presentacion` (`ID_Presentacion`);
 
 --
+-- Indices de la tabla `estanteria`
+--
+ALTER TABLE `estanteria`
+  ADD PRIMARY KEY (`ID_Estanteria`);
+
+--
 -- Indices de la tabla `factura_compra`
 --
 ALTER TABLE `factura_compra`
@@ -728,6 +668,12 @@ ALTER TABLE `forma_farmaceutica_dosis`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `ID_Forma_Farmaceutica` (`ID_Forma_Farmaceutica`),
   ADD KEY `ID_Dosis` (`ID_Dosis`);
+
+--
+-- Indices de la tabla `laboratorio`
+--
+ALTER TABLE `laboratorio`
+  ADD PRIMARY KEY (`ID_Laboratorio`);
 
 --
 -- Indices de la tabla `lote`
@@ -767,11 +713,26 @@ ALTER TABLE `medicamento_dosis`
   ADD KEY `fk_dosis_medicamento` (`ID_Medicamento`);
 
 --
+-- Indices de la tabla `medicamento_estanteria`
+--
+ALTER TABLE `medicamento_estanteria`
+  ADD PRIMARY KEY (`ID_Medicamento_Estanteria`),
+  ADD KEY `ID_Medicamento` (`ID_Medicamento`),
+  ADD KEY `ID_Posicion` (`ID_Posicion`);
+
+--
 -- Indices de la tabla `medicamento_forma_farmaceutica`
 --
 ALTER TABLE `medicamento_forma_farmaceutica`
   ADD PRIMARY KEY (`ID_Forma_Farmaceutica`),
   ADD KEY `ID_Medicamento` (`ID_Medicamento`);
+
+--
+-- Indices de la tabla `medicamento_laboratorio`
+--
+ALTER TABLE `medicamento_laboratorio`
+  ADD PRIMARY KEY (`ID_Medicamento`,`ID_Laboratorio`),
+  ADD KEY `ID_Laboratorio` (`ID_Laboratorio`);
 
 --
 -- Indices de la tabla `medicamento_presentacion`
@@ -803,10 +764,18 @@ ALTER TABLE `pedido_fact`
   ADD KEY `IdFacturaC` (`IdFacturaC`);
 
 --
+-- Indices de la tabla `posicion_estanteria`
+--
+ALTER TABLE `posicion_estanteria`
+  ADD PRIMARY KEY (`ID_Posicion`),
+  ADD KEY `ID_Estanteria` (`ID_Estanteria`);
+
+--
 -- Indices de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  ADD PRIMARY KEY (`ID_Proveedor`);
+  ADD PRIMARY KEY (`ID_Proveedor`),
+  ADD KEY `fk_proveedor_laboratorio` (`ID_Laboratorio`);
 
 --
 -- Indices de la tabla `provped`
@@ -861,7 +830,7 @@ ALTER TABLE `venta_medicamento`
 -- AUTO_INCREMENT de la tabla `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `ID_Caja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `ID_Caja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
@@ -879,13 +848,19 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de la tabla `detalle_caja`
 --
 ALTER TABLE `detalle_caja`
-  MODIFY `ID_Detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
+  MODIFY `ID_Detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_factura_venta`
 --
 ALTER TABLE `detalle_factura_venta`
-  MODIFY `ID_Detalle_FV` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_Detalle_FV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `estanteria`
+--
+ALTER TABLE `estanteria`
+  MODIFY `ID_Estanteria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `factura_compra`
@@ -897,13 +872,19 @@ ALTER TABLE `factura_compra`
 -- AUTO_INCREMENT de la tabla `factura_venta`
 --
 ALTER TABLE `factura_venta`
-  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_FacturaV` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `forma_farmaceutica_dosis`
 --
 ALTER TABLE `forma_farmaceutica_dosis`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `laboratorio`
+--
+ALTER TABLE `laboratorio`
+  MODIFY `ID_Laboratorio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `lote`
@@ -930,6 +911,12 @@ ALTER TABLE `medicamento_dosis`
   MODIFY `ID_Dosis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `medicamento_estanteria`
+--
+ALTER TABLE `medicamento_estanteria`
+  MODIFY `ID_Medicamento_Estanteria` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `medicamento_forma_farmaceutica`
 --
 ALTER TABLE `medicamento_forma_farmaceutica`
@@ -946,6 +933,12 @@ ALTER TABLE `medicamento_presentacion`
 --
 ALTER TABLE `pedido`
   MODIFY `ID_Pedido` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `posicion_estanteria`
+--
+ALTER TABLE `posicion_estanteria`
+  MODIFY `ID_Posicion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
@@ -983,6 +976,13 @@ ALTER TABLE `almacen`
   ADD CONSTRAINT `almacen_ibfk_2` FOREIGN KEY (`IdBodega`) REFERENCES `bodega` (`ID_Bodega`),
   ADD CONSTRAINT `fk_almacen_bodega` FOREIGN KEY (`IdBodega`) REFERENCES `bodega` (`ID_Bodega`),
   ADD CONSTRAINT `fk_almacen_medicamento` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`);
+
+--
+-- Filtros para la tabla `bodega`
+--
+ALTER TABLE `bodega`
+  ADD CONSTRAINT `fk_bodega_medicamento` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_bodega_posicion` FOREIGN KEY (`ID_Posicion`) REFERENCES `posicion_estanteria` (`ID_Posicion`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `caja`
@@ -1062,10 +1062,24 @@ ALTER TABLE `medicamento_dosis`
   ADD CONSTRAINT `fk_dosis_medicamento` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `medicamento_estanteria`
+--
+ALTER TABLE `medicamento_estanteria`
+  ADD CONSTRAINT `medicamento_estanteria_ibfk_1` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`) ON DELETE CASCADE,
+  ADD CONSTRAINT `medicamento_estanteria_ibfk_2` FOREIGN KEY (`ID_Posicion`) REFERENCES `posicion_estanteria` (`ID_Posicion`) ON DELETE CASCADE;
+
+--
 -- Filtros para la tabla `medicamento_forma_farmaceutica`
 --
 ALTER TABLE `medicamento_forma_farmaceutica`
   ADD CONSTRAINT `medicamento_forma_farmaceutica_ibfk_1` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `medicamento_laboratorio`
+--
+ALTER TABLE `medicamento_laboratorio`
+  ADD CONSTRAINT `medicamento_laboratorio_ibfk_1` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`) ON DELETE CASCADE,
+  ADD CONSTRAINT `medicamento_laboratorio_ibfk_2` FOREIGN KEY (`ID_Laboratorio`) REFERENCES `laboratorio` (`ID_Laboratorio`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `medicamento_presentacion`
@@ -1092,6 +1106,18 @@ ALTER TABLE `pedido`
 ALTER TABLE `pedido_fact`
   ADD CONSTRAINT `pedido_fact_ibfk_1` FOREIGN KEY (`IdPedido`) REFERENCES `pedido` (`ID_Pedido`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `pedido_fact_ibfk_2` FOREIGN KEY (`IdFacturaC`) REFERENCES `factura_compra` (`ID_FacturaC`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `posicion_estanteria`
+--
+ALTER TABLE `posicion_estanteria`
+  ADD CONSTRAINT `posicion_estanteria_ibfk_1` FOREIGN KEY (`ID_Estanteria`) REFERENCES `estanteria` (`ID_Estanteria`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `proveedor`
+--
+ALTER TABLE `proveedor`
+  ADD CONSTRAINT `fk_proveedor_laboratorio` FOREIGN KEY (`ID_Laboratorio`) REFERENCES `laboratorio` (`ID_Laboratorio`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `provped`
