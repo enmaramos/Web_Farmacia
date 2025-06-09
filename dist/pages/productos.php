@@ -194,13 +194,10 @@ include_once "Ctrl/menu.php";
                             <button class="nav-link" id="lote-tab" data-bs-toggle="tab" data-bs-target="#lote" type="button">Lote</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="forma-tab" data-bs-toggle="tab" data-bs-target="#forma" type="button">Forma Farmacéutica</button>
+                            <button class="nav-link" id="forma-tab" data-bs-toggle="tab" data-bs-target="#forma" type="button">Forma Farmacéutica y Dosis</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="presentacion-tab" data-bs-toggle="tab" data-bs-target="#presentacion" type="button">Presentación</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="dosis-tab" data-bs-toggle="tab" data-bs-target="#dosis" type="button">Dosis</button>
                         </li>
 
                         <!-- Botón totalmente a la derecha -->
@@ -373,39 +370,71 @@ include_once "Ctrl/menu.php";
                         </div>
 
 
-                        <!-- Pestaña FORMAS FARMACÉUTICAS -->
+                        <!-- Pestaña FORMAS FARMACÉUTICAS y Dosis-->
                         <div class="tab-pane fade" id="forma" role="tabpanel">
                             <div class="form-group p-3">
-                                <label>
-                                    <strong>Selecciona las formas farmacéuticas:</strong>
-                                </label>
+                                <div style="display: flex; gap: 24px; flex-wrap: wrap;">
 
-                                <!-- Checkboxes existentes -->
-                                <div id="lista-formas" style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px;">
-                                    <?php
-                                    if (isset($resultado_formas) && $resultado_formas->num_rows > 0) {
-                                        while ($row = $resultado_formas->fetch_assoc()) {
-                                            $forma = htmlspecialchars($row['Forma_Farmaceutica']);
-                                            echo '<label style="display: flex; align-items: center; gap: 6px;">';
-                                            echo '  <input type="checkbox" name="formas_farmaceuticas[]" value="' . $forma . '" />';
-                                            echo '  ' . $forma;
-                                            echo '</label>';
-                                        }
-                                    } else {
-                                        echo "<p>No hay formas farmacéuticas registradas.</p>";
-                                    }
-                                    ?>
-                                </div>
+                                    <!-- Contenedor de Formas Farmacéuticas -->
+                                    <div style="flex: 1; min-width: 300px;">
+                                        <label><strong>Selecciona las formas farmacéuticas:</strong></label>
+                                        <div id="lista-formas" style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px;">
+                                            <?php
+                                            if (isset($resultado_formas) && $resultado_formas->num_rows > 0) {
+                                                while ($row = $resultado_formas->fetch_assoc()) {
+                                                    $forma = htmlspecialchars($row['Forma_Farmaceutica']);
+                                                    echo '<label style="display: flex; align-items: center; gap: 6px;">';
+                                                    echo '  <input type="checkbox" name="formas_farmaceuticas[]" value="' . $forma . '" />';
+                                                    echo '  ' . $forma;
+                                                    echo '</label>';
+                                                }
+                                            } else {
+                                                echo "<p>No hay formas farmacéuticas registradas.</p>";
+                                            }
+                                            ?>
+                                        </div>
 
-                                <!-- Botón para agregar forma nueva debajo de los checkboxes -->
-                                <div style="margin-top: 12px;">
-                                    <button type="button" onclick="mostrarModal()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                                        <i class="fas fa-plus-circle" style="font-size: 20px; color: #007bff;"></i>
-                                        <span style="color: #007bff;">Agregar nueva forma</span>
-                                    </button>
+                                        <!-- Botón para agregar nueva forma -->
+                                        <div style="margin-top: 12px;">
+                                            <button type="button" onclick="mostrarModalForma()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                                                <i class="fas fa-plus-circle" style="font-size: 20px; color: #007bff;"></i>
+                                                <span style="color: #007bff;">Agregar nueva forma</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Contenedor de Dosis -->
+                                    <div style="flex: 1; min-width: 300px;">
+                                        <label><strong>Selecciona las dosis:</strong></label>
+                                        <div id="lista-dosis" style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px;">
+                                            <?php
+                                            if (isset($resultado_dosis) && $resultado_dosis->num_rows > 0) {
+                                                while ($row = $resultado_dosis->fetch_assoc()) {
+                                                    $dosis = htmlspecialchars($row['Dosis']);
+                                                    echo '<label style="display: flex; align-items: center; gap: 6px;">';
+                                                    echo '  <input type="checkbox" name="dosis[]" value="' . $dosis . '" />';
+                                                    echo '  ' . $dosis;
+                                                    echo '</label>';
+                                                }
+                                            } else {
+                                                echo "<p>No hay dosis registradas.</p>";
+                                            }
+                                            ?>
+                                        </div>
+
+                                        <!-- Botón para agregar nueva dosis -->
+                                        <div style="margin-top: 12px;">
+                                            <button type="button" onclick="mostrarModalDosis()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                                                <i class="fas fa-plus-circle" style="font-size: 20px; color: #007bff;"></i>
+                                                <span style="color: #007bff;">Agregar nueva dosis</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
+
 
 
                         <!-- Presentación -->
@@ -413,24 +442,28 @@ include_once "Ctrl/menu.php";
                             <div id="contenedorPresentaciones" class="row g-3 mb-2">
                                 <!-- Fila de presentación 1 -->
                                 <div class="row g-3 align-items-end presentacion-item">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label class="form-label">Tipo Presentación</label>
-                                        <input type="text" class="form-control" name="tipoPresentacion[]" placeholder="Tipo Presentación" required>
+                                        <input type="text" class="form-control" name="tipoPresentacion[]" placeholder="Ej: Caja" required>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label class="form-label">Desglose de Presentación</label>
-                                        <input type="text" class="form-control" name="desglosePresentacion[]" placeholder="Desglose de Presentación" required>
+                                        <input type="text" class="form-control" name="desglosePresentacion[]" placeholder="Ej: Blister" required>
                                     </div>
                                     <div class="col-md-3">
+                                        <label class="form-label">Total de esta presentación</label>
+                                        <input type="text" class="form-control" name="totalPresentacion[]" placeholder="Ej: 1 caja = 5 blisters" required>
+                                    </div>
+                                    <div class="col-md-2">
                                         <label class="form-label">Cantidad de Presentación (Unidad)</label>
-                                        <input type="number" class="form-control" name="cantidadPresentacion[]" placeholder="Cantidad (Unidad)" required>
+                                        <input type="number" class="form-control" name="cantidadPresentacion[]" placeholder="Ej: 20" required>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label">Precio</label>
                                         <input type="number" class="form-control" name="precioPresentacion[]" placeholder="Precio" step="0.01" required>
                                     </div>
                                     <div class="col-md-1 d-flex justify-content-center align-items-end">
-                                        <!-- Botón de eliminar, oculto en el primero -->
+                                        <!-- Botón eliminar no se muestra en la primera fila -->
                                     </div>
                                 </div>
                             </div>
@@ -443,8 +476,7 @@ include_once "Ctrl/menu.php";
                                 </button>
                             </div>
                         </div>
-
-
+                        <!-- Script Presentación -->
                         <script>
                             function agregarPresentacion() {
                                 const contenedor = document.getElementById("contenedorPresentaciones");
@@ -453,28 +485,32 @@ include_once "Ctrl/menu.php";
                                 nuevaFila.className = "row g-3 align-items-end presentacion-item mt-1";
 
                                 nuevaFila.innerHTML = `
-                                <div class="col-md-3">
-                                    <label class="form-label">Tipo Presentación</label>
-                                    <input type="text" class="form-control" name="tipoPresentacion[]" placeholder="Tipo Presentación" required>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Desglose de Presentación</label>
-                                    <input type="text" class="form-control" name="desglosePresentacion[]" placeholder="Desglose de Presentación" required>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Cantidad de Presentación (Unidad)</label>
-                                    <input type="number" class="form-control" name="cantidadPresentacion[]" placeholder="Cantidad (Unidad)" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">Precio</label>
-                                    <input type="number" class="form-control" name="precioPresentacion[]" placeholder="Precio" step="0.01" required>
-                                </div>
-                                <div class="col-md-1 d-flex justify-content-center">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminarPresentacion(this)">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </div>
-                            `;
+                                    <div class="col-md-2">
+                                        <label class="form-label">Tipo Presentación</label>
+                                        <input type="text" class="form-control" name="tipoPresentacion[]" placeholder="Ej: Caja" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Desglose de Presentación</label>
+                                        <input type="text" class="form-control" name="desglosePresentacion[]" placeholder="Ej: Blister" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Total de esta presentación (Ej: 1 caja = 5 blisters)</label>
+                                        <input type="text" class="form-control" name="totalPresentacion[]" placeholder="Ej: 1 caja = 5 blisters" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Cantidad de Presentación (Unidad)</label>
+                                        <input type="number" class="form-control" name="cantidadPresentacion[]" placeholder="Ej: 20" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Precio</label>
+                                        <input type="number" class="form-control" name="precioPresentacion[]" placeholder="Precio" step="0.01" required>
+                                    </div>
+                                    <div class="col-md-1 d-flex justify-content-center">
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarPresentacion(this)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                `;
 
                                 contenedor.appendChild(nuevaFila);
                             }
@@ -485,26 +521,6 @@ include_once "Ctrl/menu.php";
                             }
                         </script>
 
-
-
-
-
-
-
-
-
-
-
-
-                        <!-- Dosis -->
-                        <div class="tab-pane fade" id="dosis" role="tabpanel">
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label for="dosisMedicamento" class="form-label">Dosis</label>
-                                    <input type="text" class="form-control" name="dosisMedicamento" placeholder="Ej: 500mg, 10ml" required>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -521,8 +537,9 @@ include_once "Ctrl/menu.php";
     </div>
 </div>
 
+<!-- Diseño del modal de agregar -->
 <script>
-    const tabs = ["medicamento", "lote", "forma", "presentacion", "dosis"];
+    const tabs = ["medicamento", "lote", "forma", "presentacion"];
 
     function navegarSiguienteTab() {
         const currentTab = document.querySelector(".nav-link.active");
@@ -605,80 +622,462 @@ include_once "Ctrl/menu.php";
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <div class="row g-4">
-                    <!-- Lado izquierdo: Detalles del medicamento y lote -->
-                    <div class="col-lg-8">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="nombreMedicamentoVer" class="form-label">Nombre del Medicamento</label>
-                                <input type="text" class="form-control" id="nombreMedicamentoVer" disabled>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" id="medicamentoTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="datos-medicamento-tab" data-bs-toggle="tab" data-bs-target="#datos-medicamento" type="button" role="tab" aria-controls="datos-medicamento" aria-selected="true">
+                            Datos del Medicamento
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="estanteria-tab" data-bs-toggle="tab" data-bs-target="#estanteria" type="button" role="tab" aria-controls="estanteria" aria-selected="false">
+                            Estantería
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="bodega-tab" data-bs-toggle="tab" data-bs-target="#bodega" type="button" role="tab" aria-controls="bodega" aria-selected="false">
+                            Bodega
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content mt-3">
+                    <!-- Pestaña 1: Datos del Medicamento -->
+                    <div class="tab-pane fade show active" id="datos-medicamento" role="tabpanel" aria-labelledby="datos-medicamento-tab">
+                        <div class="container-fluid p-0">
+                            <div class="row g-3">
+
+                                <!-- Columna Izquierda: Información principal -->
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="nombreMedicamentoVer" class="form-label small">Nombre del Medicamento</label>
+                                        <input type="text" class="form-control form-control-sm" id="nombreMedicamentoVer" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="laboratorioMedicamentoVer" class="form-label small">Laboratorio / Marca</label>
+                                        <input type="text" class="form-control form-control-sm" id="laboratorioMedicamentoVer" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="categoriaMedicamentoVer" class="form-label small">Categoría</label>
+                                        <input type="text" class="form-control form-control-sm" id="categoriaMedicamentoVer" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="proveedorMedicamentoVer" class="form-label small">Proveedor</label>
+                                        <input type="text" class="form-control form-control-sm" id="proveedorMedicamentoVer" disabled>
+                                    </div>
+                                    <div class="mb-0">
+                                        <label for="descripcionMedicamentoVer" class="form-label small">Descripción</label>
+                                        <textarea class="form-control form-control-sm" id="descripcionMedicamentoVer" rows="2" disabled></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Columna Central: Imagen, estado, stock y dosis -->
+                                <div class="col-md-4 d-flex flex-column align-items-center">
+                                    <div class="border rounded shadow p-2 bg-light mb-2" style="width: 120px; height: 120px;">
+                                        <img id="imagenMedicamentoVer" src="" alt="Imagen Medicamento" class="img-fluid" style="max-height: 110px; object-fit: contain;">
+                                    </div>
+
+                                    <div class="w-100 mt-2">
+                                        <div class="mb-2">
+                                            <label for="estadoMedicamentoVer" class="form-label small">Estado</label>
+                                            <input type="text" class="form-control form-control-sm" id="estadoMedicamentoVer" disabled>
+                                        </div>
+                                        <div class="row g-1 mb-2">
+                                            <div class="col-6">
+                                                <label for="stockMinimoLoteVer" class="form-label small">Stock Mín.</label>
+                                                <input type="number" class="form-control form-control-sm" id="stockMinimoLoteVer" disabled>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="stockMaximoLoteVer" class="form-label small">Stock Máx.</label>
+                                                <input type="number" class="form-control form-control-sm" id="stockMaximoLoteVer" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="formaFarmaceuticaVer" class="form-label small">Forma Farmacéutica</label>
+                                            <input type="text" class="form-control form-control-sm" id="formaFarmaceuticaVer" disabled>
+                                        </div>
+                                        <div class="mb-0">
+                                            <label for="dosisMedicamentoVer" class="form-label small">Dosis</label>
+                                            <input type="text" class="form-control form-control-sm" id="dosisMedicamentoVer" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Columna Derecha: Detalles del Lote -->
+                                <div class="col-md-4">
+                                    <div class="mb-2">
+                                        <label for="fechaFabricacionLoteVer" class="form-label small">Fecha de Fabricación</label>
+                                        <input type="text" class="form-control form-control-sm" id="fechaFabricacionLoteVer" disabled>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="fechaCaducidadLoteVer" class="form-label small">Fecha de Caducidad</label>
+                                        <input type="text" class="form-control form-control-sm" id="fechaCaducidadLoteVer" disabled>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="fechaEmisionLoteVer" class="form-label small">Fecha de Emisión</label>
+                                        <input type="text" class="form-control form-control-sm" id="fechaEmisionLoteVer" disabled>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="fechaRecibidoLoteVer" class="form-label small">Fecha de Recibido</label>
+                                        <input type="text" class="form-control form-control-sm" id="fechaRecibidoLoteVer" disabled>
+                                    </div>
+                                    <div class="mb-0">
+                                        <label for="precioTotalLoteVer" class="form-label small">Precio Total del Lote</label>
+                                        <input type="text" class="form-control form-control-sm" id="precioTotalLoteVer" disabled>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="laboratorioMedicamentoVer" class="form-label">Laboratorio / Marca</label>
-                                <input type="text" class="form-control" id="laboratorioMedicamentoVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="categoriaMedicamentoVer" class="form-label">Categoría</label>
-                                <input type="text" class="form-control" id="categoriaMedicamentoVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="proveedorMedicamentoVer" class="form-label">Proveedor</label>
-                                <input type="text" class="form-control" id="proveedorMedicamentoVer" disabled>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="descripcionMedicamentoVer" class="form-label">Descripción</label>
-                                <textarea class="form-control" id="descripcionMedicamentoVer" rows="2" disabled></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="estadoMedicamentoVer" class="form-label">Estado</label>
-                                <input type="text" class="form-control" id="estadoMedicamentoVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="cantidadLoteVer" class="form-label">Cantidad</label>
-                                <input type="number" class="form-control" id="cantidadLoteVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="fechaFabricacionLoteVer" class="form-label">Fecha de Fabricación</label>
-                                <input type="text" class="form-control" id="fechaFabricacionLoteVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="fechaCaducidadLoteVer" class="form-label">Fecha de Caducidad</label>
-                                <input type="text" class="form-control" id="fechaCaducidadLoteVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="fechaEmisionLoteVer" class="form-label">Fecha de Emisión</label>
-                                <input type="text" class="form-control" id="fechaEmisionLoteVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="fechaRecibidoLoteVer" class="form-label">Fecha de Recibido</label>
-                                <input type="text" class="form-control" id="fechaRecibidoLoteVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="precioUnidadLoteVer" class="form-label">Precio por Unidad</label>
-                                <input type="text" class="form-control" id="precioUnidadLoteVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="precioTotalLoteVer" class="form-label">Precio Total</label>
-                                <input type="text" class="form-control" id="precioTotalLoteVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="stockMinimoLoteVer" class="form-label">Stock Mínimo</label>
-                                <input type="number" class="form-control" id="stockMinimoLoteVer" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="stockMaximoLoteVer" class="form-label">Stock Máximo</label>
-                                <input type="number" class="form-control" id="stockMaximoLoteVer" disabled>
+
+                            <!-- Presentaciones Disponibles -->
+                            <div class="mt-3">
+                                <h5 class="small fw-bold mb-1">Presentaciones Disponibles</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-sm align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Presentación</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio Unitario</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="presentacionesMedicamentoVer">
+                                            <tr>
+                                                <td colspan="3" class="text-center text-muted fst-italic small">No hay presentaciones registradas.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Lado derecho: Imagen -->
-                    <div class="col-lg-4 text-center">
-                        <label class="form-label">Imagen del Medicamento</label>
-                        <div class="border rounded shadow p-2 bg-light">
-                            <img id="imagenMedicamentoVer" src="" alt="Imagen Medicamento" class="img-fluid" style="max-height: 400px; object-fit: contain;">
+
+                    <!-- Estilos de Pestaña 2: Estantería -->
+                    <style>
+                        /* Estilos generales */
+                        .estanteria-container {
+                            background-color: #f9f9f9;
+                            padding: 10px;
+                            border: 1px solid #ddd;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        }
+
+                        .estanteria-row {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-bottom: 10px;
+                        }
+
+                        .estanteria-compartment {
+                            width: calc(30% - 10px);
+                            height: 120px;
+                            background-color: white;
+                            border: 1px solid #ccc;
+                            position: relative;
+                            overflow: hidden;
+                            transition: transform 0.3s ease;
+                        }
+
+                        .compartment-label {
+                            position: absolute;
+                            top: 5px;
+                            left: 5px;
+                            font-size: 0.8rem;
+                            color: #666;
+                        }
+
+                        .medication-card {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100%;
+                            text-align: center;
+                            background-color: #fff;
+                            border: 1px solid #ccc;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                            transition: transform 0.3s ease;
+                        }
+
+                        .medication-name {
+                            font-weight: bold;
+                            color: #333;
+                        }
+
+                        .medication-quantity {
+                            font-size: 0.9rem;
+                            color: #666;
+                        }
+                    </style>
+
+                    <!-- Pestaña 2: Estantería -->
+                    <div class="tab-pane fade" id="estanteria" role="tabpanel" aria-labelledby="estanteria-tab">
+                        <div class="mt-3">
+                            <h5 class="small fw-bold mb-2">Ubicación en Estantería</h5>
+
+                            <!-- Fila con estantería y formulario lateral -->
+                            <div class="row g-3">
+
+                                <!-- Columna Izquierda: Estantería Visual -->
+                                <div class="col-md-8">
+                                    <div class="estanteria-container">
+                                        <!-- Compartimientos de la estantería -->
+                                        <div class="estanteria-row">
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(1,1)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">Paracetamol</div>
+                                                    <div class="medication-quantity">20</div>
+                                                </div>
+                                            </div>
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(2,1)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">Amoxicilina</div>
+                                                    <div class="medication-quantity">15</div>
+                                                </div>
+                                            </div>
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(3,1)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">VACÍO</div>
+                                                    <div class="medication-quantity">0</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="estanteria-row">
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(1,2)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">Ibuprofeno</div>
+                                                    <div class="medication-quantity">30</div>
+                                                </div>
+                                            </div>
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(2,2)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">VACÍO</div>
+                                                    <div class="medication-quantity">0</div>
+                                                </div>
+                                            </div>
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(3,2)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">Loratadina</div>
+                                                    <div class="medication-quantity">25</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="estanteria-row">
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(1,3)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">VACÍO</div>
+                                                    <div class="medication-quantity">0</div>
+                                                </div>
+                                            </div>
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(2,3)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">Omeprazol</div>
+                                                    <div class="medication-quantity">10</div>
+                                                </div>
+                                            </div>
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(3,3)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">Metformina</div>
+                                                    <div class="medication-quantity">18</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="estanteria-row">
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(1,4)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">VACÍO</div>
+                                                    <div class="medication-quantity">0</div>
+                                                </div>
+                                            </div>
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(2,4)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">Metformina</div>
+                                                    <div class="medication-quantity">18</div>
+                                                </div>
+                                            </div>
+                                            <div class="estanteria-compartment">
+                                                <div class="compartment-label">(3,4)</div>
+                                                <div class="medication-card">
+                                                    <div class="medication-name">VACÍO</div>
+                                                    <div class="medication-quantity">0</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Columna Derecha: Información del Estante Seleccionado -->
+                                <div class="col-md-4">
+                                    <div class="card h-100 shadow-sm">
+                                        <div class="card-header bg-light fw-bold small">Detalles del Estante Seleccionado</div>
+                                        <div class="card-body p-3">
+                                            <div class="mb-2">
+                                                <label for="nombreEstanteriaVer" class="form-label small">Nombre de la Estantería</label>
+                                                <input type="text" class="form-control form-control-sm" id="nombreEstanteriaVer" value="Estantería A" disabled>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="posicionEstanteVer" class="form-label small">Posición en Estantería</label>
+                                                <input type="text" class="form-control form-control-sm" id="posicionEstanteVer" value="(2,3)" disabled>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="stockMinimoEstanteVer" class="form-label small">Stock Mínimo</label>
+                                                <input type="number" class="form-control form-control-sm" id="stockMinimoEstanteVer" value="10">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="stockMaximoEstanteVer" class="form-label small">Stock Máximo</label>
+                                                <input type="number" class="form-control form-control-sm" id="stockMaximoEstanteVer" value="50">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="cantidadEnEstanteVer" class="form-label small">Cantidad en Estante</label>
+                                                <input type="number" class="form-control form-control-sm" id="cantidadEnEstanteVer" value="18">
+                                            </div>
+                                            <div class="mb-0">
+                                                <label for="fechaActualizacionEstanteVer" class="form-label small">Fecha de Actualización</label>
+                                                <input type="text" class="form-control form-control-sm" id="fechaActualizacionEstanteVer" value="2025-06-09" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Pestaña 3: Bodega -->
+<div class="tab-pane fade" id="bodega" role="tabpanel" aria-labelledby="bodega-tab">
+    <div class="mt-3">
+        <h5 class="small fw-bold mb-2">Ubicación en Bodega</h5>
+
+        <!-- Fila con bodega visual y formulario lateral -->
+        <div class="row g-3">
+
+            <!-- Columna Izquierda: Bodega Visual -->
+            <div class="col-md-8">
+                <div class="estanteria-container">
+                    <!-- Compartimientos de la bodega -->
+                    <div class="estanteria-row">
+                        <div class="estanteria-compartment">
+                            <div class="compartment-label">(A,1)</div>
+                            <div class="medication-card">
+                                <div class="medication-name">Paracetamol</div>
+                                <div class="medication-quantity">50</div>
+                            </div>
+                        </div>
+                        <div class="estanteria-compartment">
+                            <div class="compartment-label">(B,1)</div>
+                            <div class="medication-card">
+                                <div class="medication-name">Amoxicilina</div>
+                                <div class="medication-quantity">30</div>
+                            </div>
+                        </div>
+                        <div class="estanteria-compartment">
+                            <div class="compartment-label">(C,1)</div>
+                            <div class="medication-card">
+                                <div class="medication-name">VACÍO</div>
+                                <div class="medication-quantity">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="estanteria-row">
+                        <div class="estanteria-compartment">
+                            <div class="compartment-label">(A,2)</div>
+                            <div class="medication-card">
+                                <div class="medication-name">Ibuprofeno</div>
+                                <div class="medication-quantity">40</div>
+                            </div>
+                        </div>
+                        <div class="estanteria-compartment">
+                            <div class="compartment-label">(B,2)</div>
+                            <div class="medication-card">
+                                <div class="medication-name">VACÍO</div>
+                                <div class="medication-quantity">0</div>
+                            </div>
+                        </div>
+                        <div class="estanteria-compartment">
+                            <div class="compartment-label">(C,2)</div>
+                            <div class="medication-card">
+                                <div class="medication-name">Loratadina</div>
+                                <div class="medication-quantity">25</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="estanteria-row">
+                        <div class="estanteria-compartment">
+                            <div class="compartment-label">(A,3)</div>
+                            <div class="medication-card">
+                                <div class="medication-name">VACÍO</div>
+                                <div class="medication-quantity">0</div>
+                            </div>
+                        </div>
+                        <div class="estanteria-compartment">
+                            <div class="compartment-label">(B,3)</div>
+                            <div class="medication-card">
+                                <div class="medication-name">Metformina</div>
+                                <div class="medication-quantity">60</div>
+                            </div>
+                        </div>
+                        <div class="estanteria-compartment">
+                            <div class="compartment-label">(C,3)</div>
+                            <div class="medication-card">
+                                <div class="medication-name">Omeprazol</div>
+                                <div class="medication-quantity">20</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Información de la Bodega Seleccionada -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-light fw-bold small">Detalles de la Bodega Seleccionada</div>
+                    <div class="card-body p-3">
+                        <div class="mb-2">
+                            <label for="nombreBodegaVer" class="form-label small">Nombre de la Bodega</label>
+                            <input type="text" class="form-control form-control-sm" id="nombreBodegaVer" value="Bodega Principal" disabled>
+                        </div>
+                        <div class="mb-2">
+                            <label for="posicionBodegaVer" class="form-label small">Posición en Bodega</label>
+                            <input type="text" class="form-control form-control-sm" id="posicionBodegaVer" value="(B,2)" disabled>
+                        </div>
+                        <div class="mb-2">
+                            <label for="stockMinimoBodegaVer" class="form-label small">Stock Mínimo</label>
+                            <input type="number" class="form-control form-control-sm" id="stockMinimoBodegaVer" value="20">
+                        </div>
+                        <div class="mb-2">
+                            <label for="stockMaximoBodegaVer" class="form-label small">Stock Máximo</label>
+                            <input type="number" class="form-control form-control-sm" id="stockMaximoBodegaVer" value="100">
+                        </div>
+                        <div class="mb-2">
+                            <label for="cantidadEnBodegaVer" class="form-label small">Cantidad en Bodega</label>
+                            <input type="number" class="form-control form-control-sm" id="cantidadEnBodegaVer" value="45">
+                        </div>
+                        <div class="mb-0">
+                            <label for="fechaCaducidadBodegaVer" class="form-label small">Fecha de Caducidad</label>
+                            <input type="text" class="form-control form-control-sm" id="fechaCaducidadBodegaVer" value="2026-03-15" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                 </div>
             </div>
 
@@ -698,8 +1097,7 @@ include_once "Ctrl/menu.php";
 
 
 
-
-<!-- Modal para agregar nueva forma farmacéutica -->
+<!-- Modal para agregar nueva forma farmacéutica-->
 <div class="modal fade" id="modalForma" tabindex="-1" role="dialog" aria-labelledby="modalFormaLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content p-3">
