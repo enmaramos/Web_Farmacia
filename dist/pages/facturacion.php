@@ -725,7 +725,7 @@ $clientes = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 <!-- MENSAJE DE ALERTA SI NO ESTA INICIADA UN APERTURA DE CAJA -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('../pages/Ctrl/verificar_apertura.php')
+    fetch('../pages/Ctrl/alert_apertura.php')
         .then(response => response.text())
         .then(data => {
             if (data.trim() === 'no_existe') {

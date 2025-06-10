@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Estantería A 3D</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #f0f0f0; }
+    canvas { display: block; }
+    .label {
+      font-family: sans-serif;
+      font-size: 12px;
+      background: white;
+      padding: 2px 4px;
+      border-radius: 4px;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+    import { CSS2DRenderer, CSS2DObject } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/renderers/CSS2DRenderer.js';
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(5, 5, 10);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const labelRenderer = new CSS2DRenderer();
+    labelRenderer.setSize(window.innerWidth, window.innerHeight);
+    labelRenderer.domElement.style.position = 'absolute';
+    labelRenderer.domElement.style.top = '0px';
+    labelRenderer.domElement.style.pointerEvents = 'none';
+    document.body.appendChild(labelRenderer.domElement);
+
+    const controls = new OrbitControls(camera, labelRenderer.domElement);
+    controls.update();
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const light = new THREE.DirectionalLight(0xffffff, 0.8);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    const data = [
+      [{ nombre: 'Paracetamol', cantidad: 20 }, { nombre: 'Amoxicilina', cantidad: 15 }, { nombre: '', cantidad: 0 }],
+      [{ nombre: 'Ibuprofeno', cantidad: 30 }, { nombre: '', cantidad: 0 }, { nombre: 'Loratadina', cantidad: 25 }],
+      [{ nombre: '', cantidad: 0 }, { nombre: 'Omeprazol', cantidad: 10 }, { nombre: 'Metformina', cantidad: 18 }],
+    ];
+
+    const cuboSize = 2;
+    const spacing = 2.5;
+
+    for (let y = 0; y < 3; y++) {
+      for (let x = 0; x < 3; x++) {
+        const slot = data[y][x];
+        const geometry = new THREE.BoxGeometry(cuboSize, cuboSize, cuboSize);
+        const material = new THREE.MeshStandardMaterial({ color: slot.nombre ? 0xffffff : 0xcccccc });
+        const cube = new THREE.Mesh(geometry, material);
+
+        cube.position.set((x - 1) * spacing, (1 - y) * spacing, 0);
+        scene.add(cube);
+
+        if (slot.nombre) {
+          const div = document.createElement('div');
+          div.className = 'label';
+          div.textContent = `${slot.nombre}\n(${slot.cantidad})`;
+          const label = new CSS2DObject(div);
+          label.position.set(0, 0, cuboSize / 1.1);
+          cube.add(label);
+        }
+      }
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+      labelRenderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
