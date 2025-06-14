@@ -1,77 +1,185 @@
--- Asegurarse de que todas las tablas tienen AUTO_INCREMENT (si no ya lo tienen)
--- Solo muestro un ejemplo para medicamento, aplica igual a las demás tablas
--- ALTER TABLE medicamento MODIFY ID_Medicamento INT AUTO_INCREMENT PRIMARY KEY;
-
--- 1. Insertar el medicamento
+-- 1. Insertar medicamento (Paracetamol como ID 1)
 INSERT INTO medicamento (
-  Nombre_Medicamento, Imagen, Descripcion_Medicamento, 
-  Prescripcion_Medica, IdCategoria, Estado, Requiere_Receta, Id_Proveedor
+
+  Nombre_Medicamento, 
+  Imagen, 
+  Descripcion_Medicamento, 
+  IdCategoria, 
+  Estado, 
+  Requiere_Receta, 
+  Id_Proveedor
+
 ) VALUES (
-  'Paracetamol 500mg', 'paracetamol.jpg', 'Analgésico y antipirético de uso general',
-  'No se requiere receta', 1, 1, 0, 1
+
+  'Paracetamol', 
+  'paracetamol.jpg', 
+  'Analgésico y antipirético de uso general',
+  1, 
+  1, 
+  0, 
+  1
 );
-SET @ID_Medicamento := LAST_INSERT_ID();
 
--- 2. Insertar la dosis para el medicamento
-INSERT INTO medicamento_dosis (Dosis, ID_Medicamento)
-VALUES ('500mg cada 8 horas', @ID_Medicamento);
-SET @ID_Dosis := LAST_INSERT_ID();
+-- 2. Insertar dosis (ID_Dosis = 1)
+INSERT INTO medicamento_dosis (
 
--- 3. Insertar la forma farmacéutica para el medicamento
-INSERT INTO medicamento_forma_farmaceutica (ID_Medicamento, Forma_Farmaceutica)
-VALUES (@ID_Medicamento, 'Tableta');
-SET @ID_Forma := LAST_INSERT_ID();
+  Dosis, 
+  ID_Medicamento
+
+) VALUES (
+
+  '500mg', 
+  1
+);
+
+-- 3. Insertar forma farmacéutica (ID_Forma_Farmaceutica = 1)
+INSERT INTO medicamento_forma_farmaceutica (
+
+  ID_Medicamento, 
+  Forma_Farmaceutica
+
+) VALUES (
+  
+  1, 
+  'Tableta'
+);
 
 -- 4. Relacionar forma farmacéutica con dosis
-INSERT INTO forma_farmaceutica_dosis (ID_Forma_Farmaceutica, ID_Dosis)
-VALUES (@ID_Forma, @ID_Dosis);
--- No es necesario guardar ID, salvo que se requiera más adelante
+INSERT INTO forma_farmaceutica_dosis (
+  
+  ID_Forma_Farmaceutica, 
+  ID_Dosis
 
--- 5. Insertar presentación del medicamento
-INSERT INTO medicamento_presentacion (ID_Medicamento, Tipo_Presentacion, Total_Presentacion, Precio)
-VALUES (@ID_Medicamento, 'Caja x 20 tabletas', 20, 2.50);
-SET @ID_Presentacion := LAST_INSERT_ID();
-
--- 6. Insertar lote del medicamento
-INSERT INTO lote (
-  Descripcion_Lote, Estado_Lote, Cantidad_Lote,
-  Fecha_Fabricacion_Lote, Fecha_Caducidad_Lote, Fecha_Emision_Lote, Fecha_Recibido_Lote,
-  Prec_Unidad_Lote, Precio_Total_Lote, ID_Medicamento, Stock_Minimo_Lote, Stock_Maximo_Lote
 ) VALUES (
-  'Lote 2025-A', 'Activo', 1000,
-  '2025-01-01 00:00:00', '2026-01-01 00:00:00', '2025-01-15 00:00:00', '2025-01-16 00:00:00',
-  0.10, 100.00, @ID_Medicamento, 100, 2000
+  
+  1, 
+  1
 );
-SET @ID_Lote := LAST_INSERT_ID();
+
+-- 5. Insertar presentación (ID_Presentacion = 1)
+INSERT INTO medicamento_presentacion (
+
+  ID_Medicamento, 
+  Tipo_Presentacion, 
+  Total_Presentacion, 
+  Precio
+
+) VALUES (
+  
+  1, 
+  'Caja x 20 tabletas', 
+  20, 
+  2.50
+);
+
+-- 6. Insertar lote (ID_Lote = 1)
+INSERT INTO lote (
+
+  Descripcion_Lote, 
+  Estado_Lote, 
+  Cantidad_Lote,
+  Fecha_Fabricacion_Lote, 
+  Fecha_Caducidad_Lote, 
+  Fecha_Emision_Lote, 
+  Fecha_Recibido_Lote,
+  Precio_Total_Lote, 
+  ID_Medicamento, 
+  Stock_Minimo_Lote, 
+  Stock_Maximo_Lote
+
+) VALUES (
+
+  'Lote 2025-A', 
+  'Activo', 
+  1000,
+  '2025-01-01 00:00:00', 
+  '2026-01-01 00:00:00', 
+  '2025-01-15 00:00:00', 
+  '2025-01-16 00:00:00',
+  100.00, 
+  1, 
+  100, 
+  2000
+);
 
 -- 7. Asociar presentación con el lote
-INSERT INTO lote_presentacion (ID_Lote, ID_Presentacion, Cantidad_Presentacion)
-VALUES (@ID_Lote, @ID_Presentacion, 50);
--- SET @ID_Lote_Presentacion := LAST_INSERT_ID(); -- Si necesitas usarlo después
+INSERT INTO lote_presentacion (
+  
+  ID_Lote, 
+  ID_Presentacion, 
+  Cantidad_Presentacion
 
--- 8. Insertar estantería
-INSERT INTO estanteria (Nombre_Estanteria)
-VALUES ('Estante A');
-SET @ID_Estanteria := LAST_INSERT_ID();
+) VALUES (
+  
+  1, 
+  1, 
+  50
+);
 
--- 9. Insertar posición dentro de la estantería
-INSERT INTO posicion_estanteria (ID_Estanteria, Coordenada_X, Coordenada_Y)
-VALUES (@ID_Estanteria, 1, 1);
-SET @ID_Posicion := LAST_INSERT_ID();
+-- 8. Insertar estantería (ID_Estanteria = 1)
+INSERT INTO estanteria (
+  
+  Nombre_Estanteria
+) VALUES (
+  
+  'Estante A'
+);
 
--- 10. Asociar el medicamento a esa posición en estantería
+-- 9. Insertar posición en estantería (ID_Posicion = 1)
+INSERT INTO posicion_estanteria (
+
+  ID_Estanteria, 
+  Coordenada_X, 
+  Coordenada_Y
+
+) VALUES (
+
+  1, 
+  1, 
+  1
+);
+
+-- 10. Insertar en medicamento_estanteria (ID_Medicamento_Estanteria = 1)
 INSERT INTO medicamento_estanteria (
-  ID_Medicamento, ID_Posicion, Cantidad_Disponible, Stock_Minimo, Stock_Maximo
-) VALUES (
-  @ID_Medicamento, @ID_Posicion, 200, 50, 1000
-);
--- SET @ID_Medicamento_Estanteria := LAST_INSERT_ID(); -- si necesitas más adelante
+  
+  ID_Medicamento, 
+  ID_Posicion, 
+  Cantidad_Disponible, 
+  Stock_Minimo, 
+  Stock_Maximo
 
--- 11. Insertar en la bodega
-INSERT INTO bodega (
-  Cantidad_Med_Estante, Cantidad_Total_Bodega,
-  Stock_Minimo, Stock_Maximo, ID_Posicion, ID_Medicamento
 ) VALUES (
-  200, 1000, 100, 5000, @ID_Posicion, @ID_Medicamento
+
+  1, 
+  1, 
+  200, 
+  50, 
+  1000
 );
--- SET @ID_Bodega := LAST_INSERT_ID(); -- si necesitas
+
+-- 11. Insertar en bodega (ID_Bodega = 1)
+INSERT INTO bodega (
+  
+  Cantidad_Total_Bodega,
+  Stock_Minimo, 
+  Stock_Maximo, 
+  ID_Posicion, 
+  ID_Medicamento
+
+) VALUES (
+  
+  500, 
+  100, 
+  500, 
+  3, 
+  5
+);
+
+
+
+INSERT INTO almacen (
+  ID_Medicamento, ID_Bodega_Origen, ID_Estanteria_Destino, ID_Posicion_Destino, Cantidad_Trasladada
+)
+VALUES (
+  1, 5, 3, 10, 100
+);

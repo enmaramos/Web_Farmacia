@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-06-2025 a las 01:00:22
+-- Tiempo de generación: 14-06-2025 a las 01:59:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -28,9 +28,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `almacen` (
-  `IdPedido` int(11) DEFAULT NULL,
-  `IdBodega` int(11) NOT NULL,
-  `ID_Medicamento` int(11) DEFAULT NULL
+  `ID_Almacen` int(11) NOT NULL,
+  `ID_Bodega_Origen` int(11) NOT NULL,
+  `ID_Medicamento` int(11) DEFAULT NULL,
+  `ID_Estanteria_Destino` int(11) NOT NULL,
+  `ID_Posicion_Destino` int(11) NOT NULL,
+  `Cantidad_Trasladada` int(11) NOT NULL,
+  `Fecha_Movimiento` datetime DEFAULT current_timestamp(),
+  `Observaciones` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -41,7 +46,6 @@ CREATE TABLE `almacen` (
 
 CREATE TABLE `bodega` (
   `ID_Bodega` int(11) NOT NULL,
-  `Cantidad_Med_Estante` int(11) DEFAULT NULL,
   `Cantidad_Total_Bodega` int(11) DEFAULT NULL,
   `Stock_Minimo` int(11) DEFAULT 0,
   `Stock_Maximo` int(11) DEFAULT 0,
@@ -53,8 +57,8 @@ CREATE TABLE `bodega` (
 -- Volcado de datos para la tabla `bodega`
 --
 
-INSERT INTO `bodega` (`ID_Bodega`, `Cantidad_Med_Estante`, `Cantidad_Total_Bodega`, `Stock_Minimo`, `Stock_Maximo`, `ID_Posicion`, `ID_Medicamento`) VALUES
-(0, 200, 1000, 100, 5000, 1, 4);
+INSERT INTO `bodega` (`ID_Bodega`, `Cantidad_Total_Bodega`, `Stock_Minimo`, `Stock_Maximo`, `ID_Posicion`, `ID_Medicamento`) VALUES
+(2, 500, 100, 500, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -183,15 +187,22 @@ CREATE TABLE `detalle_factura_venta` (
 
 CREATE TABLE `estanteria` (
   `ID_Estanteria` int(11) NOT NULL,
-  `Nombre_Estanteria` varchar(20) NOT NULL
+  `Nombre_Estanteria` varchar(20) NOT NULL,
+  `Cantidad_Pisos` int(11) NOT NULL DEFAULT 1,
+  `Cantidad_Filas` int(11) NOT NULL DEFAULT 1,
+  `Cantidad_Columnas` int(11) NOT NULL DEFAULT 1,
+  `SubFilas` int(11) NOT NULL DEFAULT 1,
+  `SubColumnas` int(11) NOT NULL DEFAULT 1,
+  `Tipo_Estanteria` enum('Bodega','Sala') NOT NULL DEFAULT 'Sala'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `estanteria`
 --
 
-INSERT INTO `estanteria` (`ID_Estanteria`, `Nombre_Estanteria`) VALUES
-(1, 'Estante A');
+INSERT INTO `estanteria` (`ID_Estanteria`, `Nombre_Estanteria`, `Cantidad_Pisos`, `Cantidad_Filas`, `Cantidad_Columnas`, `SubFilas`, `SubColumnas`, `Tipo_Estanteria`) VALUES
+(2, 'Estante A', 3, 3, 3, 2, 3, 'Sala'),
+(3, 'Estanteria A Bodega', 3, 3, 3, 2, 3, 'Sala');
 
 -- --------------------------------------------------------
 
@@ -248,7 +259,7 @@ CREATE TABLE `forma_farmaceutica_dosis` (
 --
 
 INSERT INTO `forma_farmaceutica_dosis` (`ID`, `ID_Forma_Farmaceutica`, `ID_Dosis`) VALUES
-(4, 4, 4);
+(5, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -294,7 +305,7 @@ CREATE TABLE `lote` (
 --
 
 INSERT INTO `lote` (`ID_Lote`, `Descripcion_Lote`, `Estado_Lote`, `Cantidad_Lote`, `Fecha_Fabricacion_Lote`, `Fecha_Caducidad_Lote`, `Fecha_Emision_Lote`, `Fecha_Recibido_Lote`, `Precio_Total_Lote`, `ID_Medicamento`, `Stock_Minimo_Lote`, `Stock_Maximo_Lote`) VALUES
-(3, 'Lote 2025-A', 'Activo', 1000, '2025-01-01 00:00:00', '2026-01-01 00:00:00', '2025-01-15 00:00:00', '2025-01-16 00:00:00', 100, 4, 100, 2000);
+(4, 'Lote Pracetamol 500mg', 'Activo', 500, '2025-01-01 00:00:00', '2026-01-01 00:00:00', '2025-01-15 00:00:00', '2025-01-16 00:00:00', 300, 5, 50, 500);
 
 -- --------------------------------------------------------
 
@@ -325,7 +336,9 @@ CREATE TABLE `lote_presentacion` (
 --
 
 INSERT INTO `lote_presentacion` (`ID_Lote_Presentacion`, `ID_Lote`, `ID_Presentacion`, `Cantidad_Presentacion`) VALUES
-(7, 3, 8, 50);
+(8, 4, 9, 10),
+(9, 4, 10, 50),
+(10, 4, 11, 500);
 
 -- --------------------------------------------------------
 
@@ -349,7 +362,7 @@ CREATE TABLE `medicamento` (
 --
 
 INSERT INTO `medicamento` (`ID_Medicamento`, `Nombre_Medicamento`, `Imagen`, `Descripcion_Medicamento`, `IdCategoria`, `Estado`, `Requiere_Receta`, `Id_Proveedor`) VALUES
-(4, 'Paracetamol', 'paracetamol.jpg', 'Analgésico y antipirético de uso general', 1, 1, 0, 1);
+(5, 'Paracetamol', 'paracetamol.jpg', 'Analgésico y antipirético de uso general', 1, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -368,7 +381,7 @@ CREATE TABLE `medicamento_dosis` (
 --
 
 INSERT INTO `medicamento_dosis` (`ID_Dosis`, `Dosis`, `ID_Medicamento`) VALUES
-(4, '500mg cada 8 horas', 4);
+(5, '500mg', 5);
 
 -- --------------------------------------------------------
 
@@ -391,7 +404,7 @@ CREATE TABLE `medicamento_estanteria` (
 --
 
 INSERT INTO `medicamento_estanteria` (`ID_Medicamento_Estanteria`, `ID_Medicamento`, `ID_Posicion`, `Cantidad_Disponible`, `Stock_Minimo`, `Stock_Maximo`, `Fecha_Actualizacion`) VALUES
-(1, 4, 1, 200, 50, 1000, '2025-06-09 13:55:18');
+(2, 5, 2, 5, 1, 5, '2025-06-13 15:24:36');
 
 -- --------------------------------------------------------
 
@@ -410,7 +423,7 @@ CREATE TABLE `medicamento_forma_farmaceutica` (
 --
 
 INSERT INTO `medicamento_forma_farmaceutica` (`ID_Forma_Farmaceutica`, `ID_Medicamento`, `Forma_Farmaceutica`) VALUES
-(4, 4, 'Tableta');
+(5, 5, 'Tableta');
 
 -- --------------------------------------------------------
 
@@ -443,7 +456,9 @@ CREATE TABLE `medicamento_presentacion` (
 --
 
 INSERT INTO `medicamento_presentacion` (`ID_Presentacion`, `ID_Medicamento`, `Tipo_Presentacion`, `Unidad_Desglose`, `Total_Presentacion`, `Precio`) VALUES
-(8, 4, 'Caja x 20 tabletas', NULL, 20, 2.50);
+(9, 5, 'Caja', 'Blister', 5, 30.00),
+(10, 5, 'Blister', 'Unidad', 10, 8.00),
+(11, 5, 'Unidad', 'Unidad', 1, 1.00);
 
 -- --------------------------------------------------------
 
@@ -493,15 +508,19 @@ CREATE TABLE `posicion_estanteria` (
   `ID_Posicion` int(11) NOT NULL,
   `ID_Estanteria` int(11) NOT NULL,
   `Coordenada_X` int(11) NOT NULL,
-  `Coordenada_Y` int(11) NOT NULL
+  `Coordenada_Y` int(11) NOT NULL,
+  `Piso` int(11) NOT NULL DEFAULT 1,
+  `SubFila` int(11) DEFAULT 1,
+  `SubColumna` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `posicion_estanteria`
 --
 
-INSERT INTO `posicion_estanteria` (`ID_Posicion`, `ID_Estanteria`, `Coordenada_X`, `Coordenada_Y`) VALUES
-(1, 1, 1, 1);
+INSERT INTO `posicion_estanteria` (`ID_Posicion`, `ID_Estanteria`, `Coordenada_X`, `Coordenada_Y`, `Piso`, `SubFila`, `SubColumna`) VALUES
+(2, 2, 1, 1, 1, 1, 1),
+(3, 3, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -600,7 +619,7 @@ INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `I
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-09 22:18:25'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-13 20:03:49'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
@@ -665,9 +684,11 @@ CREATE TABLE `venta_medicamento` (
 -- Indices de la tabla `almacen`
 --
 ALTER TABLE `almacen`
-  ADD KEY `IdPedido` (`IdPedido`),
-  ADD KEY `IdBodega` (`IdBodega`),
-  ADD KEY `fk_almacen_medicamento` (`ID_Medicamento`);
+  ADD PRIMARY KEY (`ID_Almacen`),
+  ADD KEY `IdBodega` (`ID_Bodega_Origen`),
+  ADD KEY `fk_almacen_medicamento` (`ID_Medicamento`),
+  ADD KEY `fk_almacen_estanteria` (`ID_Estanteria_Destino`),
+  ADD KEY `fk_almacen_posicion` (`ID_Posicion_Destino`);
 
 --
 -- Indices de la tabla `bodega`
@@ -904,6 +925,18 @@ ALTER TABLE `venta_medicamento`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `almacen`
+--
+ALTER TABLE `almacen`
+  MODIFY `ID_Almacen` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `bodega`
+--
+ALTER TABLE `bodega`
+  MODIFY `ID_Bodega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `caja`
 --
 ALTER TABLE `caja`
@@ -937,7 +970,7 @@ ALTER TABLE `detalle_factura_venta`
 -- AUTO_INCREMENT de la tabla `estanteria`
 --
 ALTER TABLE `estanteria`
-  MODIFY `ID_Estanteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_Estanteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `factura_compra`
@@ -955,7 +988,7 @@ ALTER TABLE `factura_venta`
 -- AUTO_INCREMENT de la tabla `forma_farmaceutica_dosis`
 --
 ALTER TABLE `forma_farmaceutica_dosis`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `laboratorio`
@@ -967,43 +1000,43 @@ ALTER TABLE `laboratorio`
 -- AUTO_INCREMENT de la tabla `lote`
 --
 ALTER TABLE `lote`
-  MODIFY `ID_Lote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID_Lote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `lote_presentacion`
 --
 ALTER TABLE `lote_presentacion`
-  MODIFY `ID_Lote_Presentacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID_Lote_Presentacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento`
 --
 ALTER TABLE `medicamento`
-  MODIFY `ID_Medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_Medicamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento_dosis`
 --
 ALTER TABLE `medicamento_dosis`
-  MODIFY `ID_Dosis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_Dosis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento_estanteria`
 --
 ALTER TABLE `medicamento_estanteria`
-  MODIFY `ID_Medicamento_Estanteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_Medicamento_Estanteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento_forma_farmaceutica`
 --
 ALTER TABLE `medicamento_forma_farmaceutica`
-  MODIFY `ID_Forma_Farmaceutica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_Forma_Farmaceutica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento_presentacion`
 --
 ALTER TABLE `medicamento_presentacion`
-  MODIFY `ID_Presentacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID_Presentacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido`
@@ -1015,7 +1048,7 @@ ALTER TABLE `pedido`
 -- AUTO_INCREMENT de la tabla `posicion_estanteria`
 --
 ALTER TABLE `posicion_estanteria`
-  MODIFY `ID_Posicion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_Posicion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
@@ -1049,10 +1082,11 @@ ALTER TABLE `vendedor`
 -- Filtros para la tabla `almacen`
 --
 ALTER TABLE `almacen`
-  ADD CONSTRAINT `almacen_ibfk_1` FOREIGN KEY (`IdPedido`) REFERENCES `pedido` (`ID_Pedido`),
-  ADD CONSTRAINT `almacen_ibfk_2` FOREIGN KEY (`IdBodega`) REFERENCES `bodega` (`ID_Bodega`),
-  ADD CONSTRAINT `fk_almacen_bodega` FOREIGN KEY (`IdBodega`) REFERENCES `bodega` (`ID_Bodega`),
-  ADD CONSTRAINT `fk_almacen_medicamento` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`);
+  ADD CONSTRAINT `almacen_ibfk_2` FOREIGN KEY (`ID_Bodega_Origen`) REFERENCES `bodega` (`ID_Bodega`),
+  ADD CONSTRAINT `fk_almacen_bodega` FOREIGN KEY (`ID_Bodega_Origen`) REFERENCES `bodega` (`ID_Bodega`),
+  ADD CONSTRAINT `fk_almacen_estanteria` FOREIGN KEY (`ID_Estanteria_Destino`) REFERENCES `estanteria` (`ID_Estanteria`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_almacen_medicamento` FOREIGN KEY (`ID_Medicamento`) REFERENCES `medicamento` (`ID_Medicamento`),
+  ADD CONSTRAINT `fk_almacen_posicion` FOREIGN KEY (`ID_Posicion_Destino`) REFERENCES `posicion_estanteria` (`ID_Posicion`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `bodega`
