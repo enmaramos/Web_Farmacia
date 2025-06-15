@@ -72,72 +72,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </select>
         </div>
 
-        <table id="proveedoresTable" class="display text-center">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Laboratorio</th>
-                    <th>Telefono</th>
-                    <th>Email</th>
-                    <th>Estado</th>
-                    <th>Ver</th>
-                    <?php if ($estadoFiltro == 1) { ?>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
-                    <?php } ?>
-                    <?php if ($estadoFiltro == 0) { ?>
-                        <th>Activar</th>
-                    <?php } ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()) { ?>
-                    <tr class="proveedor" data-estado="<?= $row['Estado'] ?>">
-                        <td><?= $row['Nombre'] ?></td>
-                        <td><?= $row['Laboratorio'] ?></td>
-                        <td>(+505) <?= $row['Telefono'] ?></td>
-                        <td><?= $row['Email'] ?></td>
-                        <td>
-                            <?php
-                            if ($row['Estado'] == 1) {
-                                echo "<span class='badge bg-success'>Activo</span>";
-                            } else {
-                                echo "<span class='badge bg-danger'>Inactivo</span>";
-                            }
-                            ?>
-                        </td>
-                        <!-- Botón Ver -->
-                        <td>
-                            <button class='btn btn-success VerProveedorBtn btn-sm' data-bs-toggle='modal' data-bs-target='#modalVerProveedor' data-id='<?= $row['ID_Proveedor'] ?>' title="Ver Detalles">
-                                <i class='bx bx-show'></i>
-                            </button>
-                        </td>
+        <div class="table-responsive">
+            <table id="proveedoresTable" class="display text-center">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Laboratorio</th>
+                        <th>Telefono</th>
+                        <th>Email</th>
+                        <th>Estado</th>
+                        <th>Ver</th>
                         <?php if ($estadoFiltro == 1) { ?>
-                            <!-- Botón Editar (solo para activos) -->
-                            <td>
-                                <a href='' class='btn btn-warning editarProveedorBtn btn-sm ' data-bs-toggle='modal' data-bs-target='#modalEditarProveedor' data-id='<?= $row['ID_Proveedor'] ?>' title="Editar Proveedor">
-                                    <i class='bx bx-edit'></i>
-                                </a>
-                            </td>
-                            <!-- Botón Eliminar (solo para activos) -->
-                            <td>
-                                <button class='btn btn-danger eliminarProveedorBtn btn-sm' data-id='<?= $row['ID_Proveedor'] ?>' title="Eliminar Proveedor">
-                                    <i class='bx bx-trash'></i>
-                                </button>
-                            </td>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
                         <?php } ?>
                         <?php if ($estadoFiltro == 0) { ?>
-                            <!-- Botón Activar (solo para inactivos) -->
-                            <td>
-                                <button class='btn btn-primary activarProveedorBtn btn-sm' data-id='<?= $row['ID_Proveedor'] ?>' title="Reactivar Proveedor">
-                                    <i class='bx bx-user-check'></i>
-                                </button>
-                            </td>
+                            <th>Activar</th>
                         <?php } ?>
                     </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()) { ?>
+                        <tr class="proveedor" data-estado="<?= $row['Estado'] ?>">
+                            <td><?= $row['Nombre'] ?></td>
+                            <td><?= $row['Laboratorio'] ?></td>
+                            <td>(+505) <?= $row['Telefono'] ?></td>
+                            <td><?= $row['Email'] ?></td>
+                            <td>
+                                <?php
+                                if ($row['Estado'] == 1) {
+                                    echo "<span class='badge bg-success'>Activo</span>";
+                                } else {
+                                    echo "<span class='badge bg-danger'>Inactivo</span>";
+                                }
+                                ?>
+                            </td>
+                            <!-- Botón Ver -->
+                            <td>
+                                <button class='btn btn-success VerProveedorBtn btn-sm' data-bs-toggle='modal' data-bs-target='#modalVerProveedor' data-id='<?= $row['ID_Proveedor'] ?>' title="Ver Detalles">
+                                    <i class='bx bx-show'></i>
+                                </button>
+                            </td>
+                            <?php if ($estadoFiltro == 1) { ?>
+                                <!-- Botón Editar (solo para activos) -->
+                                <td>
+                                    <a href='' class='btn btn-warning editarProveedorBtn btn-sm ' data-bs-toggle='modal' data-bs-target='#modalEditarProveedor' data-id='<?= $row['ID_Proveedor'] ?>' title="Editar Proveedor">
+                                        <i class='bx bx-edit'></i>
+                                    </a>
+                                </td>
+                                <!-- Botón Eliminar (solo para activos) -->
+                                <td>
+                                    <button class='btn btn-danger eliminarProveedorBtn btn-sm' data-id='<?= $row['ID_Proveedor'] ?>' title="Eliminar Proveedor">
+                                        <i class='bx bx-trash'></i>
+                                    </button>
+                                </td>
+                            <?php } ?>
+                            <?php if ($estadoFiltro == 0) { ?>
+                                <!-- Botón Activar (solo para inactivos) -->
+                                <td>
+                                    <button class='btn btn-primary activarProveedorBtn btn-sm' data-id='<?= $row['ID_Proveedor'] ?>' title="Reactivar Proveedor">
+                                        <i class='bx bx-user-check'></i>
+                                    </button>
+                                </td>
+                            <?php } ?>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>    
     </div>
 </div>
 

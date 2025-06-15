@@ -54,59 +54,82 @@ include_once "Ctrl/menu.php";
             </div>
 
         <table id="categoriaTable" class="display text-center">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Estado</th>
-                    <th>Ver</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()) { ?>
-                    <tr>
-                        <td><?= $row['Nombre_Categoria'] ?></td>
-                        <td><?= $row['Descripcion'] ?></td>
-                        <td>
-                            <?php
-                            $estado = $row['estado_categoria'] ?? 1; // Asume activo por defecto si no existe
-                            echo $estado == 1
-                                ? "<span class='badge bg-success'>Activo</span>"
-                                : "<span class='badge bg-danger'>Inactivo</span>";
-                            ?>
-                        </td>
-                        <td>
-                            <button class='btn btn-success VerCategoriaBtn btn-sm'
-                                data-bs-toggle='modal'
-                                data-bs-target='#modalVerCategoria'
-                                data-id='<?= $row['ID_Categoria'] ?>'
-                                title="Ver Detalles">
-                                <i class='bx bx-show'></i>
-                            </button>
-                        </td>
-                        <td>
-                            <a href=''
-                                class='btn btn-warning editarCategoriaBtn btn-sm'
-                                data-bs-toggle='modal'
-                                data-bs-target='#modalEditarCategoria'
-                                data-id='<?= $row['ID_Categoria'] ?>'
-                                title="Editar Categoría">
-                                <i class='bx bx-edit'></i>
-                            </a>
-                        </td>
-                        <td>
-                            <button class='btn btn-danger eliminarCategoriaBtn btn-sm'
-                                data-id='<?= $row['ID_Categoria'] ?>'
-                                title="Eliminar Categoría">
-                                <i class='bx bx-trash'></i>
-                            </button>
-                        </td>
-                    </tr>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Ver</th>
+            <?php if ($estadoFiltro == 1) { ?>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            <?php } ?>
+            <?php if ($estadoFiltro == 0) { ?>
+                <th>Activar</th>
+            <?php } ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php while ($row = $result->fetch_assoc()) { ?>
+            <tr class="categoria" data-estado="<?= $row['estado_categoria'] ?>">
+                <td><?= $row['Nombre_Categoria'] ?></td>
+                <td><?= $row['Descripcion'] ?></td>
+                <td>
+                    <?php
+                    $estado = $row['estado_categoria'] ?? 1;
+                    echo $estado == 1
+                        ? "<span class='badge bg-success'>Activo</span>"
+                        : "<span class='badge bg-danger'>Inactivo</span>";
+                    ?>
+                </td>
+
+                <!-- Botón Ver -->
+                <td>
+                    <button class='btn btn-success VerCategoriaBtn btn-sm'
+                        data-bs-toggle='modal'
+                        data-bs-target='#modalVerCategoria'
+                        data-id='<?= $row['ID_Categoria'] ?>'
+                        title="Ver Detalles">
+                        <i class='bx bx-show'></i>
+                    </button>
+                </td>
+
+                <?php if ($estadoFiltro == 1) { ?>
+                    <!-- Botón Editar -->
+                    <td>
+                        <a href='' class='btn btn-warning editarCategoriaBtn btn-sm'
+                            data-bs-toggle='modal'
+                            data-bs-target='#modalEditarCategoria'
+                            data-id='<?= $row['ID_Categoria'] ?>'
+                            title="Editar Categoría">
+                            <i class='bx bx-edit'></i>
+                        </a>
+                    </td>
+                    <!-- Botón Eliminar -->
+                    <td>
+                        <button class='btn btn-danger eliminarCategoriaBtn btn-sm'
+                            data-id='<?= $row['ID_Categoria'] ?>'
+                            title="Eliminar Categoría">
+                            <i class='bx bx-trash'></i>
+                        </button>
+                    </td>
                 <?php } ?>
-            </tbody>
-        </table>
+
+                <?php if ($estadoFiltro == 0) { ?>
+                    <!-- Botón Activar -->
+                    <td>
+                        <button class='btn btn-primary activarCategoriaBtn btn-sm'
+                            data-id='<?= $row['ID_Categoria'] ?>'
+                            title="Reactivar Categoría">
+                            <i class='bx bx-check-circle'></i>
+                        </button>
+                    </td>
+                <?php } ?>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
     </div>
 </div>
 
@@ -311,6 +334,7 @@ function filtrarEstado() {
 <script src="../js/ver_categoria.js?12345"></script>
 <script src="../js/editar_categoria.js?12345"></script>
 <script src="../js/baja_categoria.js?12345"></script>
+<script src="../js/reactivar_categoria.js?12345"></script>
 
 <?php
 include_once "Ctrl/footer.php";

@@ -31,9 +31,12 @@ include_once "Ctrl/menu.php";
 
   <!---table JQUERY -->
   <script>
-            $(document).ready(function() {
-                $('#clientesTable').DataTable();
-            });
+            $(document).ready(function () {
+    $('#clientesTable').DataTable({
+        responsive: true,
+        dom: '<"row mb-3"<"col-sm-6"l><"col-sm-6 text-end"f>>rt<"row mt-3"<"col-sm-6"i><"col-sm-6 text-end"p>>'
+    });
+});
         </script>
 
         <?php
@@ -56,7 +59,7 @@ include_once "Ctrl/menu.php";
         <!-- TABLA DE Clientes -->
         <div class="container mt-4">
             <div class="card p-3 shadow-sm">
-                <div class="d-flex justify-content-between mb-3">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3 gap-2">
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarCliente">
                         <i class="fas fa-user-plus"></i> Agregar
                     </button>
@@ -71,78 +74,80 @@ include_once "Ctrl/menu.php";
                     </select>
                 </div>
 
-                <table id="clientesTable" class="display text-center">
-                    <thead>
-                        <tr>
-                            <th>Clientes</th>
-                            <th>Género</th>
-                            <th>Dirección</th>
-                            <th>Teléfono</th>
-                            <th>Estado</th>
-                            <th>Ver</th>
-                            <?php if ($estadoFiltro == 1) { ?>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
-                            <?php } ?>
-                            <?php if ($estadoFiltro == 0) { ?>
-                                <th>Activar</th>
-                            <?php } ?>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $result->fetch_assoc()) {
-                            // Cortar el primer nombre y primer apellido
-                            $primerNombre = explode(' ', trim($row['Nombre']))[0];
-                            $primerApellido = explode(' ', trim($row['Apellido']))[0];
-                            $nombreCompleto = $primerNombre . ' ' . $primerApellido;
-                        ?>
-                            <tr class="clientes" data-estado="<?= $row['Estado'] ?>">
-                                <td><?= htmlspecialchars($nombreCompleto) ?></td>
-                                <td><?= htmlspecialchars($row['Genero']) ?></td>
-                                <td><?= htmlspecialchars($row['Direccion']) ?></td>
-                                <td>+(505) <?= htmlspecialchars($row['Telefono']) ?></td>
-                                <td>
-                                    <?php if ($row['Estado'] == 1): ?>
-                                        <span class='badge bg-success'>Activo</span>
-                                    <?php else: ?>
-                                        <span class='badge bg-danger'>Inactivo</span>
-                                    <?php endif; ?>
-                                </td>
-
-                                <!-- Botón Ver -->
-                                <td>
-                                    <button class='btn btn-success VerClientesBtn btn-sm' data-bs-toggle='modal' data-bs-target='#modalVerClientes' data-id='<?= $row['ID_Cliente'] ?>' title="Ver Detalles">
-                                        <i class='fas fa-eye'></i>
-                                    </button>
-                                </td>
-
+                <div class="table-responsive">
+                    <table id="clientesTable" class="display text-center">
+                        <thead>
+                            <tr>
+                                <th>Clientes</th>
+                                <th>Género</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+                                <th>Ver</th>
                                 <?php if ($estadoFiltro == 1) { ?>
-                                    <!-- Botón Editar -->
-                                    <td>
-                                        <a href='' class='btn btn-warning editarClientesBtn btn-sm' data-bs-toggle='modal' data-bs-target='#modalEditarClientes' data-id='<?= $row['ID_Cliente'] ?>' title="Editar Clientes">
-                                            <i class='fas fa-edit'></i>
-                                        </a>
-                                    </td>
-                                    <!-- Botón Eliminar -->
-                                    <td>
-                                        <button class='btn btn-danger eliminarClientesBtn btn-sm' data-id='<?= $row['ID_Cliente'] ?>' title="Eliminar Cliente">
-                                            <i class='fas fa-trash-alt'></i>
-                                        </button>
-                                    </td>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
                                 <?php } ?>
-
                                 <?php if ($estadoFiltro == 0) { ?>
-                                    <!-- Botón Activar -->
-                                    <td>
-                                        <button class='btn btn-primary activarClientesBtn btn-sm' data-id='<?= $row['ID_Cliente'] ?>' title="Reactivar Cliente">
-                                            <i class="fas fa-user-check"></i>
-                                        </button>
-                                    </td>
+                                    <th>Activar</th>
                                 <?php } ?>
                             </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php while ($row = $result->fetch_assoc()) {
+                                // Cortar el primer nombre y primer apellido
+                                $primerNombre = explode(' ', trim($row['Nombre']))[0];
+                                $primerApellido = explode(' ', trim($row['Apellido']))[0];
+                                $nombreCompleto = $primerNombre . ' ' . $primerApellido;
+                            ?>
+                                <tr class="clientes" data-estado="<?= $row['Estado'] ?>">
+                                    <td><?= htmlspecialchars($nombreCompleto) ?></td>
+                                    <td><?= htmlspecialchars($row['Genero']) ?></td>
+                                    <td><?= htmlspecialchars($row['Direccion']) ?></td>
+                                    <td>+(505) <?= htmlspecialchars($row['Telefono']) ?></td>
+                                    <td>
+                                        <?php if ($row['Estado'] == 1): ?>
+                                            <span class='badge bg-success'>Activo</span>
+                                        <?php else: ?>
+                                            <span class='badge bg-danger'>Inactivo</span>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <!-- Botón Ver -->
+                                    <td>
+                                        <button class='btn btn-success VerClientesBtn btn-sm' data-bs-toggle='modal' data-bs-target='#modalVerClientes' data-id='<?= $row['ID_Cliente'] ?>' title="Ver Detalles">
+                                            <i class='fas fa-eye'></i>
+                                        </button>
+                                    </td>
+
+                                    <?php if ($estadoFiltro == 1) { ?>
+                                        <!-- Botón Editar -->
+                                        <td>
+                                            <a href='' class='btn btn-warning editarClientesBtn btn-sm' data-bs-toggle='modal' data-bs-target='#modalEditarClientes' data-id='<?= $row['ID_Cliente'] ?>' title="Editar Clientes">
+                                                <i class='fas fa-edit'></i>
+                                            </a>
+                                        </td>
+                                        <!-- Botón Eliminar -->
+                                        <td>
+                                            <button class='btn btn-danger eliminarClientesBtn btn-sm' data-id='<?= $row['ID_Cliente'] ?>' title="Eliminar Cliente">
+                                                <i class='fas fa-trash-alt'></i>
+                                            </button>
+                                        </td>
+                                    <?php } ?>
+
+                                    <?php if ($estadoFiltro == 0) { ?>
+                                        <!-- Botón Activar -->
+                                        <td>
+                                            <button class='btn btn-primary activarClientesBtn btn-sm' data-id='<?= $row['ID_Cliente'] ?>' title="Reactivar Cliente">
+                                                <i class="fas fa-user-check"></i>
+                                            </button>
+                                        </td>
+                                    <?php } ?>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

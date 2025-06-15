@@ -80,54 +80,56 @@ include_once "Ctrl/menu.php";
             </select>
         </div>
 
-        <table id="usuariosTable" class="table table-striped text-center">
-            <thead>
-                <tr>
-                    <th>Nombre de Usuario</th>
-                    <th>Imagen</th>
-                    <th>Estado</th>
-                    <th>Fecha Creación</th>
-                    <th>Último Acceso</th>
-                    <th>Ver</th>
-                    <?php if ($estadoFiltro === '1') : ?>
-                        <th>Editar</th>
-                    <?php endif; ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        $rutaImagen = !empty($row['Imagen']) ? "../../dist/pages/uploads/" . $row['Imagen'] : "../../dist/pages/uploads/default.jpg";
+        <div class="table-responsive">
+            <table id="usuariosTable" class="table table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>Nombre de Usuario</th>
+                        <th>Imagen</th>
+                        <th>Estado</th>
+                        <th>Fecha Creación</th>
+                        <th>Último Acceso</th>
+                        <th>Ver</th>
+                        <?php if ($estadoFiltro === '1') : ?>
+                            <th>Editar</th>
+                        <?php endif; ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $rutaImagen = !empty($row['Imagen']) ? "../../dist/pages/uploads/" . $row['Imagen'] : "../../dist/pages/uploads/default.jpg";
 
-                        echo "<tr>";
-                        echo "<td>" . $row['Nombre_Usuario'] . "</td>";
-                        echo "<td><img src='" . $rutaImagen . "' class='rounded-circle' width='50' height='50'></td>";
-                        echo "<td>" . ($row['estado_usuario'] == 1 ? "<span class='badge bg-success'>Activo</span>" : "<span class='badge bg-danger'>Inactivo</span>") . "</td>";
-                        echo "<td>" . $row['Fecha_Creacion'] . "</td>";
-                        echo "<td>" . ($row['Ultimo_Acceso'] ? $row['Ultimo_Acceso'] : 'No disponible') . "</td>";
-                        echo "<td>
-                            <button class='btn btn-success btn-sm' data-bs-toggle='modal' data-bs-target='#modalVerUsuario' data-id='" . $row['ID_Usuario'] . "' title='Ver'>
-                                <i class='bx bx-show'></i>
-                            </button>
-                        </td>";
-                        if ($estadoFiltro === '1') {
+                            echo "<tr>";
+                            echo "<td>" . $row['Nombre_Usuario'] . "</td>";
+                            echo "<td><img src='" . $rutaImagen . "' class='rounded-circle' width='50' height='50'></td>";
+                            echo "<td>" . ($row['estado_usuario'] == 1 ? "<span class='badge bg-success'>Activo</span>" : "<span class='badge bg-danger'>Inactivo</span>") . "</td>";
+                            echo "<td>" . $row['Fecha_Creacion'] . "</td>";
+                            echo "<td>" . ($row['Ultimo_Acceso'] ? $row['Ultimo_Acceso'] : 'No disponible') . "</td>";
                             echo "<td>
-                                <a href='#' class='btn btn-warning btn-sm text-white' data-bs-toggle='modal' data-bs-target='#modalEditarUsuario' data-id='" . $row['ID_Usuario'] . "' title='Editar'>
-                                    <i class='bx bx-edit'></i>
-                                </a>
+                                <button class='btn btn-success btn-sm' data-bs-toggle='modal' data-bs-target='#modalVerUsuario' data-id='" . $row['ID_Usuario'] . "' title='Ver'>
+                                    <i class='bx bx-show'></i>
+                                </button>
                             </td>";
+                            if ($estadoFiltro === '1') {
+                                echo "<td>
+                                    <a href='#' class='btn btn-warning btn-sm text-white' data-bs-toggle='modal' data-bs-target='#modalEditarUsuario' data-id='" . $row['ID_Usuario'] . "' title='Editar'>
+                                        <i class='bx bx-edit'></i>
+                                    </a>
+                                </td>";
+                            }
+                            echo "</tr>";
                         }
-                        echo "</tr>";
+                    } else {
+                        echo "<tr><td colspan='7'>No se encontraron usuarios</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='7'>No se encontraron usuarios</td></tr>";
-                }
 
-                $conn->close();
-                ?>
-            </tbody>
-        </table>
+                    $conn->close();
+                    ?>
+                </tbody>
+            </table>
+        </div> 
     </div>
 </div>
 
