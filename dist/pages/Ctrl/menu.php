@@ -103,6 +103,12 @@ if (session_status() === PHP_SESSION_NONE) {
 
                     <!-- Forms & Tables -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Bodega</span></li>
+                     <li class="menu-item">
+                        <a href="/Web_Farmacia/dist/pages/Estanteria.php" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-table"></i>
+                            <div data-i18n="Tables">Estanteria</div>
+                        </a>
+                    </li>
                     <li class="menu-item">
                         <a href="/Web_Farmacia/dist/pages/productos.php" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-capsule"></i>
@@ -149,6 +155,14 @@ if (session_status() === PHP_SESSION_NONE) {
                 <!-- Menú solo para Bodegueros -->
                 <?php if ($_SESSION['ID_Rol'] == 3): ?>
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Bodega</span></li>
+                    
+                    <li class="menu-item">
+                        <a href="/Web_Farmacia/dist/pages/Estanteria.php" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-table"></i>
+                            <div data-i18n="Tables">Estanteria</div>
+                        </a>
+                    </li>
+
                     <li class="menu-item">
                         <a href="/Web_Farmacia/dist/pages/productos.php" class="menu-link">
                             <i class="menu-icon tf-icons bx bxs-capsule"></i>
