@@ -105,7 +105,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Bodega</span></li>
                      <li class="menu-item">
                         <a href="/Web_Farmacia/dist/pages/Estanteria.php" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-table"></i>
+                            <i class="menu-icon tf-icons bx bx-grid-alt"></i>
                             <div data-i18n="Tables">Estanteria</div>
                         </a>
                     </li>
@@ -158,7 +158,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     
                     <li class="menu-item">
                         <a href="/Web_Farmacia/dist/pages/Estanteria.php" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-table"></i>
+                            <i class="menu-icon tf-icons bx bx-grid-alt"></i>
                             <div data-i18n="Tables">Estanteria</div>
                         </a>
                     </li>
