@@ -752,170 +752,20 @@ include_once "Ctrl/menu.php";
                         </div>
                     </div>
 
-
-                    <!-- Estilos de Pestaña 2: Estantería -->
-                    <style>
-                        /* Estilos generales */
-                        .estanteria-container {
-                            background-color: #f9f9f9;
-                            padding: 10px;
-                            border: 1px solid #ddd;
-                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                        }
-
-                        .estanteria-row {
-                            display: flex;
-                            justify-content: space-between;
-                            margin-bottom: 10px;
-                        }
-
-                        .estanteria-compartment {
-                            width: calc(30% - 10px);
-                            height: 120px;
-                            background-color: white;
-                            border: 1px solid #ccc;
-                            position: relative;
-                            overflow: hidden;
-                            transition: transform 0.3s ease;
-                        }
-
-                        .compartment-label {
-                            position: absolute;
-                            top: 5px;
-                            left: 5px;
-                            font-size: 0.8rem;
-                            color: #666;
-                        }
-
-                        .medication-card {
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                            height: 100%;
-                            text-align: center;
-                            background-color: #fff;
-                            border: 1px solid #ccc;
-                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                            transition: transform 0.3s ease;
-                        }
-
-                        .medication-name {
-                            font-weight: bold;
-                            color: #333;
-                        }
-
-                        .medication-quantity {
-                            font-size: 0.9rem;
-                            color: #666;
-                        }
-                    </style>
-
                     <!-- Pestaña 2: Estantería -->
                     <div class="tab-pane fade" id="estanteria" role="tabpanel" aria-labelledby="estanteria-tab">
                         <div class="mt-3">
                             <h5 class="small fw-bold mb-2">Ubicación en Estantería</h5>
 
-                            <!-- Fila con estantería y formulario lateral -->
                             <div class="row g-3">
-
                                 <!-- Columna Izquierda: Estantería Visual -->
                                 <div class="col-md-8">
-                                    <div class="estanteria-container">
-                                        <!-- Compartimientos de la estantería -->
-                                        <div class="estanteria-row">
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(1,1)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">Paracetamol</div>
-                                                    <div class="medication-quantity">20</div>
-                                                </div>
-                                            </div>
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(2,1)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">Amoxicilina</div>
-                                                    <div class="medication-quantity">15</div>
-                                                </div>
-                                            </div>
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(3,1)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">VACÍO</div>
-                                                    <div class="medication-quantity">0</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="estanteria-row">
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(1,2)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">Ibuprofeno</div>
-                                                    <div class="medication-quantity">30</div>
-                                                </div>
-                                            </div>
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(2,2)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">VACÍO</div>
-                                                    <div class="medication-quantity">0</div>
-                                                </div>
-                                            </div>
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(3,2)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">Loratadina</div>
-                                                    <div class="medication-quantity">25</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="estanteria-row">
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(1,3)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">VACÍO</div>
-                                                    <div class="medication-quantity">0</div>
-                                                </div>
-                                            </div>
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(2,3)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">Omeprazol</div>
-                                                    <div class="medication-quantity">10</div>
-                                                </div>
-                                            </div>
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(3,3)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">Metformina</div>
-                                                    <div class="medication-quantity">18</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="estanteria-row">
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(1,4)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">VACÍO</div>
-                                                    <div class="medication-quantity">0</div>
-                                                </div>
-                                            </div>
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(2,4)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">Metformina</div>
-                                                    <div class="medication-quantity">18</div>
-                                                </div>
-                                            </div>
-                                            <div class="estanteria-compartment">
-                                                <div class="compartment-label">(3,4)</div>
-                                                <div class="medication-card">
-                                                    <div class="medication-name">VACÍO</div>
-                                                    <div class="medication-quantity">0</div>
-                                                </div>
+                                    <div class="estanteria-container bg-metalica p-2 rounded">
+                                        <div class="zona-principal">
+                                            <div class="encabezado-filas-columnas"></div>
+                                            <div class="estanteria-wrapper">
+                                                <div class="indicadores-filas"></div>
+                                                <div class="area-estanteria"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -928,28 +778,420 @@ include_once "Ctrl/menu.php";
                                         <div class="card-body p-3">
                                             <div class="mb-2">
                                                 <label for="nombreEstanteriaVer" class="form-label small">Nombre de la Estantería</label>
-                                                <input type="text" class="form-control form-control-sm" id="nombreEstanteriaVer" value="Estantería A" disabled>
+                                                <input type="text" class="form-control form-control-sm" id="nombreEstanteriaVer" disabled>
                                             </div>
-                                            <div class="mb-2">
-                                                <label for="posicionEstanteVer" class="form-label small">Posición en Estantería</label>
-                                                <input type="text" class="form-control form-control-sm" id="posicionEstanteVer" value="(2,3)" disabled>
+
+                                            <!-- Columna y Fila -->
+                                            <div class="mb-2 row align-items-center">
+                                                <div class="col">
+                                                    <label for="columnaEstanteVer" class="form-label small">Columna</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="number" class="form-control" id="columnaEstanteVer" disabled>
+                                                        <span class="input-group-text p-1">
+                                                            <div class="color-box" style="background-color: #6f42c1;"></div> <!-- morado -->
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="filaEstanteVer" class="form-label small">Fila</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="number" class="form-control" id="filaEstanteVer" disabled>
+                                                        <span class="input-group-text p-1">
+                                                            <div class="color-box" style="background-color: #28a745;"></div> <!-- verde -->
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="mb-2">
-                                                <label for="stockMinimoEstanteVer" class="form-label small">Stock Mínimo</label>
-                                                <input type="number" class="form-control form-control-sm" id="stockMinimoEstanteVer" value="10">
+
+                                            <!-- Posición Y y X -->
+                                            <div class="mb-2 row align-items-center">
+                                                <div class="col">
+                                                    <label for="posicionYEstanteVer" class="form-label small">Posición Y</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="number" class="form-control" id="posicionYEstanteVer" disabled>
+                                                        <span class="input-group-text p-1">
+                                                            <div class="color-box" style="background-color: #000;"></div> <!-- negro -->
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="posicionXEstanteVer" class="form-label small">Posición X</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="number" class="form-control" id="posicionXEstanteVer" disabled>
+                                                        <span class="input-group-text p-1">
+                                                            <div class="color-box" style="background-color: #000;"></div> <!-- negro -->
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="mb-2">
-                                                <label for="stockMaximoEstanteVer" class="form-label small">Stock Máximo</label>
-                                                <input type="number" class="form-control form-control-sm" id="stockMaximoEstanteVer" value="50">
+
+                                            <!-- Stock mínimo y máximo -->
+                                            <div class="mb-2 row">
+                                                <div class="col">
+                                                    <label for="stockMinimoEstanteVer" class="form-label small">Stock Mínimo</label>
+                                                    <input type="number" class="form-control form-control-sm" id="stockMinimoEstanteVer" disabled>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="stockMaximoEstanteVer" class="form-label small">Stock Máximo</label>
+                                                    <input type="number" class="form-control form-control-sm" id="stockMaximoEstanteVer" disabled>
+                                                </div>
                                             </div>
+
                                             <div class="mb-2">
                                                 <label for="cantidadEnEstanteVer" class="form-label small">Cantidad en Estante</label>
-                                                <input type="number" class="form-control form-control-sm" id="cantidadEnEstanteVer" value="18">
+                                                <input type="number" class="form-control form-control-sm" id="cantidadEnEstanteVer" disabled>
                                             </div>
+
                                             <div class="mb-0">
                                                 <label for="fechaActualizacionEstanteVer" class="form-label small">Fecha de Actualización</label>
-                                                <input type="text" class="form-control form-control-sm" id="fechaActualizacionEstanteVer" value="2025-06-09" disabled>
+                                                <input type="text" class="form-control form-control-sm" id="fechaActualizacionEstanteVer" disabled>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- script que muestra la estanteria pestaña 2 -->
+                    <script>
+                        function dibujarEstanteriaEnPestania2(idEstanteria) {
+                            fetch(`../pages/Ctrl/ver_estanteria.php?id=${idEstanteria}`)
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (!data.success) {
+                                        console.error('Estantería no encontrada');
+                                        return;
+                                    }
+
+                                    const est = data.estanteria;
+
+                                    const columnas = parseInt(est.Cantidad_Columnas) || 1;
+                                    const filas = parseInt(est.Cantidad_Filas) || 1;
+                                    const subColumnas = parseInt(est.SubColumnas) || 1;
+                                    const subFilas = parseInt(est.SubFilas) || 1;
+
+                                    const contenedor = document.querySelector('#estanteria .estanteria-container');
+                                    const encabezado = contenedor.querySelector('.encabezado-filas-columnas');
+                                    const areaEstanteria = contenedor.querySelector('.area-estanteria');
+                                    const indicadoresFilas = contenedor.querySelector('.indicadores-filas');
+
+                                    encabezado.innerHTML = '';
+                                    areaEstanteria.innerHTML = '';
+                                    indicadoresFilas.innerHTML = '';
+
+                                    encabezado.style.setProperty('--columnas', columnas);
+                                    areaEstanteria.style.setProperty('--columnas', columnas);
+
+                                    // Inputs
+                                    const compartimentoCol = parseInt(document.getElementById('columnaEstanteVer').value); // columna principal
+                                    const compartimentoFila = parseInt(document.getElementById('filaEstanteVer').value); // fila principal
+                                    const subPosX = parseInt(document.getElementById('posicionXEstanteVer').value); // subcolumna
+                                    const subPosY = parseInt(document.getElementById('posicionYEstanteVer').value); // subfila
+
+                                    // Dibujar encabezado (morado)
+                                    for (let c = 1; c <= columnas; c++) {
+                                        const col = document.createElement('div');
+                                        col.classList.add('color-indicator');
+                                        col.innerHTML = `<div class="color-box bg-primary" title="Columna ${c}"></div>`;
+                                        encabezado.appendChild(col);
+                                    }
+
+                                    // Dibujar filas y compartimentos
+                                    for (let fila = 1; fila <= filas; fila++) {
+                                        const filaIndicador = document.createElement('div');
+                                        filaIndicador.classList.add('color-indicator');
+                                        filaIndicador.innerHTML = `<div class="color-box bg-success" title="Fila ${fila}"></div>`;
+                                        indicadoresFilas.appendChild(filaIndicador);
+
+                                        for (let col = 1; col <= columnas; col++) {
+                                            const compartimento = document.createElement('div');
+                                            compartimento.classList.add('estanteria-compartment');
+                                            compartimento.innerHTML = `
+                                                <div class="subcolumnas-container"></div>
+                                                <div class="subfilas-container"></div>
+                                            `;
+
+                                            // Dibujar subcolumnas (amarillas)
+                                            const subColsCont = compartimento.querySelector('.subcolumnas-container');
+                                            for (let i = 1; i < subColumnas; i++) {
+                                                const lineaV = document.createElement('div');
+                                                lineaV.classList.add('linea-subcolumna');
+                                                lineaV.style.left = `${(100 / subColumnas) * i}%`;
+                                                subColsCont.appendChild(lineaV);
+                                            }
+
+                                            // Dibujar subfilas (rojas)
+                                            const subFilasCont = compartimento.querySelector('.subfilas-container');
+                                            for (let j = 1; j < subFilas; j++) {
+                                                const lineaH = document.createElement('div');
+                                                lineaH.classList.add('linea-subfila');
+                                                lineaH.style.top = `${(100 / subFilas) * j}%`;
+                                                subFilasCont.appendChild(lineaH);
+                                            }
+
+                                            // Si estamos en el compartimento donde está el medicamento
+                                            if (col === compartimentoCol && fila === compartimentoFila) {
+                                                const marcador = document.createElement('div');
+                                                marcador.style.position = 'absolute';
+                                                marcador.style.width = '12px';
+                                                marcador.style.height = '12px';
+                                                marcador.style.backgroundColor = '#000';
+                                                marcador.style.borderRadius = '50%';
+
+                                                const top = (100 / subFilas) * (subPosY - 0.5);
+                                                const left = (100 / subColumnas) * (subPosX - 0.5);
+
+                                                marcador.style.top = `${top}%`;
+                                                marcador.style.left = `${left}%`;
+                                                marcador.style.transform = 'translate(-50%, -50%)';
+                                                marcador.title = `Posición: Columna ${col} - Fila ${fila} - X:${subPosX}, Y:${subPosY}`;
+                                                compartimento.appendChild(marcador);
+                                            }
+
+                                            areaEstanteria.appendChild(compartimento);
+                                        }
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error('Error al cargar estantería:', err);
+                                });
+                        }
+                    </script>
+
+                    <!-- estilos -->
+                    <style>
+                        .color-box {
+                            width: 15px;
+                            height: 15px;
+                            border-radius: 3px;
+                        }
+
+                        .estanteria-container {
+                            display: grid;
+                            grid-template-rows: auto 1fr;
+                            gap: 10px;
+                            background-color: #f9f9f9;
+                            padding: 10px;
+                            border: 1px solid #ddd;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        }
+
+                        .encabezado-filas-columnas {
+                            display: inline-grid;
+                            grid-template-columns: repeat(var(--columnas), minmax(100px, 1fr));
+                            grid-auto-rows: auto;
+                            gap: 10px;
+                            margin-left: 70px;
+                        }
+
+                        .estanteria-wrapper {
+                            display: flex;
+                            align-items: flex-start;
+                            gap: 10px;
+                        }
+
+                        .indicadores-filas {
+                            display: grid;
+                            grid-auto-rows: minmax(100px, auto);
+                            gap: 10px;
+                        }
+
+                        .indicadores-filas .color-indicator {
+                            justify-content: flex-start;
+                        }
+
+                        .color-indicator {
+                            display: flex;
+                            align-items: center;
+                        }
+
+                        .color-indicator div {
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 4px;
+                        }
+
+                        .area-estanteria {
+                            background: #c2c3c2;
+                            padding: 10px;
+                            border-radius: 8px;
+                            display: grid;
+                            grid-template-columns: repeat(var(--columnas), minmax(100px, 1fr));
+                            grid-auto-rows: minmax(100px, auto);
+                            gap: 10px;
+                            border: 2px solid #999;
+                            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+                        }
+
+                        .estanteria-compartment {
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            text-align: center;
+                            padding: 8px;
+                            position: relative;
+                            background: white;
+                            transition: transform 0.3s ease;
+                            animation: fadeIn 0.4s ease;
+                            min-height: 100px;
+                            height: 100%;
+                        }
+
+                        .estanteria-compartment:hover {
+                            transform: scale(1.05);
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        }
+
+                        @keyframes fadeIn {
+                            from {
+                                opacity: 0;
+                                transform: scale(0.9);
+                            }
+
+                            to {
+                                opacity: 1;
+                                transform: scale(1);
+                            }
+                        }
+
+                        .subcolumnas-container,
+                        .subfilas-container {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            pointer-events: none;
+                        }
+
+                        .linea-subcolumna {
+                            position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            width: 2px;
+                            background-color: #ffc107;
+                            /* Amarillo */
+                            transform: translateX(-50%);
+                        }
+
+                        .linea-subfila {
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            height: 2px;
+                            background-color: #dc3545;
+                            /* Rojo */
+                            transform: translateY(-50%);
+                        }
+
+                        .swal2-container {
+                            z-index: 20000 !important;
+                        }
+                    </style>
+
+                    <!-- Pestaña 3: Bodega -->
+                    <div class="tab-pane fade" id="bodega" role="tabpanel" aria-labelledby="bodega-tab">
+                        <div class="mt-3">
+                            <h5 class="small fw-bold mb-2">Ubicación en Bodega</h5>
+
+                            <div class="row g-3">
+                                <!-- Columna Izquierda: Bodega Visual -->
+                                <div class="col-md-8">
+                                    <div class="estanteria-container bg-metalica p-2 rounded" >
+                                        <div class="zona-principal">
+                                            <div class="encabezado-filas-columnas"></div>
+                                            <div class="estanteria-wrapper">
+                                                <div class="indicadores-filas"></div>
+                                                <div class="area-estanteria"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Columna Derecha: Información de la Bodega Seleccionada -->
+                                <div class="col-md-4">
+                                    <div class="card h-100 shadow-sm">
+                                        <div class="card-header bg-light fw-bold small">Detalles de la Bodega Seleccionada</div>
+                                        <div class="card-body p-3">
+
+                                            <div class="mb-2">
+                                                <label for="nombreBodegaVer" class="form-label small">Nombre de la Estanteria</label>
+                                                <input type="text" class="form-control form-control-sm" id="nombreBodegaVer" disabled>
+                                            </div>
+
+                                            <!-- Columna y Fila -->
+                                            <div class="mb-2 row align-items-center">
+                                                <div class="col">
+                                                    <label for="columnaBodegaVer" class="form-label small">Columna</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" id="columnaBodegaVer" disabled>
+                                                        <span class="input-group-text p-1">
+                                                            <div class="color-box" style="background-color: #6f42c1;"></div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="filaBodegaVer" class="form-label small">Fila</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="text" class="form-control" id="filaBodegaVer" disabled>
+                                                        <span class="input-group-text p-1">
+                                                            <div class="color-box" style="background-color: #28a745;"></div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Posición Y y X -->
+                                            <div class="mb-2 row align-items-center">
+                                                <div class="col">
+                                                    <label for="posicionYBodegaVer" class="form-label small">Posición Y</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="number" class="form-control" id="posicionYBodegaVer" disabled>
+                                                        <span class="input-group-text p-1">
+                                                            <div class="color-box" style="background-color: #000;"></div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="posicionXBodegaVer" class="form-label small">Posición X</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="number" class="form-control" id="posicionXBodegaVer" disabled>
+                                                        <span class="input-group-text p-1">
+                                                            <div class="color-box" style="background-color: #000;"></div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Stock mínimo y máximo -->
+                                            <div class="mb-2 row">
+                                                <div class="col">
+                                                    <label for="stockMinimoBodegaVer" class="form-label small">Stock Mínimo</label>
+                                                    <input type="number" class="form-control form-control-sm" id="stockMinimoBodegaVer" disabled>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="stockMaximoBodegaVer" class="form-label small">Stock Máximo</label>
+                                                    <input type="number" class="form-control form-control-sm" id="stockMaximoBodegaVer" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2">
+                                                <label for="cantidadEnBodegaVer" class="form-label small">Cantidad en Bodega</label>
+                                                <input type="number" class="form-control form-control-sm" id="cantidadEnBodegaVer" disabled>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="fechaRecibidoBodegaVer" class="form-label small">Fecha de Ingreso</label>
+                                                <input type="text" class="form-control form-control-sm" id="fechaRecibidoBodegaVer" disabled>
+                                            </div>
+
+                                            <!-- Inputs ocultos para las dimensiones totales de la estantería -->
+                                            <input type="hidden" id="cantidadColumnasBodega" value="">
+                                            <input type="hidden" id="cantidadFilasBodega" value="">
+                                            <input type="hidden" id="cantidadSubColumnasBodega" value="">
+                                            <input type="hidden" id="cantidadSubFilasBodega" value="">
+
                                         </div>
                                     </div>
                                 </div>
@@ -957,127 +1199,113 @@ include_once "Ctrl/menu.php";
                         </div>
                     </div>
 
-                    <!-- Pestaña 3: Bodega -->
-<div class="tab-pane fade" id="bodega" role="tabpanel" aria-labelledby="bodega-tab">
-    <div class="mt-3">
-        <h5 class="small fw-bold mb-2">Ubicación en Bodega</h5>
+                    <!-- Script que muestra la estantería en pestaña 3 -->
+                    <script>
+                        function dibujarEstanteriaEnPestania3(idEstanteria) {
+                            fetch(`../pages/Ctrl/ver_estanteria.php?id=${idEstanteria}`)
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (!data.success) {
+                                        console.error('Estantería no encontrada');
+                                        return;
+                                    }
 
-        <!-- Fila con bodega visual y formulario lateral -->
-        <div class="row g-3">
+                                    const est = data.estanteria;
 
-            <!-- Columna Izquierda: Bodega Visual -->
-            <div class="col-md-8">
-                <div class="estanteria-container">
-                    <!-- Compartimientos de la bodega -->
-                    <div class="estanteria-row">
-                        <div class="estanteria-compartment">
-                            <div class="compartment-label">(A,1)</div>
-                            <div class="medication-card">
-                                <div class="medication-name">Paracetamol</div>
-                                <div class="medication-quantity">50</div>
-                            </div>
-                        </div>
-                        <div class="estanteria-compartment">
-                            <div class="compartment-label">(B,1)</div>
-                            <div class="medication-card">
-                                <div class="medication-name">Amoxicilina</div>
-                                <div class="medication-quantity">30</div>
-                            </div>
-                        </div>
-                        <div class="estanteria-compartment">
-                            <div class="compartment-label">(C,1)</div>
-                            <div class="medication-card">
-                                <div class="medication-name">VACÍO</div>
-                                <div class="medication-quantity">0</div>
-                            </div>
-                        </div>
-                    </div>
+                                    const columnas = parseInt(est.Cantidad_Columnas) || 1;
+                                    const filas = parseInt(est.Cantidad_Filas) || 1;
+                                    const subColumnas = parseInt(est.SubColumnas) || 1;
+                                    const subFilas = parseInt(est.SubFilas) || 1;
 
-                    <div class="estanteria-row">
-                        <div class="estanteria-compartment">
-                            <div class="compartment-label">(A,2)</div>
-                            <div class="medication-card">
-                                <div class="medication-name">Ibuprofeno</div>
-                                <div class="medication-quantity">40</div>
-                            </div>
-                        </div>
-                        <div class="estanteria-compartment">
-                            <div class="compartment-label">(B,2)</div>
-                            <div class="medication-card">
-                                <div class="medication-name">VACÍO</div>
-                                <div class="medication-quantity">0</div>
-                            </div>
-                        </div>
-                        <div class="estanteria-compartment">
-                            <div class="compartment-label">(C,2)</div>
-                            <div class="medication-card">
-                                <div class="medication-name">Loratadina</div>
-                                <div class="medication-quantity">25</div>
-                            </div>
-                        </div>
-                    </div>
+                                    const contenedor = document.querySelector('#bodega .estanteria-container');
+                                    const encabezado = contenedor.querySelector('.encabezado-filas-columnas');
+                                    const areaEstanteria = contenedor.querySelector('.area-estanteria');
+                                    const indicadoresFilas = contenedor.querySelector('.indicadores-filas');
 
-                    <div class="estanteria-row">
-                        <div class="estanteria-compartment">
-                            <div class="compartment-label">(A,3)</div>
-                            <div class="medication-card">
-                                <div class="medication-name">VACÍO</div>
-                                <div class="medication-quantity">0</div>
-                            </div>
-                        </div>
-                        <div class="estanteria-compartment">
-                            <div class="compartment-label">(B,3)</div>
-                            <div class="medication-card">
-                                <div class="medication-name">Metformina</div>
-                                <div class="medication-quantity">60</div>
-                            </div>
-                        </div>
-                        <div class="estanteria-compartment">
-                            <div class="compartment-label">(C,3)</div>
-                            <div class="medication-card">
-                                <div class="medication-name">Omeprazol</div>
-                                <div class="medication-quantity">20</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    encabezado.innerHTML = '';
+                                    areaEstanteria.innerHTML = '';
+                                    indicadoresFilas.innerHTML = '';
 
-            <!-- Columna Derecha: Información de la Bodega Seleccionada -->
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-header bg-light fw-bold small">Detalles de la Bodega Seleccionada</div>
-                    <div class="card-body p-3">
-                        <div class="mb-2">
-                            <label for="nombreBodegaVer" class="form-label small">Nombre de la Bodega</label>
-                            <input type="text" class="form-control form-control-sm" id="nombreBodegaVer" value="Bodega Principal" disabled>
-                        </div>
-                        <div class="mb-2">
-                            <label for="posicionBodegaVer" class="form-label small">Posición en Bodega</label>
-                            <input type="text" class="form-control form-control-sm" id="posicionBodegaVer" value="(B,2)" disabled>
-                        </div>
-                        <div class="mb-2">
-                            <label for="stockMinimoBodegaVer" class="form-label small">Stock Mínimo</label>
-                            <input type="number" class="form-control form-control-sm" id="stockMinimoBodegaVer" value="20">
-                        </div>
-                        <div class="mb-2">
-                            <label for="stockMaximoBodegaVer" class="form-label small">Stock Máximo</label>
-                            <input type="number" class="form-control form-control-sm" id="stockMaximoBodegaVer" value="100">
-                        </div>
-                        <div class="mb-2">
-                            <label for="cantidadEnBodegaVer" class="form-label small">Cantidad en Bodega</label>
-                            <input type="number" class="form-control form-control-sm" id="cantidadEnBodegaVer" value="45">
-                        </div>
-                        <div class="mb-0">
-                            <label for="fechaCaducidadBodegaVer" class="form-label small">Fecha de Caducidad</label>
-                            <input type="text" class="form-control form-control-sm" id="fechaCaducidadBodegaVer" value="2026-03-15" disabled>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                                    encabezado.style.setProperty('--columnas', columnas);
+                                    areaEstanteria.style.setProperty('--columnas', columnas);
+
+                                    // Inputs que indican la posición actual del medicamento
+                                    const compartimentoCol = parseInt(document.getElementById('columnaBodegaVer').value);
+                                    const compartimentoFila = parseInt(document.getElementById('filaBodegaVer').value);
+                                    const subPosX = parseInt(document.getElementById('posicionXBodegaVer').value);
+                                    const subPosY = parseInt(document.getElementById('posicionYBodegaVer').value);
+
+                                    // Dibujar encabezado columnas (morado)
+                                    for (let c = 1; c <= columnas; c++) {
+                                        const col = document.createElement('div');
+                                        col.classList.add('color-indicator');
+                                        col.innerHTML = `<div class="color-box bg-primary" title="Columna ${c}"></div>`;
+                                        encabezado.appendChild(col);
+                                    }
+
+                                    // Dibujar filas y compartimentos
+                                    for (let fila = 1; fila <= filas; fila++) {
+                                        const filaIndicador = document.createElement('div');
+                                        filaIndicador.classList.add('color-indicator');
+                                        filaIndicador.innerHTML = `<div class="color-box bg-success" title="Fila ${fila}"></div>`;
+                                        indicadoresFilas.appendChild(filaIndicador);
+
+                                        for (let col = 1; col <= columnas; col++) {
+                                            const compartimento = document.createElement('div');
+                                            compartimento.classList.add('estanteria-compartment');
+                                            compartimento.innerHTML = `
+                                                    <div class="subcolumnas-container"></div>
+                                                    <div class="subfilas-container"></div>
+                                                `;
+
+                                            // Dibujar subcolumnas (líneas verticales amarillas)
+                                            const subColsCont = compartimento.querySelector('.subcolumnas-container');
+                                            for (let i = 1; i < subColumnas; i++) {
+                                                const lineaV = document.createElement('div');
+                                                lineaV.classList.add('linea-subcolumna');
+                                                lineaV.style.left = `${(100 / subColumnas) * i}%`;
+                                                subColsCont.appendChild(lineaV);
+                                            }
+
+                                            // Dibujar subfilas (líneas horizontales rojas)
+                                            const subFilasCont = compartimento.querySelector('.subfilas-container');
+                                            for (let j = 1; j < subFilas; j++) {
+                                                const lineaH = document.createElement('div');
+                                                lineaH.classList.add('linea-subfila');
+                                                lineaH.style.top = `${(100 / subFilas) * j}%`;
+                                                subFilasCont.appendChild(lineaH);
+                                            }
+
+                                            // Si es el compartimento donde está el medicamento
+                                            if (col === compartimentoCol && fila === compartimentoFila) {
+                                                const marcador = document.createElement('div');
+                                                marcador.style.position = 'absolute';
+                                                marcador.style.width = '12px';
+                                                marcador.style.height = '12px';
+                                                marcador.style.backgroundColor = '#000';
+                                                marcador.style.borderRadius = '50%';
+                                                marcador.title = `Columna ${col}, Fila ${fila}, X:${subPosX}, Y:${subPosY}`;
+
+                                                const top = (100 / subFilas) * (subPosY - 0.5);
+                                                const left = (100 / subColumnas) * (subPosX - 0.5);
+
+                                                marcador.style.top = `${top}%`;
+                                                marcador.style.left = `${left}%`;
+                                                marcador.style.transform = 'translate(-50%, -50%)';
+
+                                                compartimento.appendChild(marcador);
+                                            }
+
+                                            areaEstanteria.appendChild(compartimento);
+                                        }
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error('Error al cargar estantería:', err);
+                                });
+                        }
+                    </script>
+
                 </div>
             </div>
 
@@ -1091,6 +1319,229 @@ include_once "Ctrl/menu.php";
         </div>
     </div>
 </div>
+
+<!--muestra y captura los datos el los modales -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.imagenMedicamentoCard').forEach(img => {
+            img.addEventListener('click', () => {
+                const idMedicamento = img.getAttribute('data-id');
+                if (!idMedicamento) return;
+
+                limpiarModalMedicamento();
+                limpiarEstanteriaModal(); // 🧽 Limpiar también pestaña estantería
+
+                fetch(`../pages/Ctrl/obtener_medicamento_completo.php?id=${idMedicamento}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data || data.length === 0 || data.mensaje) {
+                            alert(data.mensaje || 'No se encontraron datos del medicamento.');
+                            return;
+                        }
+
+                        const med = data[0];
+
+                        // 🧩 Información general
+                        document.getElementById('nombreMedicamentoVer').value = med.Nombre_Medicamento || '';
+                        document.getElementById('laboratorioMedicamentoVer').value = med.Nombre_Laboratorio || '';
+                        document.getElementById('categoriaMedicamentoVer').value = med.Nombre_Categoria || '';
+                        document.getElementById('proveedorMedicamentoVer').value = med.Proveedor || '';
+                        document.getElementById('descripcionMedicamentoVer').value = med.Descripcion_Medicamento || '';
+                        document.getElementById('estadoMedicamentoVer').value = med.Estado_Lote || '';
+
+                        // ⚠️ Desde lote
+                        document.getElementById('stockMinimoLoteVer').value = med.Stock_Minimo_Lote || '';
+                        document.getElementById('stockMaximoLoteVer').value = med.Stock_Maximo_Lote || '';
+                        document.getElementById('formaFarmaceuticaVer').value = med.Forma_Farmaceutica || '';
+                        document.getElementById('dosisMedicamentoVer').value = med.Dosis || '';
+                        document.getElementById('fechaFabricacionLoteVer').value = med.Fecha_Fabricacion_Lote || '';
+                        document.getElementById('fechaCaducidadLoteVer').value = med.Fecha_Caducidad_Lote || '';
+                        document.getElementById('fechaEmisionLoteVer').value = med.Fecha_Emision_Lote || '';
+                        document.getElementById('fechaRecibidoLoteVer').value = med.Fecha_Recibido_Lote || '';
+                        document.getElementById('precioTotalLoteVer').value = med.Precio_Total_Lote || '';
+
+                        // 🖼 Imagen
+                        const imgElem = document.getElementById('imagenMedicamentoVer');
+                        imgElem.src = med.Imagen ?
+                            '../../dist/assets/img-medicamentos/' + med.Imagen :
+                            '../../dist/assets/img-medicamentos/default.jpg';
+
+                        // 🧊 Información de Estantería
+                        document.getElementById("nombreEstanteriaVer").value = med.Nombre_Estanteria || '';
+                        document.getElementById("columnaEstanteVer").value = med.SubColumna || '';
+                        document.getElementById("filaEstanteVer").value = med.SubFila || '';
+                        document.getElementById("posicionYEstanteVer").value = med.Coordenada_Y || '';
+                        document.getElementById("posicionXEstanteVer").value = med.Coordenada_X || '';
+                        document.getElementById("stockMinimoEstanteVer").value = med.Stock_Minimo || '';
+                        document.getElementById("stockMaximoEstanteVer").value = med.Stock_Maximo || '';
+                        document.getElementById("cantidadEnEstanteVer").value = med.Cantidad_Disponible || '';
+
+                        if (med.Fecha_Actualizacion) {
+                            const fecha = new Date(med.Fecha_Actualizacion);
+                            document.getElementById("fechaActualizacionEstanteVer").value = fecha.toISOString().split('T')[0];
+                            if (med.ID_Estanteria) {
+                                dibujarEstanteriaEnPestania2(med.ID_Estanteria);
+                            }
+
+                        } else {
+                            document.getElementById("fechaActualizacionEstanteVer").value = "";
+                        }
+
+                        llenarTablaPresentaciones(data);
+
+                    })
+                    .catch(err => {
+                        console.error('Error al cargar medicamento:', err);
+                        alert('Error al obtener datos del medicamento.');
+                    });
+            });
+        });
+    });
+
+    function limpiarModalMedicamento() {
+        const ids = [
+            'nombreMedicamentoVer', 'laboratorioMedicamentoVer', 'categoriaMedicamentoVer',
+            'proveedorMedicamentoVer', 'descripcionMedicamentoVer', 'estadoMedicamentoVer',
+            'stockMinimoLoteVer', 'stockMaximoLoteVer', 'formaFarmaceuticaVer',
+            'dosisMedicamentoVer', 'fechaFabricacionLoteVer', 'fechaCaducidadLoteVer',
+            'fechaEmisionLoteVer', 'fechaRecibidoLoteVer', 'precioTotalLoteVer'
+        ];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        const imgElem = document.getElementById('imagenMedicamentoVer');
+        if (imgElem) imgElem.src = '../../dist/assets/img-medicamentos/default.jpg';
+
+        const tbody = document.getElementById('presentacionesMedicamentoVer');
+        if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted fst-italic small">Cargando presentaciones...</td></tr>`;
+        }
+    }
+
+    function limpiarEstanteriaModal() {
+        const ids = [
+            'nombreEstanteriaVer', 'columnaEstanteVer', 'filaEstanteVer',
+            'subcolumnaEstanteVer', 'subfilaEstanteVer', 'posicionYEstanteVer',
+            'posicionXEstanteVer', 'stockMinimoEstanteVer', 'stockMaximoEstanteVer',
+            'cantidadEnEstanteVer', 'fechaActualizacionEstanteVer'
+        ];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+    }
+
+    function llenarTablaPresentaciones(data) {
+        const tbody = document.getElementById('presentacionesMedicamentoVer');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        const presentacionesMap = new Map();
+
+        data.forEach(row => {
+            if (row.ID_Presentacion && row.Tipo_Presentacion) {
+                if (!presentacionesMap.has(row.ID_Presentacion)) {
+                    presentacionesMap.set(row.ID_Presentacion, {
+                        Tipo_Presentacion: row.Tipo_Presentacion,
+                        Cantidad: row.Cantidad_Presentacion,
+                        Precio: row.Precio
+                    });
+                }
+            }
+        });
+
+        if (presentacionesMap.size === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted fst-italic small">No hay presentaciones registradas.</td></tr>`;
+            return;
+        }
+
+        presentacionesMap.forEach(p => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+            <td>${p.Tipo_Presentacion}</td>
+            <td>${p.Cantidad}</td>
+            <td>${p.Precio}</td>
+        `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // ** NUEVA FUNCIÓN para llenar la pestaña 3 - Bodega **
+    // ✅ Función principal para cargar datos de bodega desde el PHP
+    function cargarDatosBodega(idMedicamento) {
+        fetch(`../pages/Ctrl/obtener_estanteria_bodega.php?id=${idMedicamento}`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data || data.length === 0) {
+                    console.warn("⚠️ No se encontraron datos de bodega para el medicamento:", idMedicamento);
+
+                    // Limpiar campos del formulario
+                    document.getElementById("nombreBodegaVer").value = "";
+                    document.getElementById("columnaBodegaVer").value = "";
+                    document.getElementById("filaBodegaVer").value = "";
+                    document.getElementById("posicionYBodegaVer").value = "";
+                    document.getElementById("posicionXBodegaVer").value = "";
+                    document.getElementById("stockMinimoBodegaVer").value = 0;
+                    document.getElementById("stockMaximoBodegaVer").value = 0;
+                    document.getElementById("cantidadEnBodegaVer").value = 0;
+                    document.getElementById("fechaRecibidoBodegaVer").value = "";
+
+                    return;
+                }
+
+                console.log("📦 Datos recibidos de bodega:", data);
+
+                const bodega = data[0];
+
+                // Llenar los inputs
+                document.getElementById("nombreBodegaVer").value = bodega.Nombre_Estanteria || "";
+                document.getElementById("columnaBodegaVer").value = bodega.SubColumna || "";
+                document.getElementById("filaBodegaVer").value = bodega.SubFila || "";
+                document.getElementById("posicionYBodegaVer").value = bodega.Coordenada_Y || "";
+                document.getElementById("posicionXBodegaVer").value = bodega.Coordenada_X || "";
+                document.getElementById("stockMinimoBodegaVer").value = bodega.Stock_Minimo || 0;
+                document.getElementById("stockMaximoBodegaVer").value = bodega.Stock_Maximo || 0;
+                document.getElementById("cantidadEnBodegaVer").value = bodega.Cantidad_Total_Bodega || 0;
+
+                if (bodega.Fecha_Recibido_Lote) {
+                    const fecha = new Date(bodega.Fecha_Recibido_Lote);
+                    const fechaFormateada = fecha.toISOString().split("T")[0];
+                    document.getElementById("fechaRecibidoBodegaVer").value = fechaFormateada;
+                } else {
+                    document.getElementById("fechaRecibidoBodegaVer").value = "";
+                }
+
+                // ✅ Verifica que exista el ID_Estanteria
+                if (bodega.ID_Estanteria) {
+                    dibujarEstanteriaEnPestania3(bodega.ID_Estanteria);
+                } else {
+                    console.warn("⚠️ No se encontró ID_Estanteria en los datos de bodega.");
+                }
+            })
+            .catch(error => {
+                console.error("❌ Error al cargar datos de bodega:", error);
+            });
+    }
+
+
+    // Asignar evento cuando se haga clic en una imagen de medicamento
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".imagenMedicamentoCard").forEach(img => {
+            img.addEventListener("click", function() {
+                const idMedicamento = this.getAttribute("data-id");
+
+                if (idMedicamento) {
+                    console.log("🟢 ID del medicamento seleccionado:", idMedicamento);
+                    cargarDatosBodega(idMedicamento);
+                } else {
+                    console.warn("⚠️ No se encontró el ID del medicamento.");
+                }
+            });
+        });
+    });
+</script>
+
 
 
 

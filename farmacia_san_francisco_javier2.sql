@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-06-2025 a las 01:59:36
+-- Tiempo de generación: 27-06-2025 a las 23:02:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -188,7 +188,6 @@ CREATE TABLE `detalle_factura_venta` (
 CREATE TABLE `estanteria` (
   `ID_Estanteria` int(11) NOT NULL,
   `Nombre_Estanteria` varchar(20) NOT NULL,
-  `Cantidad_Pisos` int(11) NOT NULL DEFAULT 1,
   `Cantidad_Filas` int(11) NOT NULL DEFAULT 1,
   `Cantidad_Columnas` int(11) NOT NULL DEFAULT 1,
   `SubFilas` int(11) NOT NULL DEFAULT 1,
@@ -200,9 +199,11 @@ CREATE TABLE `estanteria` (
 -- Volcado de datos para la tabla `estanteria`
 --
 
-INSERT INTO `estanteria` (`ID_Estanteria`, `Nombre_Estanteria`, `Cantidad_Pisos`, `Cantidad_Filas`, `Cantidad_Columnas`, `SubFilas`, `SubColumnas`, `Tipo_Estanteria`) VALUES
-(2, 'Estante A', 3, 3, 3, 2, 3, 'Sala'),
-(3, 'Estanteria A Bodega', 3, 3, 3, 2, 3, 'Sala');
+INSERT INTO `estanteria` (`ID_Estanteria`, `Nombre_Estanteria`, `Cantidad_Filas`, `Cantidad_Columnas`, `SubFilas`, `SubColumnas`, `Tipo_Estanteria`) VALUES
+(2, 'Estante A', 3, 3, 2, 3, 'Sala'),
+(3, 'Estante A', 3, 3, 2, 3, 'Bodega'),
+(4, 'Estanteria Prueba', 4, 3, 1, 2, 'Sala'),
+(6, 'Estanteria Prueba 3', 2, 2, 1, 1, 'Bodega');
 
 -- --------------------------------------------------------
 
@@ -519,8 +520,8 @@ CREATE TABLE `posicion_estanteria` (
 --
 
 INSERT INTO `posicion_estanteria` (`ID_Posicion`, `ID_Estanteria`, `Coordenada_X`, `Coordenada_Y`, `Piso`, `SubFila`, `SubColumna`) VALUES
-(2, 2, 1, 1, 1, 1, 1),
-(3, 3, 1, 1, 1, 1, 1);
+(2, 2, 1, 1, 3, 2, 1),
+(3, 3, 2, 1, 1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -619,7 +620,7 @@ INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `I
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-13 20:03:49'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-27 19:03:57'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
@@ -970,7 +971,7 @@ ALTER TABLE `detalle_factura_venta`
 -- AUTO_INCREMENT de la tabla `estanteria`
 --
 ALTER TABLE `estanteria`
-  MODIFY `ID_Estanteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID_Estanteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `factura_compra`
