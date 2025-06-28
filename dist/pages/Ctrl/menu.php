@@ -76,6 +76,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
                     <!-- Administración -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Administración</span></li>
+
+                    <li class="menu-item">
+                        <a href="/Web_Farmacia/dist/pages/compras.php" class="menu-link">
+                            <i class="fas fa-user-tie"></i>
+                            <div data-i18n="Boxicons">Compras</div>
+                        </a>
+                    </li>
+
                     <li class="menu-item">
                         <a href="/Web_Farmacia/dist/pages/empleado.php" class="menu-link">
                             <i class="fas fa-user-tie"></i>
@@ -238,7 +246,9 @@ if (session_status() === PHP_SESSION_NONE) {
                             'proveedores.php' => 'Proveedores',
                             'categoria.php' => 'Categorías',
                             'productos.php' => 'Productos',
-                            'icons-boxicons.html' => 'Historial Facturación'
+                            'icons-boxicons.html' => 'Historial Facturación',
+                            'compras.php' => 'Compras',
+                            'facturacion_diaria.php' => 'Facturas Diarias'
                         ];
 
                         // Verifica si existe un título asignado para la página actual

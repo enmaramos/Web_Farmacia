@@ -17,6 +17,10 @@ $estadoFiltro = isset($_GET['estado']) ? $_GET['estado'] : '1'; // Por defecto, 
 $sql = "SELECT DISTINCT Forma_Farmaceutica FROM medicamento_forma_farmaceutica";
 $resultado_formas = $conn->query($sql);
 
+$sql_dosis = "SELECT DISTINCT Dosis FROM medicamento_dosis";
+$resultado_dosis = $conn->query($sql_dosis);
+
+
 // Validar errores en la consulta
 if (!$resultado_formas) {
     die("Error en la consulta: " . $conn->error);
@@ -24,15 +28,24 @@ if (!$resultado_formas) {
 
 // Consulta dependiendo del estado seleccionado
 if ($estadoFiltro == '1') {
-    // Vendedores activos
-    $query = "SELECT * FROM medicamento WHERE Estado = 1";
+    $query = "SELECT m.*, GROUP_CONCAT(d.Dosis SEPARATOR ', ') AS Dosis_Medicamento
+              FROM medicamento m
+              LEFT JOIN medicamento_dosis d ON m.ID_Medicamento = d.ID_Medicamento
+              WHERE m.Estado = 1
+              GROUP BY m.ID_Medicamento";
 } elseif ($estadoFiltro == '0') {
-    // Mostrar todos los vendedores inactivos
-    $query = "SELECT * FROM medicamento WHERE Estado = 0";
+    $query = "SELECT m.*, GROUP_CONCAT(d.Dosis SEPARATOR ', ') AS Dosis_Medicamento
+              FROM medicamento m
+              LEFT JOIN medicamento_dosis d ON m.ID_Medicamento = d.ID_Medicamento
+              WHERE m.Estado = 0
+              GROUP BY m.ID_Medicamento";
 } else {
-    // Vendedores activos e inactivos (por si alguien introduce algo inesperado)
-    $query = "SELECT * FROM medicamento";
+    $query = "SELECT m.*, GROUP_CONCAT(d.Dosis SEPARATOR ', ') AS Dosis_Medicamento
+              FROM medicamento m
+              LEFT JOIN medicamento_dosis d ON m.ID_Medicamento = d.ID_Medicamento
+              GROUP BY m.ID_Medicamento";
 }
+
 
 $result = $conn->query($query);
 
@@ -143,11 +156,17 @@ include_once "Ctrl/menu.php";
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalVerMedicamento"
                                 data-id="<?= $row['ID_Medicamento'] ?>">
+
+                            <!-- Dosis debajo de la imagen -->
+                            <div class="mt-2 small text-muted">
+                                <strong>Dosis:</strong> <?= htmlspecialchars($row['Dosis_Medicamento'] ?? '-') ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             <?php } ?>
         </div>
+
     </div>
 </div>
 
@@ -183,7 +202,7 @@ include_once "Ctrl/menu.php";
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
 
-            <form action="../pages/Ctrl/agregar_medicamento_completo.php" method="POST" enctype="multipart/form-data">
+            <form action="../pages/Ctrl/" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
                     <!-- Tabs -->
                     <ul class="nav nav-tabs mb-3" id="medicamentoTabs" role="tablist">
@@ -226,7 +245,7 @@ include_once "Ctrl/menu.php";
                                         onchange="previewImage(event)" style="display: none;" required>
 
                                     <label for="marcaMedicamento" class="form-label">Laboratorio / Marca</label>
-                                    <input type="text" class="form-control" name="marcaMedicamento" id="marcaMedicamento" readonly placeholder="Se completa automáticamente">
+                                    <input type="text" class="form-control" name="marcaMedicamento" id="marcaMedicamento">
                                 </div>
 
                                 <!-- Datos del medicamento -->
@@ -255,9 +274,11 @@ include_once "Ctrl/menu.php";
                                                         echo "<option value='" . $row['ID_Proveedor'] . "'>" . $row['Nombre_Proveedor'] . "</option>";
                                                     } ?>
                                                 </select>
+                                                <!-- 
                                                 <button class="btn btn-outline-secondary" type="button" onclick="agregarProveedor()" title="Agregar proveedor">
                                                     <i class="bi bi-person-plus"></i>
                                                 </button>
+                                                -->
                                             </div>
                                         </div>
 
@@ -271,9 +292,11 @@ include_once "Ctrl/menu.php";
                                                         echo "<option value='" . $row['ID_Categoria'] . "'>" . $row['Nombre_Categoria'] . "</option>";
                                                     } ?>
                                                 </select>
+                                                <!-- 
                                                 <button class="btn btn-outline-secondary" type="button" onclick="agregarCategoria()" title="Agregar categoría">
                                                     <i class="bi bi-tags"></i>
                                                 </button>
+                                                -->
                                             </div>
                                         </div>
 
@@ -286,6 +309,7 @@ include_once "Ctrl/menu.php";
                                 </div>
                             </div>
                         </div>
+
                         <!-- script de agregar medicamento -->
                         <script>
                             function previewImage(event) {
@@ -315,8 +339,6 @@ include_once "Ctrl/menu.php";
                                 alert("Aquí puedes abrir un modal o redirigir a 'Agregar categoría'.");
                             }
                         </script>
-
-
 
                         <!-- Lote -->
                         <div class="tab-pane fade" id="lote" role="tabpanel">
@@ -369,13 +391,12 @@ include_once "Ctrl/menu.php";
                             </div>
                         </div>
 
-
-                        <!-- Pestaña FORMAS FARMACÉUTICAS y Dosis-->
+                        <!-- Pestaña FORMAS FARMACÉUTICAS y Dosis -->
                         <div class="tab-pane fade" id="forma" role="tabpanel">
                             <div class="form-group p-3">
                                 <div style="display: flex; gap: 24px; flex-wrap: wrap;">
 
-                                    <!-- Contenedor de Formas Farmacéuticas -->
+                                    <!-- Columna 1: Formas farmacéuticas -->
                                     <div style="flex: 1; min-width: 300px;">
                                         <label><strong>Selecciona las formas farmacéuticas:</strong></label>
                                         <div id="lista-formas" style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px;">
@@ -394,16 +415,25 @@ include_once "Ctrl/menu.php";
                                             ?>
                                         </div>
 
-                                        <!-- Botón para agregar nueva forma -->
-                                        <div style="margin-top: 12px;">
-                                            <button type="button" onclick="mostrarModalForma()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                                                <i class="fas fa-plus-circle" style="font-size: 20px; color: #007bff;"></i>
-                                                <span style="color: #007bff;">Agregar nueva forma</span>
-                                            </button>
+                                        <!-- Inputs dinámicos para nuevas formas -->
+                                        <div id="contenedor-nuevas-formas" style="margin-top: 12px; display: flex; flex-direction: column; gap: 10px;">
+
+                                            <!-- Bloque que agrupa label e input juntos -->
+                                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                                <label for="nueva_forma_farmaceutica"><strong>Agregar nueva forma farmacéutica:</strong></label>
+                                                <div class="input-grupo-forma" style="display: flex; gap: 6px; align-items: center;">
+                                                    <input type="text" name="nuevas_formas[]" class="form-control" placeholder="Nueva forma farmacéutica" style="flex: 1;" />
+                                                    <button type="button" onclick="agregarInputForma(this)" title="Agregar otra" style="background: none; border: none; cursor: pointer;">
+                                                        <i class="fas fa-plus-circle" style="font-size: 20px; color: #28a745;"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
                                         </div>
+
                                     </div>
 
-                                    <!-- Contenedor de Dosis -->
+                                    <!-- Columna 2: Dosis -->
                                     <div style="flex: 1; min-width: 300px;">
                                         <label><strong>Selecciona las dosis:</strong></label>
                                         <div id="lista-dosis" style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px;">
@@ -422,12 +452,10 @@ include_once "Ctrl/menu.php";
                                             ?>
                                         </div>
 
-                                        <!-- Botón para agregar nueva dosis -->
+                                        <!-- Input para nueva dosis -->
                                         <div style="margin-top: 12px;">
-                                            <button type="button" onclick="mostrarModalDosis()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                                                <i class="fas fa-plus-circle" style="font-size: 20px; color: #007bff;"></i>
-                                                <span style="color: #007bff;">Agregar nueva dosis</span>
-                                            </button>
+                                            <label for="nueva_dosis"><strong>Agregar nueva dosis:</strong></label>
+                                            <input type="text" id="nueva_dosis" name="nueva_dosis" class="form-control" placeholder="Ej: 250mg" />
                                         </div>
                                     </div>
 
@@ -435,7 +463,56 @@ include_once "Ctrl/menu.php";
                             </div>
                         </div>
 
+                        <!-- Script para inputs dinámicos de formas -->
+                        <script>
+                            function agregarInputForma(btn) {
+                                const contenedor = document.getElementById('contenedor-nuevas-formas');
 
+                                const div = document.createElement('div');
+                                div.className = "input-grupo-forma";
+                                div.style = "display: flex; gap: 6px; align-items: center;";
+
+                                const input = document.createElement('input');
+                                input.type = 'text';
+                                input.name = 'nuevas_formas[]';
+                                input.className = 'form-control';
+                                input.placeholder = 'Nueva forma farmacéutica';
+                                input.style = "flex: 1;";
+
+                                // Botón agregar
+                                const botonAgregar = document.createElement('button');
+                                botonAgregar.type = 'button';
+                                botonAgregar.title = 'Agregar otra';
+                                botonAgregar.style = "background: none; border: none; cursor: pointer;";
+                                botonAgregar.onclick = function() {
+                                    agregarInputForma(this);
+                                };
+                                const iconoAgregar = document.createElement('i');
+                                iconoAgregar.className = 'fas fa-plus-circle';
+                                iconoAgregar.style = 'font-size: 20px; color: #28a745;';
+                                botonAgregar.appendChild(iconoAgregar);
+
+                                // Botón eliminar
+                                const botonEliminar = document.createElement('button');
+                                botonEliminar.type = 'button';
+                                botonEliminar.title = 'Eliminar';
+                                botonEliminar.style = "background: none; border: none; cursor: pointer;";
+                                botonEliminar.onclick = function() {
+                                    div.remove();
+                                };
+                                const iconoEliminar = document.createElement('i');
+                                iconoEliminar.className = 'fas fa-times-circle';
+                                iconoEliminar.style = 'font-size: 20px; color: #dc3545;';
+                                botonEliminar.appendChild(iconoEliminar);
+
+                                // Añadir todo al contenedor
+                                div.appendChild(input);
+                                div.appendChild(botonAgregar);
+                                div.appendChild(botonEliminar);
+
+                                contenedor.appendChild(div);
+                            }
+                        </script>
 
                         <!-- Presentación -->
                         <div class="tab-pane fade" id="presentacion" role="tabpanel">
@@ -476,6 +553,7 @@ include_once "Ctrl/menu.php";
                                 </button>
                             </div>
                         </div>
+
                         <!-- Script Presentación -->
                         <script>
                             function agregarPresentacion() {
@@ -1098,7 +1176,7 @@ include_once "Ctrl/menu.php";
                             <div class="row g-3">
                                 <!-- Columna Izquierda: Bodega Visual -->
                                 <div class="col-md-8">
-                                    <div class="estanteria-container bg-metalica p-2 rounded" >
+                                    <div class="estanteria-container bg-metalica p-2 rounded">
                                         <div class="zona-principal">
                                             <div class="encabezado-filas-columnas"></div>
                                             <div class="estanteria-wrapper">
@@ -1542,6 +1620,46 @@ include_once "Ctrl/menu.php";
     });
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const btnSiguiente = document.getElementById("btnSiguiente");
+
+        btnSiguiente.addEventListener("click", function(e) {
+            // Detectar si el botón es el de "Guardar Medicamento Completo"
+            if (btnSiguiente.textContent.trim() === "Guardar Medicamento Completo") {
+                e.preventDefault();
+
+                const form = document.querySelector("#modalAgregarMedicamento form");
+                const formData = new FormData(form);
+                const datos = {};
+
+                // Recorrer todo lo del formData
+                formData.forEach((value, key) => {
+                    if (datos[key]) {
+                        // Convertir a array si hay duplicados
+                        if (!Array.isArray(datos[key])) {
+                            datos[key] = [datos[key]];
+                        }
+                        datos[key].push(value);
+                    } else {
+                        datos[key] = value;
+                    }
+                });
+
+                // Mostrar archivo de imagen si existe
+                const archivo = formData.get('imagenMedicamento');
+                if (archivo && archivo.name) {
+                    datos['imagenMedicamento_nombre'] = archivo.name;
+                    datos['imagenMedicamento_tipo'] = archivo.type;
+                    datos['imagenMedicamento_peso_kb'] = (archivo.size / 1024).toFixed(2) + " KB";
+                }
+
+                console.clear();
+                console.log("📦 DATOS DEL FORMULARIO (Medicamento Completo):", datos);
+            }
+        });
+    });
+</script>
 
 
 

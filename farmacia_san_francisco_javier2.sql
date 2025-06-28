@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-06-2025 a las 23:02:31
+-- Tiempo de generación: 29-06-2025 a las 01:13:27
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -620,13 +620,14 @@ INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `I
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-27 19:03:57'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-28 21:40:05'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
-(33, 'Pedro Serrano', NULL, '123456', 49, 1, '2025-04-14 02:24:46', '2025-05-13 19:58:27'),
+(33, 'Pedro Serrano', NULL, '123456', 49, 1, '2025-04-14 02:24:46', '2025-06-28 20:01:47'),
 (34, 'Mariela Jarquin', NULL, '123456', 50, 1, '2025-04-14 02:37:51', '2025-05-27 22:15:31'),
-(35, 'Andriws Serrano', 'goku.jpg', '123456', 51, 1, '2025-04-15 03:00:47', '2025-05-27 22:16:56');
+(35, 'Andriws Serrano', 'goku.jpg', '123456', 51, 1, '2025-04-15 03:00:47', '2025-05-27 22:16:56'),
+(36, '71981712715 87549942164', NULL, '123456', 52, 1, '2025-06-28 14:57:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -664,7 +665,8 @@ INSERT INTO `vendedor` (`ID_Vendedor`, `Nombre`, `N_Cedula`, `Telefono`, `Email`
 (45, 'Franklin Randal', '001-365941-5623F', '5623-5412', 'FranklinJiron@gmail.com', 'managua', 'H', 1, 2, 'Jiron'),
 (49, 'Pedro Anibal', '001-190571-1254H', '8898-0315', 'PedroSerrano@gamil.com', 'Vi. Venezuela, Colegio Hispano Americano½ C. O', 'H', 1, 3, 'Serrano'),
 (50, 'Mariela Carolina', '001-011201-2356M', '5623-1547', 'MariJarquin@gmail.com', 'Vi. Venezuela, Colegio Hispano Americano½ C. O', 'M', 1, 1, 'Jarquin Rodriguez'),
-(51, 'Andriws Anibal', '001-235648-7123B', '(+505) 214', 'Andriwsserrano@gmail.com', 'Vi.Venezuela Colegio Hispano Americano 1/2 C.O Casa #1993-94', 'H', 1, 3, 'Serrano Ramos');
+(51, 'Andriws Anibal', '001-235648-7123B', '(+505) 214', 'Andriwsserrano@gmail.com', 'Vi.Venezuela Colegio Hispano Americano 1/2 C.O Casa #1993-94', 'H', 1, 3, 'Serrano Ramos'),
+(52, '71981712715', '001-311003-1008E', '7675-5731', 'NESTORAGUIRRE3110@gmail.com', 'NESTOR ABANFI A', 'H', 1, 1, '87549942164');
 
 -- --------------------------------------------------------
 
@@ -1067,13 +1069,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_Usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `ID_Usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `vendedor`
 --
 ALTER TABLE `vendedor`
-  MODIFY `ID_Vendedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `ID_Vendedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- Restricciones para tablas volcadas
