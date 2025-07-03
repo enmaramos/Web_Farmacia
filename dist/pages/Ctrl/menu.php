@@ -108,6 +108,12 @@ if (session_status() === PHP_SESSION_NONE) {
                             <div data-i18n="Boxicons">Categorías</div>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="/Web_Farmacia/dist/pages/respaldo.php" class="menu-link">
+                            <i class="menu-icon tf-icons bx bxs-cloud-download"></i>
+                            <div data-i18n="Boxicons">Respaldos</div>
+                        </a>
+                    </li>
 
                     <!-- Forms & Tables -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Bodega</span></li>
@@ -248,7 +254,8 @@ if (session_status() === PHP_SESSION_NONE) {
                             'productos.php' => 'Productos',
                             'icons-boxicons.html' => 'Historial Facturación',
                             'compras.php' => 'Compras',
-                            'facturacion_diaria.php' => 'Facturas Diarias'
+                            'facturacion_diaria.php' => 'Facturas Diarias',
+                            'respaldo.php' => 'Respaldo'
                         ];
 
                         // Verifica si existe un título asignado para la página actual

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-06-2025 a las 01:13:27
+-- Tiempo de generación: 03-07-2025 a las 04:24:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -562,6 +562,33 @@ CREATE TABLE `provped` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `respaldos`
+--
+
+CREATE TABLE `respaldos` (
+  `ID_Respaldo` int(11) NOT NULL,
+  `Fecha` date NOT NULL,
+  `Hora` time NOT NULL,
+  `Archivo` varchar(255) NOT NULL,
+  `Tamano` varchar(50) NOT NULL,
+  `Estado` enum('exito','fallido') NOT NULL,
+  `Origen` enum('usuario','sistema') NOT NULL,
+  `ID_Usuario` int(11) DEFAULT NULL,
+  `estad` varchar(20) NOT NULL DEFAULT 'activo'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `respaldos`
+--
+
+INSERT INTO `respaldos` (`ID_Respaldo`, `Fecha`, `Hora`, `Archivo`, `Tamano`, `Estado`, `Origen`, `ID_Usuario`, `estad`) VALUES
+(1, '2025-07-01', '14:28:36', 'respaldo_2025-07-01_14-28-36.sql', '45.52 KB', 'exito', 'usuario', 1, 'activo'),
+(2, '2025-07-01', '14:32:39', 'respaldo_2025-07-01_14-32-39.sql', '45.66 KB', 'exito', 'usuario', 1, 'activo'),
+(3, '2025-07-01', '20:34:17', 'respaldo_2025-07-01_20-34-17.sql', '45.82 KB', 'exito', 'sistema', NULL, 'activo');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `roles`
 --
 
@@ -620,14 +647,14 @@ INSERT INTO `usuarios` (`ID_Usuario`, `Nombre_Usuario`, `Imagen`, `Password`, `I
 (22, 'Francisco Perez', NULL, '123456', 29, 1, '2025-03-11 01:08:45', NULL),
 (23, 'Gerson Sanchez', NULL, '123456', 33, 1, '2025-03-11 02:24:37', NULL),
 (24, 'juanperez', NULL, 'miClave123', 34, 1, '2025-03-12 22:14:24', NULL),
-(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-06-28 21:40:05'),
+(25, 'Luis Chavez', 'images.PNG', 'Chavez07', 36, 1, '2025-03-12 22:52:57', '2025-07-02 20:08:29'),
 (26, 'Marcos Ramos', NULL, '123456', 37, 1, '2025-03-12 23:01:52', NULL),
 (29, 'kenny Solis', '449310638_122108766050369563_655787570102137785_n.jpg', '1234567', 44, 1, '2025-03-20 00:24:18', NULL),
 (30, 'Franklin Jiron', NULL, '123456', 45, 1, '2025-03-20 01:57:18', NULL),
 (33, 'Pedro Serrano', NULL, '123456', 49, 1, '2025-04-14 02:24:46', '2025-06-28 20:01:47'),
 (34, 'Mariela Jarquin', NULL, '123456', 50, 1, '2025-04-14 02:37:51', '2025-05-27 22:15:31'),
 (35, 'Andriws Serrano', 'goku.jpg', '123456', 51, 1, '2025-04-15 03:00:47', '2025-05-27 22:16:56'),
-(36, '71981712715 87549942164', NULL, '123456', 52, 1, '2025-06-28 14:57:20', NULL);
+(36, '71981712715 87549942164', NULL, '123456', 52, 0, '2025-06-28 14:57:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -666,7 +693,7 @@ INSERT INTO `vendedor` (`ID_Vendedor`, `Nombre`, `N_Cedula`, `Telefono`, `Email`
 (49, 'Pedro Anibal', '001-190571-1254H', '8898-0315', 'PedroSerrano@gamil.com', 'Vi. Venezuela, Colegio Hispano Americano½ C. O', 'H', 1, 3, 'Serrano'),
 (50, 'Mariela Carolina', '001-011201-2356M', '5623-1547', 'MariJarquin@gmail.com', 'Vi. Venezuela, Colegio Hispano Americano½ C. O', 'M', 1, 1, 'Jarquin Rodriguez'),
 (51, 'Andriws Anibal', '001-235648-7123B', '(+505) 214', 'Andriwsserrano@gmail.com', 'Vi.Venezuela Colegio Hispano Americano 1/2 C.O Casa #1993-94', 'H', 1, 3, 'Serrano Ramos'),
-(52, '71981712715', '001-311003-1008E', '7675-5731', 'NESTORAGUIRRE3110@gmail.com', 'NESTOR ABANFI A', 'H', 1, 1, '87549942164');
+(52, 'Nestor', '001-311003-1008E', '7675-5731', 'NESTORAGUIRRE3110@gmail.com', 'NESTOR ABANFI A', 'H', 0, 1, 'Aguirre');
 
 -- --------------------------------------------------------
 
@@ -886,6 +913,13 @@ ALTER TABLE `provped`
   ADD KEY `IdProveedor` (`IdProveedor`);
 
 --
+-- Indices de la tabla `respaldos`
+--
+ALTER TABLE `respaldos`
+  ADD PRIMARY KEY (`ID_Respaldo`),
+  ADD KEY `fk_respaldos_usuario` (`ID_Usuario`);
+
+--
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
@@ -1058,6 +1092,12 @@ ALTER TABLE `posicion_estanteria`
 --
 ALTER TABLE `proveedor`
   MODIFY `ID_Proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `respaldos`
+--
+ALTER TABLE `respaldos`
+  MODIFY `ID_Respaldo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -1239,6 +1279,12 @@ ALTER TABLE `proveedor`
 ALTER TABLE `provped`
   ADD CONSTRAINT `provped_ibfk_1` FOREIGN KEY (`IdPedido`) REFERENCES `pedido` (`ID_Pedido`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `provped_ibfk_2` FOREIGN KEY (`IdProveedor`) REFERENCES `proveedor` (`ID_Proveedor`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `respaldos`
+--
+ALTER TABLE `respaldos`
+  ADD CONSTRAINT `fk_respaldos_usuario` FOREIGN KEY (`ID_Usuario`) REFERENCES `usuarios` (`ID_Usuario`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `suministro`

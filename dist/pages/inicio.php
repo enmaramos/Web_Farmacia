@@ -41,13 +41,40 @@ if (isset($_GET['bienvenida']) && $_GET['bienvenida'] == '1' && isset($_SESSION[
 ?>
 
 <script>
-// Verificar si se vuelve atrás y redirigir directamente al login sin parpadeo
-window.addEventListener('pageshow', function (event) {
-    if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
-        // Aquí puedes hacer una validación adicional con PHP si deseas
-        window.location.href = 'login.php';
-    }
-});
+    // Verificar si se vuelve atrás y redirigir directamente al login sin parpadeo
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+            // Aquí puedes hacer una validación adicional con PHP si deseas
+            window.location.href = 'login.php';
+        }
+    });
 </script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch("../pages/Ctrl/verificar_respaldo_automatico.php")
+            .then(res => res.json())
+            .then(data => {
+                if (data.estado === "exito") {
+                    Swal.fire({
+                        title: '¡Respaldo automático realizado!',
+                        text: 'Archivo: ' + data.archivo,
+                        icon: 'success',
+                        timer: 3500
+                    });
+                } else if (data.estado === "fallido") {
+                    Swal.fire({
+                        title: 'Error al crear respaldo automático',
+                        icon: 'error',
+                        timer: 3500
+                    });
+                }
+                // si estado es no_hora o ya_existe, no mostrar nada
+            })
+            .catch(err => console.error("Error al verificar respaldo automático:", err));
+    });
+</script>
+
 
 <?php include_once "Ctrl/footer.php"; ?>

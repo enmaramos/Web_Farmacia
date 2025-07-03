@@ -210,13 +210,13 @@ include_once "Ctrl/menu.php";
                             <button class="nav-link active" id="medicamento-tab" data-bs-toggle="tab" data-bs-target="#medicamento" type="button">Medicamento</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="lote-tab" data-bs-toggle="tab" data-bs-target="#lote" type="button">Lote</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
                             <button class="nav-link" id="forma-tab" data-bs-toggle="tab" data-bs-target="#forma" type="button">Forma Farmacéutica y Dosis</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="presentacion-tab" data-bs-toggle="tab" data-bs-target="#presentacion" type="button">Presentación</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="lote-tab" data-bs-toggle="tab" data-bs-target="#lote" type="button">Lote</button>
                         </li>
 
                         <!-- Botón totalmente a la derecha -->
@@ -423,9 +423,6 @@ include_once "Ctrl/menu.php";
                                                 <label for="nueva_forma_farmaceutica"><strong>Agregar nueva forma farmacéutica:</strong></label>
                                                 <div class="input-grupo-forma" style="display: flex; gap: 6px; align-items: center;">
                                                     <input type="text" name="nuevas_formas[]" class="form-control" placeholder="Nueva forma farmacéutica" style="flex: 1;" />
-                                                    <button type="button" onclick="agregarInputForma(this)" title="Agregar otra" style="background: none; border: none; cursor: pointer;">
-                                                        <i class="fas fa-plus-circle" style="font-size: 20px; color: #28a745;"></i>
-                                                    </button>
                                                 </div>
                                             </div>
 
@@ -463,56 +460,6 @@ include_once "Ctrl/menu.php";
                             </div>
                         </div>
 
-                        <!-- Script para inputs dinámicos de formas -->
-                        <script>
-                            function agregarInputForma(btn) {
-                                const contenedor = document.getElementById('contenedor-nuevas-formas');
-
-                                const div = document.createElement('div');
-                                div.className = "input-grupo-forma";
-                                div.style = "display: flex; gap: 6px; align-items: center;";
-
-                                const input = document.createElement('input');
-                                input.type = 'text';
-                                input.name = 'nuevas_formas[]';
-                                input.className = 'form-control';
-                                input.placeholder = 'Nueva forma farmacéutica';
-                                input.style = "flex: 1;";
-
-                                // Botón agregar
-                                const botonAgregar = document.createElement('button');
-                                botonAgregar.type = 'button';
-                                botonAgregar.title = 'Agregar otra';
-                                botonAgregar.style = "background: none; border: none; cursor: pointer;";
-                                botonAgregar.onclick = function() {
-                                    agregarInputForma(this);
-                                };
-                                const iconoAgregar = document.createElement('i');
-                                iconoAgregar.className = 'fas fa-plus-circle';
-                                iconoAgregar.style = 'font-size: 20px; color: #28a745;';
-                                botonAgregar.appendChild(iconoAgregar);
-
-                                // Botón eliminar
-                                const botonEliminar = document.createElement('button');
-                                botonEliminar.type = 'button';
-                                botonEliminar.title = 'Eliminar';
-                                botonEliminar.style = "background: none; border: none; cursor: pointer;";
-                                botonEliminar.onclick = function() {
-                                    div.remove();
-                                };
-                                const iconoEliminar = document.createElement('i');
-                                iconoEliminar.className = 'fas fa-times-circle';
-                                iconoEliminar.style = 'font-size: 20px; color: #dc3545;';
-                                botonEliminar.appendChild(iconoEliminar);
-
-                                // Añadir todo al contenedor
-                                div.appendChild(input);
-                                div.appendChild(botonAgregar);
-                                div.appendChild(botonEliminar);
-
-                                contenedor.appendChild(div);
-                            }
-                        </script>
 
                         <!-- Presentación -->
                         <div class="tab-pane fade" id="presentacion" role="tabpanel">
@@ -524,17 +471,18 @@ include_once "Ctrl/menu.php";
                                         <input type="text" class="form-control" name="tipoPresentacion[]" placeholder="Ej: Caja" required>
                                     </div>
                                     <div class="col-md-2">
+                                        <label class="form-label">Cantidad de Presentación (Unidad)</label>
+                                        <input type="number" class="form-control" name="cantidadPresentacion[]" placeholder="Ej: 20" required>
+                                    </div>
+                                    <div class="col-md-2">
                                         <label class="form-label">Desglose de Presentación</label>
                                         <input type="text" class="form-control" name="desglosePresentacion[]" placeholder="Ej: Blister" required>
                                     </div>
                                     <div class="col-md-3">
-                                        <label class="form-label">Total de esta presentación</label>
+                                        <label class="form-label">Total de esta presentación (Unidad)</label>
                                         <input type="text" class="form-control" name="totalPresentacion[]" placeholder="Ej: 1 caja = 5 blisters" required>
                                     </div>
-                                    <div class="col-md-2">
-                                        <label class="form-label">Cantidad de Presentación (Unidad)</label>
-                                        <input type="number" class="form-control" name="cantidadPresentacion[]" placeholder="Ej: 20" required>
-                                    </div>
+
                                     <div class="col-md-2">
                                         <label class="form-label">Precio</label>
                                         <input type="number" class="form-control" name="precioPresentacion[]" placeholder="Precio" step="0.01" required>
@@ -617,7 +565,7 @@ include_once "Ctrl/menu.php";
 
 <!-- Diseño del modal de agregar -->
 <script>
-    const tabs = ["medicamento", "lote", "forma", "presentacion"];
+    const tabs = ["medicamento", "forma", "presentacion", "lote"]; // ✅ orden real de pestañas
 
     function navegarSiguienteTab() {
         const currentTab = document.querySelector(".nav-link.active");
@@ -648,7 +596,7 @@ include_once "Ctrl/menu.php";
         // Mostrar u ocultar "Anterior"
         btnAnterior.style.display = index === 0 ? "none" : "inline-block";
 
-        // Configurar botón "Siguiente"
+        // Configurar botón según pestaña actual
         if (index === tabs.length - 1) {
             btnSiguiente.textContent = "Guardar Medicamento Completo";
             btnSiguiente.type = "submit";
@@ -666,18 +614,18 @@ include_once "Ctrl/menu.php";
         const currentIndex = tabs.indexOf(currentId);
         actualizarBotones(currentIndex);
 
-        // Desactivar los clics en pestañas
+        // Bloquear clics en pestañas
         const navLinks = document.querySelectorAll(".nav-link");
         navLinks.forEach(link => {
             link.addEventListener("click", function(e) {
-                e.preventDefault(); // Bloquea clics directos
+                e.preventDefault();
             });
         });
 
-        // Asegurar actualización de botones cuando cambie la pestaña
-        const tabLinks = document.querySelectorAll('.nav-link');
+        // Actualizar botones al cambiar de pestaña
+        const tabLinks = document.querySelectorAll(".nav-link");
         tabLinks.forEach(link => {
-            link.addEventListener('shown.bs.tab', function(e) {
+            link.addEventListener("shown.bs.tab", function(e) {
                 const newId = e.target.id.replace("-tab", "");
                 const newIndex = tabs.indexOf(newId);
                 actualizarBotones(newIndex);
@@ -685,6 +633,7 @@ include_once "Ctrl/menu.php";
         });
     });
 </script>
+
 
 
 
@@ -1620,42 +1569,165 @@ include_once "Ctrl/menu.php";
     });
 </script>
 
+<!-- Validaciones al guardar medicamento completo -->
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const btnSiguiente = document.getElementById("btnSiguiente");
 
+        // Restricción: solo letras
+        function soloTexto(input) {
+            input.addEventListener("input", () => {
+                input.value = input.value.replace(/[0-9]/g, "");
+            });
+        }
+
+        // Aplica solo texto
+        soloTexto(document.getElementById("nombreMedicamento"));
+        soloTexto(document.getElementById("marcaMedicamento"));
+        document.querySelectorAll('input[name="nuevas_formas[]"], input[name="tipoPresentacion[]"], input[name="desglosePresentacion[]"]').forEach(input => soloTexto(input));
+
+        // Fecha: quitar la hora (convertir datetime-local a date)
+        document.querySelectorAll('input[type="datetime-local"]').forEach(input => input.type = "date");
+
+        // Símbolo C$ al precio
+        document.querySelectorAll('input[name="precioPresentacion[]"]').forEach(input => {
+            if (!input.parentElement.classList.contains("input-group")) {
+                const wrapper = document.createElement("div");
+                wrapper.className = "input-group";
+                const simbolo = document.createElement("span");
+                simbolo.className = "input-group-text";
+                simbolo.innerText = "C$";
+                input.parentElement.insertBefore(wrapper, input);
+                wrapper.appendChild(simbolo);
+                wrapper.appendChild(input);
+            }
+        });
+
+        // Dosis: deshabilita input si checkbox está seleccionado y viceversa
+        const inputNuevaDosis = document.getElementById("nueva_dosis");
+        const checkboxesDosis = document.querySelectorAll('input[name="dosis[]"]');
+
+        inputNuevaDosis.addEventListener("input", () => {
+            if (inputNuevaDosis.value.trim() !== "") {
+                checkboxesDosis.forEach(cb => cb.disabled = true);
+            } else {
+                checkboxesDosis.forEach(cb => cb.disabled = false);
+            }
+        });
+
+        checkboxesDosis.forEach(cb => {
+            cb.addEventListener("change", () => {
+                const algunoMarcado = Array.from(checkboxesDosis).some(c => c.checked);
+                inputNuevaDosis.disabled = algunoMarcado;
+            });
+        });
+
+        // Formas farmacéuticas: deshabilita input si checkbox está seleccionado y viceversa
+        const checkboxesFormas = document.querySelectorAll('input[name="formas_farmaceuticas[]"]');
+        const inputsNuevasFormas = document.querySelectorAll('input[name="nuevas_formas[]"]');
+
+        inputsNuevasFormas.forEach(input => {
+            input.addEventListener("input", () => {
+                const escribir = input.value.trim() !== "";
+                checkboxesFormas.forEach(cb => cb.disabled = escribir);
+            });
+        });
+
+        checkboxesFormas.forEach(cb => {
+            cb.addEventListener("change", () => {
+                const algunoMarcado = Array.from(checkboxesFormas).some(c => c.checked);
+                inputsNuevasFormas.forEach(input => input.disabled = algunoMarcado);
+            });
+        });
+
+        // Revalidar inputs dinámicos cuando se agregan nuevas formas farmacéuticas
+        const observer = new MutationObserver(() => {
+            document.querySelectorAll('input[name="nuevas_formas[]"]').forEach(input => {
+                soloTexto(input);
+                input.addEventListener("input", () => {
+                    const escribir = input.value.trim() !== "";
+                    checkboxesFormas.forEach(cb => cb.disabled = escribir);
+                });
+            });
+        });
+
+        const contenedorFormas = document.getElementById("contenedor-nuevas-formas");
+        if (contenedorFormas) {
+            observer.observe(contenedorFormas, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        // Validaciones al dar clic en “Guardar Medicamento Completo”
         btnSiguiente.addEventListener("click", function(e) {
-            // Detectar si el botón es el de "Guardar Medicamento Completo"
             if (btnSiguiente.textContent.trim() === "Guardar Medicamento Completo") {
                 e.preventDefault();
+                let errores = [];
 
+                const get = id => document.getElementById(id)?.value.trim();
+                const contieneNumero = val => /\d/.test(val || "");
+
+                // Medicamento
+                if (!get("nombreMedicamento") || contieneNumero(get("nombreMedicamento"))) errores.push("Nombre del medicamento inválido.");
+                if (!get("marcaMedicamento") || contieneNumero(get("marcaMedicamento"))) errores.push("Marca/Laboratorio inválido.");
+                if (!get("requiereReceta")) errores.push("Debe seleccionar si requiere receta.");
+                if (!get("idProveedor")) errores.push("Debe seleccionar un proveedor.");
+                if (!get("idCategoria")) errores.push("Debe seleccionar una categoría.");
+                if (!get("descripcionMedicamento")) errores.push("Debe llenar la descripción del medicamento.");
+
+                // Nuevas formas sin números
+                document.querySelectorAll('input[name="nuevas_formas[]"]').forEach(input => {
+                    if (contieneNumero(input.value)) errores.push("Una forma farmacéutica contiene números.");
+                });
+
+                // Presentación
+                document.querySelectorAll('input[name="tipoPresentacion[]"]').forEach(input => {
+                    if (contieneNumero(input.value)) errores.push("Tipo de presentación contiene números.");
+                });
+
+                document.querySelectorAll('input[name="desglosePresentacion[]"]').forEach(input => {
+                    if (contieneNumero(input.value)) errores.push("Desglose de presentación contiene números.");
+                });
+
+                // Lote: solo números válidos
+                ["cantidadLote", "precioTotalLote", "stockMinimoLote", "stockMaximoLote"].forEach(name => {
+                    const val = document.querySelector(`[name="${name}"]`)?.value;
+                    if (!val || isNaN(val) || parseFloat(val) < 0) errores.push(`Campo inválido: ${name}`);
+                });
+
+                // Mostrar errores o datos
+                if (errores.length > 0) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Errores encontrados",
+                        html: "<ul style='text-align:left'>" + errores.map(e => `<li>${e}</li>`).join('') + "</ul>"
+                    });
+                    return;
+                }
+
+                // Mostrar datos si todo está bien
                 const form = document.querySelector("#modalAgregarMedicamento form");
                 const formData = new FormData(form);
                 const datos = {};
-
-                // Recorrer todo lo del formData
                 formData.forEach((value, key) => {
                     if (datos[key]) {
-                        // Convertir a array si hay duplicados
-                        if (!Array.isArray(datos[key])) {
-                            datos[key] = [datos[key]];
-                        }
+                        if (!Array.isArray(datos[key])) datos[key] = [datos[key]];
                         datos[key].push(value);
                     } else {
                         datos[key] = value;
                     }
                 });
 
-                // Mostrar archivo de imagen si existe
-                const archivo = formData.get('imagenMedicamento');
+                const archivo = formData.get("imagenMedicamento");
                 if (archivo && archivo.name) {
-                    datos['imagenMedicamento_nombre'] = archivo.name;
-                    datos['imagenMedicamento_tipo'] = archivo.type;
-                    datos['imagenMedicamento_peso_kb'] = (archivo.size / 1024).toFixed(2) + " KB";
+                    datos["imagenMedicamento_nombre"] = archivo.name;
+                    datos["imagenMedicamento_tipo"] = archivo.type;
+                    datos["imagenMedicamento_peso_kb"] = (archivo.size / 1024).toFixed(2) + " KB";
                 }
 
                 console.clear();
-                console.log("📦 DATOS DEL FORMULARIO (Medicamento Completo):", datos);
+                console.log("📦 DATOS DEL FORMULARIO VALIDADO:", datos);
             }
         });
     });
@@ -1666,26 +1738,6 @@ include_once "Ctrl/menu.php";
 
 
 
-<!-- Modal para agregar nueva forma farmacéutica-->
-<div class="modal fade" id="modalForma" tabindex="-1" role="dialog" aria-labelledby="modalFormaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content p-3">
-            <div class="modal-header border-0">
-                <h5 class="modal-title" id="modalFormaLabel">Agregar nueva forma</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <input type="text" id="nuevaForma" class="form-control" placeholder="Ej: Tableta, Jarabe, etc" />
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="guardarForma()">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 

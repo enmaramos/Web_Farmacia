@@ -6,22 +6,24 @@ include_once "Ctrl/head.php";
 <?php
 include('../pages/Cnx/conexion.php');
 
-// Definir el estado por defecto (vacío significa mostrar todos)
-$estadoFiltro = isset($_GET['estado']) ? $_GET['estado'] : '1'; // Por defecto, mostrar solo activos
+$estadoFiltro = isset($_GET['estado']) ? $_GET['estado'] : '1';
 
-// Consulta dependiendo del estado seleccionado
+$query = "
+    SELECT 
+        proveedor.*, 
+        laboratorio.Nombre_Laboratorio 
+    FROM proveedor
+    LEFT JOIN laboratorio ON proveedor.ID_Laboratorio = laboratorio.ID_Laboratorio
+";
+
 if ($estadoFiltro == '1') {
-    // Vendedores activos
-    $query = "SELECT * FROM proveedor WHERE Estado = 1";
+    $query .= " WHERE proveedor.Estado = 1";
 } elseif ($estadoFiltro == '0') {
-    // Mostrar todos los vendedores inactivos
-    $query = "SELECT * FROM proveedor WHERE Estado = 0";
-} else {
-    // Vendedores activos e inactivos (por si alguien introduce algo inesperado)
-    $query = "SELECT * FROM proveedor";
+    $query .= " WHERE proveedor.Estado = 0";
 }
 
 $result = $conn->query($query);
+
 ?>
 
 
@@ -95,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php while ($row = $result->fetch_assoc()) { ?>
                         <tr class="proveedor" data-estado="<?= $row['Estado'] ?>">
                             <td><?= $row['Nombre'] ?></td>
-                            <td><?= $row['Laboratorio'] ?></td>
+                            <td><?= $row['Nombre_Laboratorio'] ?? '-' ?></td>
                             <td>(+505) <?= $row['Telefono'] ?></td>
                             <td><?= $row['Email'] ?></td>
                             <td>
@@ -369,7 +371,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Laboratorio</label>
-                        <input type="text" class="form-control" id="laboratorioProveedorVer" disabled>
+                        <input type="text" class="form-control" id="laboratorioProveedorVer" readonly>
+
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Dirección</label>
