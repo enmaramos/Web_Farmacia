@@ -516,20 +516,23 @@ include_once "Ctrl/menu.php";
                                         <input type="text" class="form-control" name="tipoPresentacion[]" placeholder="Ej: Caja" required>
                                     </div>
                                     <div class="col-md-2">
-                                        <label class="form-label">Desglose de Presentación</label>
-                                        <input type="text" class="form-control" name="desglosePresentacion[]" placeholder="Ej: Blister" required>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="form-label">Total de esta presentación (Ej: 1 caja = 5 blisters)</label>
-                                        <input type="text" class="form-control" name="totalPresentacion[]" placeholder="Ej: 1 caja = 5 blisters" required>
-                                    </div>
-                                    <div class="col-md-2">
                                         <label class="form-label">Cantidad de Presentación (Unidad)</label>
                                         <input type="number" class="form-control" name="cantidadPresentacion[]" placeholder="Ej: 20" required>
                                     </div>
                                     <div class="col-md-2">
+                                        <label class="form-label">Desglose de Presentación</label>
+                                        <input type="text" class="form-control" name="desglosePresentacion[]" placeholder="Ej: Blister" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Total de esta presentación (Unidad)</label>
+                                        <input type="text" class="form-control" name="totalPresentacion[]" placeholder="Ej: 1 caja = 5 blisters" required>
+                                    </div>
+                                    <div class="col-md-2">
                                         <label class="form-label">Precio</label>
-                                        <input type="number" class="form-control" name="precioPresentacion[]" placeholder="Precio" step="0.01" required>
+                                        <div class="input-group">
+                                            <span class="input-group-text">C$</span>
+                                            <input type="number" class="form-control" name="precioPresentacion[]" placeholder="Precio" step="0.01" required>
+                                        </div>
                                     </div>
                                     <div class="col-md-1 d-flex justify-content-center">
                                         <button type="button" class="btn btn-danger btn-sm" onclick="eliminarPresentacion(this)">
@@ -546,6 +549,8 @@ include_once "Ctrl/menu.php";
                                 fila.remove();
                             }
                         </script>
+
+
 
                     </div>
                 </div>
@@ -1574,22 +1579,18 @@ include_once "Ctrl/menu.php";
     document.addEventListener("DOMContentLoaded", () => {
         const btnSiguiente = document.getElementById("btnSiguiente");
 
-        // Restricción: solo letras
         function soloTexto(input) {
             input.addEventListener("input", () => {
                 input.value = input.value.replace(/[0-9]/g, "");
             });
         }
 
-        // Aplica solo texto
         soloTexto(document.getElementById("nombreMedicamento"));
         soloTexto(document.getElementById("marcaMedicamento"));
         document.querySelectorAll('input[name="nuevas_formas[]"], input[name="tipoPresentacion[]"], input[name="desglosePresentacion[]"]').forEach(input => soloTexto(input));
 
-        // Fecha: quitar la hora (convertir datetime-local a date)
         document.querySelectorAll('input[type="datetime-local"]').forEach(input => input.type = "date");
 
-        // Símbolo C$ al precio
         document.querySelectorAll('input[name="precioPresentacion[]"]').forEach(input => {
             if (!input.parentElement.classList.contains("input-group")) {
                 const wrapper = document.createElement("div");
@@ -1603,7 +1604,6 @@ include_once "Ctrl/menu.php";
             }
         });
 
-        // Dosis: deshabilita input si checkbox está seleccionado y viceversa
         const inputNuevaDosis = document.getElementById("nueva_dosis");
         const checkboxesDosis = document.querySelectorAll('input[name="dosis[]"]');
 
@@ -1622,7 +1622,6 @@ include_once "Ctrl/menu.php";
             });
         });
 
-        // Formas farmacéuticas: deshabilita input si checkbox está seleccionado y viceversa
         const checkboxesFormas = document.querySelectorAll('input[name="formas_farmaceuticas[]"]');
         const inputsNuevasFormas = document.querySelectorAll('input[name="nuevas_formas[]"]');
 
@@ -1640,7 +1639,6 @@ include_once "Ctrl/menu.php";
             });
         });
 
-        // Revalidar inputs dinámicos cuando se agregan nuevas formas farmacéuticas
         const observer = new MutationObserver(() => {
             document.querySelectorAll('input[name="nuevas_formas[]"]').forEach(input => {
                 soloTexto(input);
@@ -1659,7 +1657,6 @@ include_once "Ctrl/menu.php";
             });
         }
 
-        // Validaciones al dar clic en “Guardar Medicamento Completo”
         btnSiguiente.addEventListener("click", function(e) {
             if (btnSiguiente.textContent.trim() === "Guardar Medicamento Completo") {
                 e.preventDefault();
@@ -1668,7 +1665,6 @@ include_once "Ctrl/menu.php";
                 const get = id => document.getElementById(id)?.value.trim();
                 const contieneNumero = val => /\d/.test(val || "");
 
-                // Medicamento
                 if (!get("nombreMedicamento") || contieneNumero(get("nombreMedicamento"))) errores.push("Nombre del medicamento inválido.");
                 if (!get("marcaMedicamento") || contieneNumero(get("marcaMedicamento"))) errores.push("Marca/Laboratorio inválido.");
                 if (!get("requiereReceta")) errores.push("Debe seleccionar si requiere receta.");
@@ -1676,12 +1672,10 @@ include_once "Ctrl/menu.php";
                 if (!get("idCategoria")) errores.push("Debe seleccionar una categoría.");
                 if (!get("descripcionMedicamento")) errores.push("Debe llenar la descripción del medicamento.");
 
-                // Nuevas formas sin números
                 document.querySelectorAll('input[name="nuevas_formas[]"]').forEach(input => {
                     if (contieneNumero(input.value)) errores.push("Una forma farmacéutica contiene números.");
                 });
 
-                // Presentación
                 document.querySelectorAll('input[name="tipoPresentacion[]"]').forEach(input => {
                     if (contieneNumero(input.value)) errores.push("Tipo de presentación contiene números.");
                 });
@@ -1690,13 +1684,11 @@ include_once "Ctrl/menu.php";
                     if (contieneNumero(input.value)) errores.push("Desglose de presentación contiene números.");
                 });
 
-                // Lote: solo números válidos
                 ["cantidadLote", "precioTotalLote", "stockMinimoLote", "stockMaximoLote"].forEach(name => {
                     const val = document.querySelector(`[name="${name}"]`)?.value;
                     if (!val || isNaN(val) || parseFloat(val) < 0) errores.push(`Campo inválido: ${name}`);
                 });
 
-                // Mostrar errores o datos
                 if (errores.length > 0) {
                     Swal.fire({
                         icon: "error",
@@ -1706,28 +1698,46 @@ include_once "Ctrl/menu.php";
                     return;
                 }
 
-                // Mostrar datos si todo está bien
+                // ✅ Asegurarse de que el campo de dosis no esté deshabilitado antes de enviar
+                document.getElementById("nueva_dosis").disabled = false;
+
                 const form = document.querySelector("#modalAgregarMedicamento form");
                 const formData = new FormData(form);
-                const datos = {};
-                formData.forEach((value, key) => {
-                    if (datos[key]) {
-                        if (!Array.isArray(datos[key])) datos[key] = [datos[key]];
-                        datos[key].push(value);
-                    } else {
-                        datos[key] = value;
-                    }
-                });
 
-                const archivo = formData.get("imagenMedicamento");
-                if (archivo && archivo.name) {
-                    datos["imagenMedicamento_nombre"] = archivo.name;
-                    datos["imagenMedicamento_tipo"] = archivo.type;
-                    datos["imagenMedicamento_peso_kb"] = (archivo.size / 1024).toFixed(2) + " KB";
-                }
+                fetch('../pages/Ctrl/guardar_medicamento_completo.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(respuesta => {
+                        if (respuesta.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Medicamento guardado',
+                                text: respuesta.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
 
-                console.clear();
-                console.log("📦 DATOS DEL FORMULARIO VALIDADO:", datos);
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('modalAgregarMedicamento'));
+                            modal.hide();
+                            form.reset();
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: respuesta.error || 'Ocurrió un error inesperado.'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error("❌ Error al guardar:", error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error de red',
+                            text: 'No se pudo conectar con el servidor.'
+                        });
+                    });
             }
         });
     });
